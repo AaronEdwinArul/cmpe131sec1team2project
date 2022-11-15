@@ -1,5 +1,5 @@
-# Project Name
-- Name (@username)
-- Name (@username)
-- Name (@username)
-- Name (@username)
+# Social Media Application
+- Aaron Arul (@AaronEdwinArul)
+- Vincent Cruz (@Dominic Caoile)
+- Bnandon Yu (@brndonyu)
+- Michael Xiao (@username)
