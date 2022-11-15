@@ -2,25 +2,25 @@
 
 ## Functional Requirements
 
-1. requirement
-2. requirement
-3. requirement
-4. requirement
-5. requirement
-6. requirement
-7. requirement
-8. requirement
-9. requirement
-10. requirement
-11. requirement
-12. requirement
+1. Login
+2. Logout
+3. Create new account
+4. delete account
+5. User home page
+6. Send message to followers
+7. Post image with message
+8. Like messages
+9. Search for user
+10. Follow user 
+11. User profiles
+12. Visualize connections of all users
 
 ## Non-functional Requirements
 
-1. non-functional
-2. non-functional
-3. non-functional
-4. non-functional
+1. Multilingual support
+2. Only expected to work on Google Chrome
+3. Return results for user after search within 10 seconds
+4. User data will be stored safely through hashing 
 
 ## Use Cases
 
