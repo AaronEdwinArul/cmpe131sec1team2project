@@ -12,13 +12,13 @@
 ## Meetings
 
 
-### 2022-04-15 at 13:30
-<meeting template would go here>
+### 2022-11-17 at 10:30
+Brainstorm requirements
 <only fill in template once you had the meeting>
 <see example on the last date>
 <use date format YYYY-MM-DD at HH:MM>
 
-### 2022-04-22 at 10:30
+### 2022-11-25 at 21:30
 <meeting template would go here>
 <only fill in template once you had the meeting>
 
