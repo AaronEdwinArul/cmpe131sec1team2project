@@ -17,7 +17,7 @@
 
 ## Non-functional Requirements
 
-1. Multilingual support <vinny>
+1. Multilingual support <Vincent>
 2. Only expected to work on Google Chrome <michael>
 3. Return results for user after search within 10 seconds <aaron>
 4. User data will be stored safely through hashing <brandon>
