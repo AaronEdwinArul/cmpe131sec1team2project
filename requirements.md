@@ -6,21 +6,21 @@
 2. Logout
 3. Create new account
 4. delete account
-5. User home page
-6. Send message to followers
-7. Post image with message
-8. Like messages
-9. Search for user
-10. Follow user 
+5. User home page <aaron>
+6. Send message to followers <michael>
+7. Post image with message <brandon>
+8. Like messages <aaron>
+9. Search for user <brandon>
+10. Follow user <michael>
 11. User profiles
 12. Visualize connections of all users
 
 ## Non-functional Requirements
 
-1. Multilingual support
-2. Only expected to work on Google Chrome
-3. Return results for user after search within 10 seconds
-4. User data will be stored safely through hashing 
+1. Multilingual support <vinny>
+2. Only expected to work on Google Chrome <michael>
+3. Return results for user after search within 10 seconds <aaron>
+4. User data will be stored safely through hashing <brandon>
 
 ## Use Cases
 
