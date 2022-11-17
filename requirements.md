@@ -1,5 +1,3 @@
-## <remove all of the example text and notes in < > such as this one>
-
 ## Functional Requirements
 
 1. Login
@@ -23,6 +21,31 @@
 4. User data will be stored safely through hashing 
 
 ## Use Cases
+
+7. Post image with message
+Pre-condition: User is attempting to post a message and has an image they would like to attach to the message.
+Trigger: User clicks a button that allows them to upload an image.
+
+Primary Sequence
+1. User writes a message to post.
+2. User prompts system to attach an image through a button.
+3. System prompts user to select an image.
+4. User uploads an image.
+5. System will save the image to post with the message.
+6. User will post the message that now has an image attached.
+
+Primary Postconditions
+The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
+
+Alternate Sequence
+1. The user uploads a file that is not an image
+    a. The system will display an error message to the user
+    b. The system prompts the user to submit a file with a valid type
+
+
+
+9. Search for user
+
 
 1. Use Case Name (Should match functional requirement name)
 - **Pre-condition:** <can be a list or short description> Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
