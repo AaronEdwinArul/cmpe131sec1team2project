@@ -1,3 +1,4 @@
+## Aaron Arul 014807611
 ## <remove all of the example text and notes in < > such as this one>
 
 ## Functional Requirements
@@ -24,36 +25,67 @@
 
 ## Use Cases
 
-1. Use Case Name (Should match functional requirement name)
-- **Pre-condition:** <can be a list or short description> Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+5. User home page
+- **Pre-condition:** <can be a list or short description> The user is logged in successfully. 
 
-- **Trigger:** <can be a list or short description> Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. 
+- **Trigger:** <can be a list or short description> The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
+
 
 - **Primary Sequence:**
   
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Et sequi incidunt 
-  3. Quis aute iure reprehenderit
-  4. ... 
-  5. ...
-  6. ...
-  7. ...
-  8. ...
+  1. System prompts user with message "Welcome to home page"
+  2. User clicks ok on welcome message and is shown other options on home page
+  3. User can click home page button again to redirect to page that they are on (refreshing page)
+  4. User can 'view messages' icon, 'add post' icon, 'settings' icon
+  5. User selects home page 'statistics' button 
+  6. System generates statistics of user's mutual friends, liked posts, and time spent on application by user 
+  7. System displays statistics window on home page
+  8. .
   9. ...
   10. <Try to stick to a max of 10 steps>
 
-- **Primary Postconditions:** <can be a list or short description> 
+- **Primary Postconditions:** The user is on the starting page of the application directed to them after logging in
 
 - **Alternate Sequence:** <you can have more than one alternate sequence to describe multiple issues that may arise>
   
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
+  1. After logging in for the first time, user is presented with 'Welcome' message on home page
+  2. User selects ok on welcome message
+  3. User continues to use application features via home page after logging in for the first time
 
 - **Alternate Sequence <optional>:** <you can have more than one alternate sequence to describe multiple issues that may arise>
   
   1. Ut enim ad minim veniam, quis nostrum e
   2. Ut enim ad minim veniam, quis nostrum e
   3. ...
-2. Use Case Name (Should match functional requirement name)
-   ...
+
+2. Like messages
+**Pre-condition:** <can be a list or short description> The user is logged in, in the posts tab, and has not liked the selected message
+
+- **Trigger:** <can be a list or short description> The user clicks on the like button for the post they are viewing
+
+- **Primary Sequence:**
+  
+  1. User is on the posts tab of the application
+  2. User selects the like button for the post they are viewing on the posts tab
+  3. System increments like count for the post and displays updated like count to user
+  4. System displays a symbol next to post indicating user liked that specific post
+  5. 
+  6. 
+  7. 
+  8. .
+  9. ...
+  10. <Try to stick to a max of 10 steps>
+
+- **Primary Postconditions:** The user is on the posts tab of the application
+
+- **Alternate Sequence:** <you can have more than one alternate sequence to describe multiple issues that may arise>
+  
+  1. User likes a post that have already liked
+  2. System decrements like count for the post and displays updated like count to user
+  3. System displays a symbol next to post indicating user that they unliked the specific post
+
+- **Alternate Sequence <optional>:** <you can have more than one alternate sequence to describe multiple issues that may arise>
+  
+  1. 
+  2. 
+  3. ...
