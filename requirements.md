@@ -39,44 +39,24 @@ The message posted by the user will show both the text and image when posted. Ot
 
 Alternate Sequence
 1. The user uploads a file that is not an image
-    a. The system will display an error message to the user
-    b. The system prompts the user to submit a file with a valid type
+  a. The system will display an error message to the user
+  b. The system prompts the user to submit a file with a valid type
 
 
 
 9. Search for user
+Pre-condition: User wants to find another user on the site.
+Trigger: User clicks on a search bar that allows them to type in a prompt to find other users.
 
+Primary Sequence
+1. User clicks on the search bar.
+2. User enters a name that they would like to search for.
+3. System finds a name that matches what was entered.
+4. System displays the page of the user that was found.
 
-1. Use Case Name (Should match functional requirement name)
-- **Pre-condition:** <can be a list or short description> Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+Primary Postconditions
+The user is now able to view the page of the user whose name was entered into the search bar.
 
-- **Trigger:** <can be a list or short description> Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. 
-
-- **Primary Sequence:**
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Et sequi incidunt 
-  3. Quis aute iure reprehenderit
-  4. ... 
-  5. ...
-  6. ...
-  7. ...
-  8. ...
-  9. ...
-  10. <Try to stick to a max of 10 steps>
-
-- **Primary Postconditions:** <can be a list or short description> 
-
-- **Alternate Sequence:** <you can have more than one alternate sequence to describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
-
-- **Alternate Sequence <optional>:** <you can have more than one alternate sequence to describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
-2. Use Case Name (Should match functional requirement name)
-   ...
+Alternate Sequence
+1. The name being searched for does not exist in the database
+  a. The system will display an error stating that the entered user does not exist
