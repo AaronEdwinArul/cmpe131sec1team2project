@@ -26,9 +26,9 @@
 ## Use Cases
 
 5. User home page
-- **Pre-condition:** <can be a list or short description> The user is logged in successfully. 
+- **Pre-condition:** The user is logged in successfully. 
 
-- **Trigger:** <can be a list or short description> The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
+- **Trigger:** The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
 
 
 - **Primary Sequence:**
@@ -40,28 +40,19 @@
   5. User selects home page 'statistics' button 
   6. System generates statistics of user's mutual friends, liked posts, and time spent on application by user 
   7. System displays statistics window on home page
-  8. .
-  9. ...
-  10. <Try to stick to a max of 10 steps>
 
 - **Primary Postconditions:** The user is on the starting page of the application directed to them after logging in
 
-- **Alternate Sequence:** <you can have more than one alternate sequence to describe multiple issues that may arise>
+- **Alternate Sequence:** 
   
   1. After logging in for the first time, user is presented with 'Welcome' message on home page
   2. User selects ok on welcome message
   3. User continues to use application features via home page after logging in for the first time
 
-- **Alternate Sequence <optional>:** <you can have more than one alternate sequence to describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
-
 2. Like messages
-**Pre-condition:** <can be a list or short description> The user is logged in, in the posts tab, and has not liked the selected message
+**Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
-- **Trigger:** <can be a list or short description> The user clicks on the like button for the post they are viewing
+- **Trigger:** The user clicks on the like button for the post they are viewing
 
 - **Primary Sequence:**
   
@@ -69,23 +60,12 @@
   2. User selects the like button for the post they are viewing on the posts tab
   3. System increments like count for the post and displays updated like count to user
   4. System displays a symbol next to post indicating user liked that specific post
-  5. 
-  6. 
-  7. 
-  8. .
-  9. ...
-  10. <Try to stick to a max of 10 steps>
 
 - **Primary Postconditions:** The user is on the posts tab of the application
 
-- **Alternate Sequence:** <you can have more than one alternate sequence to describe multiple issues that may arise>
+- **Alternate Sequence:** 
   
   1. User likes a post that have already liked
   2. System decrements like count for the post and displays updated like count to user
   3. System displays a symbol next to post indicating user that they unliked the specific post
 
-- **Alternate Sequence <optional>:** <you can have more than one alternate sequence to describe multiple issues that may arise>
-  
-  1. 
-  2. 
-  3. ...
