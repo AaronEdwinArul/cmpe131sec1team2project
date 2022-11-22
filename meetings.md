@@ -16,11 +16,12 @@
 Brainstorm requirements
 
 ### 2022-11-22 at 11:30
-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
-Team updates: Aaron Arul: Updated assigned use case description file, made pull request and merged onto main
-              Vincent Cruz: Completed half of assigned requirements, waiting on push
-              Brandon Yu: Requirements complete and pushed to brandon_branch
-              Michael Xiao: ....
+- Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
+- Team updates: 
+- Aaron Arul: Updated assigned use case description file, made pull request and merged onto main
+- Vincent Cruz: Completed half of assigned requirements, waiting on push
+- Brandon Yu: Requirements complete and pushed to brandon_branch
+- Michael Xiao: ....
             
 
 
