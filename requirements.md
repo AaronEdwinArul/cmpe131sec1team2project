@@ -23,7 +23,9 @@
 ## Use Cases
 
 7) Post image with message
+
 Pre-condition: User is attempting to post a message and has an image they would like to attach to the message.
+
 Trigger: User clicks a button that allows them to upload an image.
 
 Primary Sequence
@@ -35,11 +37,15 @@ Primary Sequence
 6. User will post the message that now has an image attached.
 
 Primary Postconditions
+
 The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
 
 Alternate Sequence
+
 The user uploads a file that is not an image
+
   a. The system will display an error message to the user
+
   b. The system prompts the user to submit a file with a valid type
 
 
@@ -54,8 +60,11 @@ Primary Sequence
 4. System displays the page of the user that was found.
 
 Primary Postconditions
+
 The user is now able to view the page of the user whose name was entered into the search bar.
 
 Alternate Sequence
+
 The name being searched for does not exist in the database
+
   a. The system will display an error stating that the entered user does not exist
