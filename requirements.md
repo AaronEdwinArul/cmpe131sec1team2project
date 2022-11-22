@@ -43,7 +43,6 @@ Alternate Sequence
   b. The system prompts the user to submit a file with a valid type
 
 
-
 9. Search for user
 Pre-condition: User wants to find another user on the site.
 Trigger: User clicks on a search bar that allows them to type in a prompt to find other users.
