@@ -6,54 +6,72 @@
 2. Logout
 3. Create new account
 4. delete account
-5. User home page <aaron>
-6. Send message to followers <michael>
-7. Post image with message <brandon>
-8. Like messages <aaron>
-9. Search for user <brandon>
-10. Follow user <michael>
-11. User profiles
-12. Visualize connections of all users
+5. User home page 
+6. Send message to followers 
+7. Post image with message 
+8. Like messages 
+9. Search for user 
+10. Follow user 
+11. User profiles 
+12. Visualize connections of all users 
 
 ## Non-functional Requirements
 
-1. Multilingual support <Vincent>
-2. Only expected to work on Google Chrome <michael>
-3. Return results for user after search within 10 seconds <aaron>
-4. User data will be stored safely through hashing <brandon>
+1. Multilingual support 
+2. Only expected to work on Google Chrome 
+3. Return results for user after search within 10 seconds
+4. User data will be stored safely through hashing 
 
 ## Use Cases
 
-1. Use Case Name (Should match functional requirement name)
-- **Pre-condition:** <can be a list or short description> Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+6. Send message to followers
 
-- **Trigger:** <can be a list or short description> Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. 
+Precondition: The user has followers
 
-- **Primary Sequence:**
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Et sequi incidunt 
-  3. Quis aute iure reprehenderit
-  4. ... 
-  5. ...
-  6. ...
-  7. ...
-  8. ...
-  9. ...
-  10. <Try to stick to a max of 10 steps>
+Trigger: The user clicks on follower that will bring them to a message box where they can type their message
 
-- **Primary Postconditions:** <can be a list or short description> 
+Primary Sequence: 
 
-- **Alternate Sequence:** <you can have more than one alternate sequence to describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
+  a. User clicks on follower
+  b. User is prompted a "message" link
+  c. User is redirected to a private messaging conversation with follower
+  d. User clicks on messager box to input their message
+  e. User presses "enter" and the message is sent to follower
 
-- **Alternate Sequence <optional>:** <you can have more than one alternate sequence to describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
-2. Use Case Name (Should match functional requirement name)
-   ...
+Primary Postcondition: The follower recieves the message and can view the message along with who it's from
+
+Alternative Sequence: 
+
+User does not have any followers
+  a. No followers appear
+  b. No "message" button
+
+User is blocked from messaging
+  a. User clicks on follower
+  b. User is prompted a "message" link
+  c. User is redirected to a private messaging conversation with follower
+  d. User clicks on messager box to input their message
+  e. User presses "enter" but system blocks message from going through
+  f. User is promted with system message that they cannot send messages to that follower
+
+10. Follow user
+
+Precondition: The user has an account and can see other user's account
+
+Trigger: The user click on "follow" button under a certain user's profile
+
+Primary Sequence:
+
+  a. The user clicks on a certain user
+  b. User is prompted with a "follow" button under that user
+  c. User clicks "follow" and is now following user
+  d. System shows a symbol indicating that the user is following
+
+Primary Postcondition: The user is now following another user and can see their activities
+
+Alternative Sequence:
+
+User is already blocked by a certain user
+  a. The user clicks on a certain user
+  b. User is prompted with a "blocked" sign under that user
+  c. User cannot follow as that user does not permit them to follow
