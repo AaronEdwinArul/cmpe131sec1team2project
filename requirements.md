@@ -1,7 +1,7 @@
 ## Aaron Arul 014807611
-## Brandon 
+## Brandon Yu
 ## Michael Xiao 014115361
-## Vincent 
+## Vincent Cruz
 ## <remove all of the example text and notes in < > such as this one>
 
 ## Functional Requirements
