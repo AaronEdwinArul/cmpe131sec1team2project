@@ -1,7 +1,7 @@
 ## Aaron Arul 014807611
-## Brandon 
+## Brandon Yu
 ## Michael Xiao 014115361
-## Vincent 
+## Vincent Cruz
 ## <remove all of the example text and notes in < > such as this one>
 
 ## Functional Requirements
@@ -10,19 +10,19 @@
 2. Logout
 3. Create new account
 4. delete account
-5. User home page
-6. Send message to followers
-7. Post image with message
-8. Like messages
-9. Search for user
+5. User home page 
+6. Send message to followers 
+7. Post image with message 
+8. Like messages 
+9. Search for user 
 10. Follow user 
-11. User profiles
-12. Visualize connections of all users
+11. User profiles 
+12. Visualize connections of all users 
 
 ## Non-functional Requirements
 
-1. Multilingual support
-2. Only expected to work on Google Chrome
+1. Multilingual support 
+2. Only expected to work on Google Chrome 
 3. Return results for user after search within 10 seconds
 4. User data will be stored safely through hashing 
 
@@ -73,6 +73,37 @@
   3. User continues to use application features via home page after logging in for the first time
 
 
+6. Send message to followers
+
+- **Pre-condition:** The user has followers
+
+- **Trigger:** The user clicks on follower that will bring them to a message box where they can type their message
+
+- **Primary Sequence:** 
+
+  a. User clicks on follower
+  b. User is prompted a "message" link
+  c. User is redirected to a private messaging conversation with follower
+  d. User clicks on messager box to input their message
+  e. User presses "enter" and the message is sent to follower
+
+- **Primary Postconditions:** The follower recieves the message and can view the message along with who it's from
+
+- **Alternate Sequence:** 
+
+User does not have any followers
+  a. No followers appear
+  b. No "message" button
+
+User is blocked from messaging
+  a. User clicks on follower
+  b. User is prompted a "message" link
+  c. User is redirected to a private messaging conversation with follower
+  d. User clicks on messager box to input their message
+  e. User presses "enter" but system blocks message from going through
+  f. User is promted with system message that they cannot send messages to that follower
+
+
 7. Post image with message
 
 - **Pre-condition:** User is attempting to post a message and has an image they would like to attach to the message.
@@ -121,3 +152,26 @@ The user is now able to view the page of the user whose name was entered into th
 The name being searched for does not exist in the database
 
   a. The system will display an error stating that the entered user does not exist
+
+
+10. Follow user
+
+- **Pre-condition:** The user has an account and can see other user's account
+
+- **Trigger:** The user click on "follow" button under a certain user's profile
+
+- **Primary Sequence:**
+
+  a. The user clicks on a certain user
+  b. User is prompted with a "follow" button under that user
+  c. User clicks "follow" and is now following user
+  d. System shows a symbol indicating that the user is following
+  
+- **Primary Postconditions:** The user is now following another user and can see their activities
+
+- **Alternate Sequence:**
+
+User is already blocked by a certain user
+  a. The user clicks on a certain user
+  b. User is prompted with a "blocked" sign under that user
+  c. User cannot follow as that user does not permit them to follow
