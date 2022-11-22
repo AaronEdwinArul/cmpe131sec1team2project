@@ -14,15 +14,21 @@
 
 ### 2022-11-17 at 10:30
 Brainstorm requirements
-<only fill in template once you had the meeting>
-<see example on the last date>
-<use date format YYYY-MM-DD at HH:MM>
+
+### 2022-11-22 at 11:30
+- Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
+- Team updates: 
+- Aaron Arul: Updated assigned use case description file, made pull request and merged onto main
+- Vincent Cruz: Completed half of assigned requirements, waiting on push
+- Brandon Yu: Requirements complete and pushed to brandon_branch
+- Michael Xiao: ....
+            
+
 
 ### 2022-11-25 at 21:30
-<meeting template would go here>
-<only fill in template once you had the meeting>
 
-### 2022-04-29 at 10:30
+
+### 2022-11-29 at 10:30
 - Who attended the meeting
 - Team updates (15min or less)
   <Each team member gives an update of what they did from the last meeting and what they plan to do next. If they are stuck, bring it up here to see if others can help.>
