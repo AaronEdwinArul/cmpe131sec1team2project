@@ -22,13 +22,13 @@
 
 ## Use Cases
 
-7) Post image with message
+7. Post image with message
 
-Pre-condition: User is attempting to post a message and has an image they would like to attach to the message.
+- **Pre-condition:** User is attempting to post a message and has an image they would like to attach to the message.
 
-Trigger: User clicks a button that allows them to upload an image.
+- **Trigger:** User clicks a button that allows them to upload an image.
 
-Primary Sequence
+- **Primary Sequence**
 1. User writes a message to post.
 2. User prompts system to attach an image through a button.
 3. System prompts user to select an image.
@@ -36,11 +36,11 @@ Primary Sequence
 5. System will save the image to post with the message.
 6. User will post the message that now has an image attached.
 
-Primary Postconditions
+- **Primary Postconditions:**
 
 The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
 
-Alternate Sequence
+- **Alternate Sequence:**
 
 The user uploads a file that is not an image
 
@@ -49,21 +49,23 @@ The user uploads a file that is not an image
   b. The system prompts the user to submit a file with a valid type
 
 
-9) Search for user
-Pre-condition: User wants to find another user on the site.
-Trigger: User clicks on a search bar that allows them to type in a prompt to find other users.
+9. Search for user
 
-Primary Sequence
+- **Pre-condition:** User wants to find another user on the site.
+
+- **Trigger:** User clicks on a search bar that allows them to type in a prompt to find other users.
+
+- **Primary Sequence:**
 1. User clicks on the search bar.
 2. User enters a name that they would like to search for.
 3. System finds a name that matches what was entered.
 4. System displays the page of the user that was found.
 
-Primary Postconditions
+- **Primary Postconditions:**
 
 The user is now able to view the page of the user whose name was entered into the search bar.
 
-Alternate Sequence
+- **Alternate Sequence:**
 
 The name being searched for does not exist in the database
 
