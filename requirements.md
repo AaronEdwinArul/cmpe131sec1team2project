@@ -50,7 +50,7 @@
   3. User continues to use application features via home page after logging in for the first time
 
 2. Like messages
-**Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
+- **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
 - **Trigger:** The user clicks on the like button for the post they are viewing
 
