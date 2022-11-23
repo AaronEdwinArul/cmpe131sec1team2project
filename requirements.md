@@ -49,8 +49,7 @@
   1. After logging in for the first time, user is presented with 'Welcome' message on home page
   2. User selects ok on welcome message
   3. User continues to use application features via home page after logging in for the first time
-
-
+  
 6. Send message to followers
 
 - **Pre-condition:** The user has followers
@@ -109,12 +108,11 @@ The user uploads a file that is not an image
   b. The system prompts the user to submit a file with a valid type
 
 8. Like messages
-**Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
+- **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
 - **Trigger:** The user clicks on the like button for the post they are viewing
 
 - **Primary Sequence:**
-  
   1. User is on the posts tab of the application
   2. User selects the like button for the post they are viewing on the posts tab
   3. System increments like count for the post and displays updated like count to user
