@@ -1,8 +1,7 @@
 ## Aaron Arul 014807611
 ## Brandon Yu
 ## Michael Xiao 014115361
-## Vincent Cruz
-## <remove all of the example text and notes in < > such as this one>
+## Vincent Cruz 012541139
 
 ## Functional Requirements
 
@@ -114,7 +113,6 @@ The user uploads a file that is not an image
 - **Trigger:** The user clicks on the like button for the post they are viewing
 
 - **Primary Sequence:**
-  
   1. User is on the posts tab of the application
   2. User selects the like button for the post they are viewing on the posts tab
   3. System increments like count for the post and displays updated like count to user
@@ -172,3 +170,40 @@ User is already blocked by a certain user
   a. The user clicks on a certain user
   b. User is prompted with a "blocked" sign under that user
   c. User cannot follow as that user does not permit them to follow
+  
+ 11. User Profiles
+- **Pre-condition:** The user has an account and is currently on the home page tab
+
+- **Trigger:** User clicks on the profile button OR user clicks "save" buttom
+
+- **Primary Sequence:**
+    1. User is on home page
+    2. User clicks profile button
+    3. User is sent to profile tab
+    4. Profile tab contains miscellaneous information such as DOB, Location, Bio, etc.
+    5. User is able to input information of miscellaneuos information and save it using "save" button
+    
+- **Primary Postconditions:** The user is on the profile tab
+
+**Alternative Sequence:**
+    1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
+    2. The tutorial goes over the different sections of the profile tab explaining what each section does
+    3. Once tutorial is finished user selects "OK" 
+   
+   
+12. Visualize connections of all users
+- **Pre-condition:** The user is logged in already, and is on the profile tab of the application of another user
+
+- **Trigger:**  The user clicks the "following" or "follows" button on another user's profile
+
+- **Primary Sequence:** 
+    1. User is on the profile tab of application of another user
+    2. User clicks "following" or "follows" button
+    3. User is sent to either the "following" or "follows" tab which shows who the other user is following or follows
+    
+- **Primary Postconditions:** The user is on the "following" or "follows" tab of the application of another user
+
+- **Alternative Sequence:**
+    1. User A clicks User B's profile
+    2. User A receives a prompt stating User B has blocked them
+    3. User A cannot access the profile tab of User B
