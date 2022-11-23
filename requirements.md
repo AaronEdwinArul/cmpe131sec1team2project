@@ -1,8 +1,7 @@
 ## Aaron Arul 014807611
 ## Brandon Yu
 ## Michael Xiao 014115361
-## Vincent Cruz
-## <remove all of the example text and notes in < > such as this one>
+## Vincent Cruz 012541139
 
 ## Functional Requirements
 
@@ -28,26 +27,39 @@
 
 ## Use Cases
 
-2. Like messages
-**Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
+1. Login
+- **Pre-condition:** The user is logged out, is currently on the login tab, and contains an account saved into the application database.
 
-- **Trigger:** The user clicks on the like button for the post they are viewing
-
+- **Trigger:** User clicks login with username and password info entered
 - **Primary Sequence:**
-  
-  1. User is on the posts tab of the application
-  2. User selects the like button for the post they are viewing on the posts tab
-  3. System increments like count for the post and displays updated like count to user
-  4. System displays a symbol next to post indicating user liked that specific post
+    1. User is on login tab of application
+    2. User enters Username into Username Bar
+    3. User enters Password into Password Bar
+    4. User clicks "Login" buttom
+    5. User is sent to home page
+ 
+- **Primary Postconditions:** The user is on the login tab of the application and contains an account saved to the application database
 
-- **Primary Postconditions:** The user is on the posts tab of the application
+- **Alternative Sequence:**
+    1. User enters User/Password info that is not in the application database
+    2. User is sent to the create account tab
+   
+2. Logout
+- **Pre-condition:** The user is logged in already, and is on the profile tab of the application
 
-- **Alternate Sequence:** 
-  
-  1. User likes a post that have already liked
-  2. System decrements like count for the post and displays updated like count to user
-  3. System displays a symbol next to post indicating user that they unliked the specific post
+- **Trigger:**  The user clicks the "logout" button located in the profile tab
 
+- **Primary Sequence:** 
+    1. User is on the profile tab of application
+    2. User clicks "logout" button
+    3. User is sent to login tab of application
+    
+- **Primary Postconditions:** The user is on the profile tab of the application
+
+- **Alternative Sequence:**
+    1. When logging out for the first time, the user is asked "Are you sure? Y/N?"
+    2. Below the message contains a checkmark box asking the user if they want to see this message again in the future
+    3. If checkmarked message will not display for future logouts
 
 5. User home page
 - **Pre-condition:** The user is logged in successfully. 
@@ -130,6 +142,25 @@ The user uploads a file that is not an image
 
   b. The system prompts the user to submit a file with a valid type
 
+8. Like messages
+**Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
+
+- **Trigger:** The user clicks on the like button for the post they are viewing
+
+- **Primary Sequence:**
+  
+  1. User is on the posts tab of the application
+  2. User selects the like button for the post they are viewing on the posts tab
+  3. System increments like count for the post and displays updated like count to user
+  4. System displays a symbol next to post indicating user liked that specific post
+
+- **Primary Postconditions:** The user is on the posts tab of the application
+
+- **Alternate Sequence:** 
+  
+  1. User likes a post that have already liked
+  2. System decrements like count for the post and displays updated like count to user
+  3. System displays a symbol next to post indicating user that they unliked the specific post
 
 9. Search for user
 
