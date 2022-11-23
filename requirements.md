@@ -46,7 +46,7 @@
 
 - **Alternate Sequence:** 
   
-  1. After logging in for the first time, user is presented with 'Welcome' message on home page
+  1. After logging in for the first time, user is presented with 'Welcome new friend!' message on home page
   2. User selects ok on welcome message
   3. User continues to use application features via home page after logging in for the first time
   
