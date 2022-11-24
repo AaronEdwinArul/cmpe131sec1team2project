@@ -185,7 +185,7 @@ User is already blocked by a certain user
     
 - **Primary Postconditions:** The user is on the profile tab
 
-**Alternative Sequence:**
+- **Alternative Sequence:**
     1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
     2. The tutorial goes over the different sections of the profile tab explaining what each section does
     3. Once tutorial is finished user selects "OK" 
