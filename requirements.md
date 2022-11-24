@@ -1,8 +1,7 @@
 ## Aaron Arul 014807611
-## Brandon Yu
+## Brandon Yu 014810185
 ## Michael Xiao 014115361
-## Vincent Cruz
-## <remove all of the example text and notes in < > such as this one>
+## Vincent Cruz 012541139
 
 ## Functional Requirements
 
@@ -28,27 +27,6 @@
 
 ## Use Cases
 
-2. Like messages
-**Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
-
-- **Trigger:** The user clicks on the like button for the post they are viewing
-
-- **Primary Sequence:**
-  
-  1. User is on the posts tab of the application
-  2. User selects the like button for the post they are viewing on the posts tab
-  3. System increments like count for the post and displays updated like count to user
-  4. System displays a symbol next to post indicating user liked that specific post
-
-- **Primary Postconditions:** The user is on the posts tab of the application
-
-- **Alternate Sequence:** 
-  
-  1. User likes a post that have already liked
-  2. System decrements like count for the post and displays updated like count to user
-  3. System displays a symbol next to post indicating user that they unliked the specific post
-
-
 5. User home page
 - **Pre-condition:** The user is logged in successfully. 
 
@@ -68,11 +46,11 @@
 
 - **Alternate Sequence:** 
   
-  1. After logging in for the first time, user is presented with 'Welcome' message on home page
+  1. After logging in for the first time, user is presented with 'Welcome new friend!' message on home page
   2. User selects ok on welcome message
   3. User continues to use application features via home page after logging in for the first time
-
-
+ 
+ 
 6. Send message to followers
 
 - **Pre-condition:** The user has followers
@@ -81,27 +59,27 @@
 
 - **Primary Sequence:** 
 
-  a. User clicks on follower
-  b. User is prompted a "message" link
-  c. User is redirected to a private messaging conversation with follower
-  d. User clicks on messager box to input their message
-  e. User presses "enter" and the message is sent to follower
+  1. User clicks on follower
+  2. User is prompted a "message" link
+  3. User is redirected to a private messaging conversation with follower
+  4. User clicks on messager box to input their message
+  5. User presses "enter" and the message is sent to follower
 
 - **Primary Postconditions:** The follower recieves the message and can view the message along with who it's from
 
 - **Alternate Sequence:** 
 
 User does not have any followers
-  a. No followers appear
-  b. No "message" button
+  1. No followers appear
+  2. No "message" button
 
 User is blocked from messaging
-  a. User clicks on follower
-  b. User is prompted a "message" link
-  c. User is redirected to a private messaging conversation with follower
-  d. User clicks on messager box to input their message
-  e. User presses "enter" but system blocks message from going through
-  f. User is promted with system message that they cannot send messages to that follower
+  1. User clicks on follower
+  2. User is prompted a "message" link
+  3. User is redirected to a private messaging conversation with follower
+  4. User clicks on messager box to input their message
+  5. User presses "enter" but system blocks message from going through
+  6. User is promted with system message that they cannot send messages to that follower
 
 
 7. Post image with message
@@ -129,6 +107,26 @@ The user uploads a file that is not an image
   a. The system will display an error message to the user
 
   b. The system prompts the user to submit a file with a valid type
+
+
+8. Like messages
+- **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
+
+- **Trigger:** The user clicks on the like button for the post they are viewing
+
+- **Primary Sequence:**
+  1. User is on the posts tab of the application
+  2. User selects the like button for the post they are viewing on the posts tab
+  3. System increments like count for the post and displays updated like count to user
+  4. System displays a symbol next to post indicating user liked that specific post
+
+- **Primary Postconditions:** The user is on the posts tab of the application
+
+- **Alternate Sequence:** 
+  
+  1. User likes a post that have already liked
+  2. System decrements like count for the post and displays updated like count to user
+  3. System displays a symbol next to post indicating user that they unliked the specific post
 
 
 9. Search for user
@@ -162,16 +160,54 @@ The name being searched for does not exist in the database
 
 - **Primary Sequence:**
 
-  a. The user clicks on a certain user
-  b. User is prompted with a "follow" button under that user
-  c. User clicks "follow" and is now following user
-  d. System shows a symbol indicating that the user is following
+  1. The user clicks on a certain user
+  2. User is prompted with a "follow" button under that user
+  3. User clicks "follow" and is now following user
+  4. System shows a symbol indicating that the user is following
   
 - **Primary Postconditions:** The user is now following another user and can see their activities
 
 - **Alternate Sequence:**
 
 User is already blocked by a certain user
-  a. The user clicks on a certain user
-  b. User is prompted with a "blocked" sign under that user
-  c. User cannot follow as that user does not permit them to follow
+  1. The user clicks on a certain user
+  2. User is prompted with a "blocked" sign under that user
+  3. User cannot follow as that user does not permit them to follow
+ 
+ 
+ 11. User Profiles
+- **Pre-condition:** The user has an account and is currently on the home page tab
+
+- **Trigger:** User clicks on the profile button OR user clicks "save" buttom
+
+- **Primary Sequence:**
+    1. User is on home page
+    2. User clicks profile button
+    3. User is sent to profile tab
+    4. Profile tab contains miscellaneous information such as DOB, Location, Bio, etc.
+    5. User is able to input information of miscellaneuos information and save it using "save" button
+    
+- **Primary Postconditions:** The user is on the profile tab
+
+**Alternative Sequence:**
+    1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
+    2. The tutorial goes over the different sections of the profile tab explaining what each section does
+    3. Once tutorial is finished user selects "OK" 
+   
+   
+12. Visualize connections of all users
+- **Pre-condition:** The user is logged in already, and is on the profile tab of the application of another user
+
+- **Trigger:**  The user clicks the "following" or "follows" button on another user's profile
+
+- **Primary Sequence:** 
+    1. User is on the profile tab of application of another user
+    2. User clicks "following" or "follows" button
+    3. User is sent to either the "following" or "follows" tab which shows who the other user is following or follows
+    
+- **Primary Postconditions:** The user is on the "following" or "follows" tab of the application of another user
+
+- **Alternative Sequence:**
+    1. User A clicks User B's profile
+    2. User A receives a prompt stating User B has blocked them
+    3. User A cannot access the profile tab of User B
