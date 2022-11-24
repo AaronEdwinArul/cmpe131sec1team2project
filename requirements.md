@@ -52,19 +52,20 @@
 5. User home page
 - **Pre-condition:** The user is logged in successfully. 
 
-- **Trigger:** The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
+- **Trigger:** The user clicks the 'Home Page' button.
 
 - **Primary Sequence:**
   
-  1. System prompts user with message "Welcome to home page"
+  1. System directs user to the home page and prompts user with message "Welcome to home page"
   2. User clicks ok on welcome message and is shown other options on home page
   3. User can click home page button again to redirect to page that they are on (refreshing page)
-  4. User can 'view messages' icon, 'add post' icon, 'settings' icon
+  4. User can see 'view messages' button, 'add post' button, 'settings' button
   5. User selects home page 'statistics' button 
   6. System generates statistics of user's mutual friends, liked posts, and time spent on application by user 
   7. System displays statistics window on home page
+  8. User closes statistics window
 
-- **Primary Postconditions:** The user is on the starting page of the application directed to them after logging in
+- **Primary Postconditions:** The user is on the home page
 
 - **Alternate Sequence:** 
   
