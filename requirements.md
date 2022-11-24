@@ -69,18 +69,17 @@
 
 - **Alternate Sequence:** 
 
-User does not have any followers
+  User does not have any followers
   1. No followers appear
   2. No "message" button
 
-User is blocked from messaging
+  User is blocked from messaging
   1. User clicks on follower
   2. User is prompted a "message" link
   3. User is redirected to a private messaging conversation with follower
   4. User clicks on messager box to input their message
   5. User presses "enter" but system blocks message from going through
   6. User is promted with system message that they cannot send messages to that follower
-
 
 7. Post image with message (Brandon Yu)
 - **Pre-condition:** User is attempting to post a message and has an image they would like to attach to the message.
@@ -98,12 +97,10 @@ User is blocked from messaging
 - **Primary Postconditions:** The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
 
 - **Alternate Sequence:**
-
-The user uploads a file that is not an image
+  The user uploads a file that is not an image
   1. The system will display an error message to the user
   2. The system prompts the user to submit a file with a valid type
-
-
+  
 8. Like messages (Aaron Arul)
 - **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
@@ -139,7 +136,7 @@ The user uploads a file that is not an image
 
 - **Alternate Sequence:**
 
-The name being searched for does not exist in the database
+  The name being searched for does not exist in the database
   1. The system will display an error stating that the entered user does not exist
 
 
@@ -159,12 +156,11 @@ The name being searched for does not exist in the database
 
 - **Alternate Sequence:**
 
-User is already blocked by a certain user
+  User is already blocked by a certain user
   1. The user clicks on a certain user
   2. User is prompted with a "blocked" sign under that user
   3. User cannot follow as that user does not permit them to follow
- 
- 
+
  11. User Profiles (Vincent Cruz)
 - **Pre-condition:** The user has an account and is currently on the home page tab
 
