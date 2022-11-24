@@ -28,6 +28,7 @@
 ## Use Cases
 
 5. User home page
+
 - **Pre-condition:** The user is logged in successfully. 
 
 - **Trigger:** The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
@@ -89,27 +90,24 @@ User is blocked from messaging
 - **Trigger:** User clicks a button that allows them to upload an image.
 
 - **Primary Sequence**
-1. User writes a message to post.
-2. User prompts system to attach an image through a button.
-3. System prompts user to select an image.
-4. User uploads an image.
-5. System will save the image to post with the message.
-6. User will post the message that now has an image attached.
+  1. User writes a message to post.
+  2. User prompts system to attach an image through a button.
+  3. System prompts user to select an image.
+  4. User uploads an image.
+  5. System will save the image to post with the message.
+  6. User will post the message that now has an image attached.
 
-- **Primary Postconditions:**
-
-The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
+- **Primary Postconditions:** The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
 
 - **Alternate Sequence:**
 
 The user uploads a file that is not an image
-
-  a. The system will display an error message to the user
-
-  b. The system prompts the user to submit a file with a valid type
+  1. The system will display an error message to the user
+  2. The system prompts the user to submit a file with a valid type
 
 
 8. Like messages
+
 - **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
 - **Trigger:** The user clicks on the like button for the post they are viewing
@@ -136,20 +134,17 @@ The user uploads a file that is not an image
 - **Trigger:** User clicks on a search bar that allows them to type in a prompt to find other users.
 
 - **Primary Sequence:**
-1. User clicks on the search bar.
-2. User enters a name that they would like to search for.
-3. System finds a name that matches what was entered.
-4. System displays the page of the user that was found.
+  1. User clicks on the search bar.
+  2. User enters a name that they would like to search for.
+  3. System finds a name that matches what was entered.
+  4. System displays the page of the user that was found.
 
-- **Primary Postconditions:**
-
-The user is now able to view the page of the user whose name was entered into the search bar.
+- **Primary Postconditions:** The user is now able to view the page of the user whose name was entered into the search bar.
 
 - **Alternate Sequence:**
 
 The name being searched for does not exist in the database
-
-  a. The system will display an error stating that the entered user does not exist
+  1. The system will display an error stating that the entered user does not exist
 
 
 10. Follow user
@@ -176,38 +171,40 @@ User is already blocked by a certain user
  
  
  11. User Profiles
+
 - **Pre-condition:** The user has an account and is currently on the home page tab
 
 - **Trigger:** User clicks on the profile button OR user clicks "save" buttom
 
 - **Primary Sequence:**
-    1. User is on home page
-    2. User clicks profile button
-    3. User is sent to profile tab
-    4. Profile tab contains miscellaneous information such as DOB, Location, Bio, etc.
-    5. User is able to input information of miscellaneuos information and save it using "save" button
+  1. User is on home page
+  2. User clicks profile button
+  3. User is sent to profile tab
+  4. Profile tab contains miscellaneous information such as DOB, Location, Bio, etc.
+  5. User is able to input information of miscellaneuos information and save it using "save" button
     
 - **Primary Postconditions:** The user is on the profile tab
 
 **Alternative Sequence:**
-    1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
-    2. The tutorial goes over the different sections of the profile tab explaining what each section does
-    3. Once tutorial is finished user selects "OK" 
+  1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
+  2. The tutorial goes over the different sections of the profile tab explaining what each section does
+  3. Once tutorial is finished user selects "OK" 
    
    
 12. Visualize connections of all users
+
 - **Pre-condition:** The user is logged in already, and is on the profile tab of the application of another user
 
 - **Trigger:**  The user clicks the "following" or "follows" button on another user's profile
 
 - **Primary Sequence:** 
-    1. User is on the profile tab of application of another user
-    2. User clicks "following" or "follows" button
-    3. User is sent to either the "following" or "follows" tab which shows who the other user is following or follows
+  1. User is on the profile tab of application of another user
+  2. User clicks "following" or "follows" button
+  3. User is sent to either the "following" or "follows" tab which shows who the other user is following or follows
     
 - **Primary Postconditions:** The user is on the "following" or "follows" tab of the application of another user
 
 - **Alternative Sequence:**
-    1. User A clicks User B's profile
-    2. User A receives a prompt stating User B has blocked them
-    3. User A cannot access the profile tab of User B
+  1. User A clicks User B's profile
+  2. User A receives a prompt stating User B has blocked them
+  3. User A cannot access the profile tab of User B
