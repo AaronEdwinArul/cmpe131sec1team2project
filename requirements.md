@@ -28,7 +28,6 @@
 ## Use Cases
 
 5. User home page
-
 - **Pre-condition:** The user is logged in successfully. 
 
 - **Trigger:** The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
@@ -50,8 +49,8 @@
   1. After logging in for the first time, user is presented with 'Welcome new friend!' message on home page
   2. User selects ok on welcome message
   3. User continues to use application features via home page after logging in for the first time
- 
- 
+  
+
 6. Send message to followers
 
 - **Pre-condition:** The user has followers
@@ -107,7 +106,6 @@ The user uploads a file that is not an image
 
 
 8. Like messages
-
 - **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
 - **Trigger:** The user clicks on the like button for the post they are viewing
@@ -125,10 +123,9 @@ The user uploads a file that is not an image
   1. User likes a post that have already liked
   2. System decrements like count for the post and displays updated like count to user
   3. System displays a symbol next to post indicating user that they unliked the specific post
-
+  
 
 9. Search for user
-
 - **Pre-condition:** User wants to find another user on the site.
 
 - **Trigger:** User clicks on a search bar that allows them to type in a prompt to find other users.
@@ -148,7 +145,6 @@ The name being searched for does not exist in the database
 
 
 10. Follow user
-
 - **Pre-condition:** The user has an account and can see other user's account
 
 - **Trigger:** The user click on "follow" button under a certain user's profile
@@ -171,7 +167,6 @@ User is already blocked by a certain user
  
  
  11. User Profiles
-
 - **Pre-condition:** The user has an account and is currently on the home page tab
 
 - **Trigger:** User clicks on the profile button OR user clicks "save" buttom
@@ -193,7 +188,6 @@ User is already blocked by a certain user
    
    
 12. Visualize connections of all users
-
 - **Pre-condition:** The user is logged in already, and is on the profile tab of the application of another user
 
 - **Trigger:**  The user clicks the "following" or "follows" button on another user's profile
@@ -206,7 +200,7 @@ User is already blocked by a certain user
 - **Primary Postconditions:** The user is on the "following" or "follows" tab of the application of another user
 
 - **Alternative Sequence:**
-
   1. User A clicks User B's profile
   2. User A receives a prompt stating User B has blocked them
   3. User A cannot access the profile tab of User B
+
