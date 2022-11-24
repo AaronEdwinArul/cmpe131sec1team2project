@@ -170,7 +170,7 @@ User is already blocked by a certain user
   3. User cannot follow as that user does not permit them to follow
  
  
- 11. User Profiles
+11. User Profiles
 
 - **Pre-condition:** The user has an account and is currently on the home page tab
 
