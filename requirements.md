@@ -170,7 +170,7 @@ User is already blocked by a certain user
   3. User cannot follow as that user does not permit them to follow
  
  
-11. User Profiles
+ 11. User Profiles
 
 - **Pre-condition:** The user has an account and is currently on the home page tab
 
@@ -185,7 +185,8 @@ User is already blocked by a certain user
     
 - **Primary Postconditions:** The user is on the profile tab
 
-**Alternative Sequence:**
+- **Alternative Sequence:**
+
   1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
   2. The tutorial goes over the different sections of the profile tab explaining what each section does
   3. Once tutorial is finished user selects "OK" 
@@ -205,6 +206,7 @@ User is already blocked by a certain user
 - **Primary Postconditions:** The user is on the "following" or "follows" tab of the application of another user
 
 - **Alternative Sequence:**
+
   1. User A clicks User B's profile
   2. User A receives a prompt stating User B has blocked them
   3. User A cannot access the profile tab of User B
