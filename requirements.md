@@ -5,18 +5,18 @@
 
 ## Functional Requirements
 
-1. Login
-2. Logout
-3. Create new account
-4. delete account
-5. User home page 
-6. Send message to followers 
-7. Post image with message 
-8. Like messages 
-9. Search for user 
-10. Follow user 
-11. User profiles 
-12. Visualize connections of all users 
+1. Login (Michael Xiao)
+2. Logout (Aaron Arul)
+3. Create new account (Brandon Yu)
+4. delete account (Vincent Cruz)
+5. User home page (Aaron Arul)
+6. Send message to followers (Michael Xiao)
+7. Post image with message (Brandon Yu)
+8. Like messages (Aaron Arul)
+9. Search for user (Brandon Yu)
+10. Follow user (Michael Xiao)
+11. User profiles (Vincent Cruz)
+12. Visualize connections of all users (Vincent Cruz)
 
 ## Non-functional Requirements
 
@@ -27,7 +27,7 @@
 
 ## Use Cases
 
-5. User home page
+5. User home page (Aaron Arul)
 - **Pre-condition:** The user is logged in successfully. 
 
 - **Trigger:** The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
@@ -51,8 +51,7 @@
   3. User continues to use application features via home page after logging in for the first time
   
 
-6. Send message to followers
-
+6. Send message to followers (Michael Xiao)
 - **Pre-condition:** The user has followers
 
 - **Trigger:** The user clicks on follower that will bring them to a message box where they can type their message
@@ -82,8 +81,7 @@ User is blocked from messaging
   6. User is promted with system message that they cannot send messages to that follower
 
 
-7. Post image with message
-
+7. Post image with message (Brandon Yu)
 - **Pre-condition:** User is attempting to post a message and has an image they would like to attach to the message.
 
 - **Trigger:** User clicks a button that allows them to upload an image.
@@ -105,7 +103,7 @@ The user uploads a file that is not an image
   2. The system prompts the user to submit a file with a valid type
 
 
-8. Like messages
+8. Like messages (Aaron Arul)
 - **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
 - **Trigger:** The user clicks on the like button for the post they are viewing
@@ -125,7 +123,7 @@ The user uploads a file that is not an image
   3. System displays a symbol next to post indicating user that they unliked the specific post
   
 
-9. Search for user
+9. Search for user (Brandon Yu)
 - **Pre-condition:** User wants to find another user on the site.
 
 - **Trigger:** User clicks on a search bar that allows them to type in a prompt to find other users.
@@ -144,7 +142,7 @@ The name being searched for does not exist in the database
   1. The system will display an error stating that the entered user does not exist
 
 
-10. Follow user
+10. Follow user (Michael Xiao)
 - **Pre-condition:** The user has an account and can see other user's account
 
 - **Trigger:** The user click on "follow" button under a certain user's profile
@@ -166,7 +164,7 @@ User is already blocked by a certain user
   3. User cannot follow as that user does not permit them to follow
  
  
- 11. User Profiles
+ 11. User Profiles (Vincent Cruz)
 - **Pre-condition:** The user has an account and is currently on the home page tab
 
 - **Trigger:** User clicks on the profile button OR user clicks "save" buttom
@@ -187,7 +185,7 @@ User is already blocked by a certain user
   3. Once tutorial is finished user selects "OK" 
    
    
-12. Visualize connections of all users
+12. Visualize connections of all users (Vincent Cruz)
 - **Pre-condition:** The user is logged in already, and is on the profile tab of the application of another user
 
 - **Trigger:**  The user clicks the "following" or "follows" button on another user's profile
