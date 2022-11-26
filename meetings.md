@@ -24,7 +24,7 @@
 
 ### 2022-11-25 at 21:30
 -Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
-- Team updates: Talked about plans to pseudocode for project requirements
+- Team updates: Talked about plans to pseudocode for project requirements: planning to start on home page code, 1/2 respective assigned functional requirement, and multilingual support requirement
 - Aaron Arul: Downloaded sample code from canvas and used this as base for assigned requirements
 - Vincent Cruz: Downloaded sample code from canvas and used this as base for assigned requirements
 - Brandon Yu: Downloaded sample code from canvas and used this as base for assigned requirements
