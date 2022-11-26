@@ -10,13 +10,9 @@
 
   
 ## Meetings
-
-
 ### 2022-11-17 at 10:30
-Brainstorm requirements
+- Brainstorm requirements
 
-Team Updates
-=======
 ### 2022-11-22 at 11:30
 - Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
 - Team updates: 
