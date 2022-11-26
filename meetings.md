@@ -27,6 +27,12 @@ Team Updates
 
 
 ### 2022-11-25 at 21:30
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
+- Team updates: Talked about plans to pseudocode for project requirements
+- Aaron Arul: Downloaded sample code from canvas and used this as base for assigned requirements
+- Vincent Cruz: Downloaded sample code from canvas and used this as base for assigned requirements
+- Brandon Yu: Downloaded sample code from canvas and used this as base for assigned requirements
+- Michael Xiao: Downloaded sample code from canvas and used this as base for assigned requirements
 
 
 ### 2022-11-29 at 10:30
