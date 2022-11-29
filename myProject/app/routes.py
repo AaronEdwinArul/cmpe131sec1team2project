@@ -3,6 +3,7 @@ from flask import render_template, redirect, flash
 from app.forms import LoginForm
 from app.forms import SignupForm
 
+
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
     current_form = LoginForm()
@@ -18,12 +19,12 @@ def login():
     name = 'Carlos'
     return render_template('login.html', name=name, a=a, form=current_form)
 
-@myapp_obj.route('/create_account', methods = ['POST','GET'])
+@myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
     current_form = SignupForm()
 
     if current_form.validate_on_submit():
-        return redirect('/')        #redirect to home page when successfully validated
+        return redirect('/')        #redirect to home page when implemented
     
     if current_form.first.data == "":
         flash('ERROR: Empty input')
@@ -35,31 +36,24 @@ def create():
         flash('ERROR: Empty input')
     elif current_form.password.data == "":
         flash('ERROR: Empty input')
-    if emailCheck(current_form.email.data):
-        flash('ERROR: Invalid email address')
-    
-    '''
-    form will include:
-        first name
-        last name
-        username
-        password
-        email
         
-    name email  password will be stored with hash
+    '''if validEmail(current_form.email.data):
+        flash('ERROR: Invalid email address')'''
+    '''
+    name email password will be stored with hash
     rest will be stored normally in databsae
-        
-
     '''
+    return render_template('signup.html',form=current_form)
+
 
 @myapp_obj.route('/')
 def home():
     return render_template('base.html')
 
-
-def emailCheck(string):
+def validEmail(string):
+    str = string
     valid = False
-    for i in string:
+    for i in str:
         if i == '@':
             valid = True
     return valid
