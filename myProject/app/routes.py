@@ -22,38 +22,38 @@ def login():
 @myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
     current_form = SignupForm()
+    errorMessage = ''
+    if current_form.validate_on_submit():   
+        if not(validPassword(current_form.password.data)):
+            errorMessage = 'Password must be longer than 8 characters'
+        elif not(validEmail(current_form.email.data)):
+            errorMessage = 'Invalid email address (must have domain .com,.org,.edu)'
+        else:
+            return redirect('/home')        #redirect to home page when implemented
 
-    if current_form.validate_on_submit():
-        return redirect('/')        #redirect to home page when implemented
-    
-    if current_form.first.data == "":
-        flash('ERROR: Empty input')
-    elif current_form.last.data == "":
-        flash('ERROR: Empty input')
-    elif current_form.email.data == "":
-        flash('ERROR: Empty input')
-    elif current_form.username.data == "":
-        flash('ERROR: Empty input')
-    elif current_form.password.data == "":
-        flash('ERROR: Empty input')
-        
-    '''if validEmail(current_form.email.data):
-        flash('ERROR: Invalid email address')'''
     '''
     name email password will be stored with hash
     rest will be stored normally in databsae
     '''
-    return render_template('signup.html',form=current_form)
+    return render_template('signup.html',form=current_form, error = errorMessage)
 
 
 @myapp_obj.route('/')
 def home():
     return render_template('base.html')
 
+def validPassword(string):
+    if len(string) < 8:
+        return False
+    return True
+
 def validEmail(string):
-    str = string
-    valid = False
-    for i in str:
+    boolAddress = False
+    boolDomain = False
+    for i in string:
         if i == '@':
-            valid = True
-    return valid
+            boolAddress = True
+    if (string[len(string)-4:len(string)] == '.com') or (string[len(string)-4:len(string)]) == '.org' or (string[len(string)-4:len(string)] == '.edu'):
+        boolDomain = True
+    return boolAddress and boolDomain
+
