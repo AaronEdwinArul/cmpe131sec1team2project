@@ -19,5 +19,5 @@ class SignupForm(FlaskForm):
 
 class PostForm(FlaskForm):
     text = TextAreaField('Enter message here', validator = [DataRequired()] )
-    link = TextAreaField('Image link')
+    link = TextAreaField('Image Link (Optional)')
     post = SubmitField('Post!')

@@ -50,9 +50,7 @@ def post():
 
     '''
     field for text entry
-    button to attach image
-    button pressed -> show field for link text
-    html displays image from link
+    field for image link (optional)
     '''
     return render_template('post.html')
 
