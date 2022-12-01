@@ -1,8 +1,15 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash
-from app.forms import LoginForm
-from app.forms import SignupForm
+from app.forms import LoginForm, SignupForm, PostForm
+'''from app.models import User
+from werkzeug.security import generate_password_hash, check_password_hash
 
+#private login
+from flask_login import current_user
+from flask_login import login_required
+from flask_login import login_user
+from flask_login import logout_user
+from flask_login import load_user'''
 
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
@@ -29,7 +36,7 @@ def create():
         elif not(validEmail(current_form.email.data)):
             errorMessage = 'Invalid email address (must have domain .com,.org,.edu)'
         else:
-            return redirect('/home')        #redirect to home page when implemented
+            return redirect('/login')        #redirect to home page when implemented
 
     '''
     name email password will be stored with hash
@@ -37,10 +44,25 @@ def create():
     '''
     return render_template('signup.html',form=current_form, error = errorMessage)
 
+@myapp_obj.route('/post', methods = ['POST','GET'])
+def post():
+    current_form = PostForm()
+
+    '''
+    field for text entry
+    button to attach image
+    button pressed -> show field for link text
+    html displays image from link
+    '''
+    return render_template('post.html')
 
 @myapp_obj.route('/')
 def home():
     return render_template('base.html')
+
+
+
+# helper functions
 
 def validPassword(string):
     if len(string) < 8:
