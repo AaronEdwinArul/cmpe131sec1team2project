@@ -4,7 +4,9 @@ from app.forms import LoginForm, SignupForm, PostForm
 from app.models import User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
+from flask_login import current_user
+from flask_login import login_required
+'''
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
     current_form = LoginForm()
@@ -19,7 +21,7 @@ def login():
     a = 1
     name = 'Carlos'
     return render_template('login.html', name=name, a=a, form=current_form)
-
+'''
 @myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
     current_form = SignupForm()
@@ -43,16 +45,17 @@ def create():
     return render_template('signup.html',form=current_form, error = errorMessage)
 
 @myapp_obj.route('/post', methods = ['POST','GET'])
+#@login_required
 def post():
     current_form = PostForm()
     if current_form.validate_on_submit():
-        '''
-        create post object 
-        save inputtted text
-        save inputted link
-        use currently logged in user's id to connect post
-        commit to database
-        '''
+        post = Post()
+        text = current_form.text.data
+        link = current_form.link.data
+        user_id = current_user.id
+        with myapp_obj.app_context():
+            db.session.add(post)
+            db.session.commit()
         return redirect('/home')        #redirects to home after posting, will show post
     return render_template('post.html', form = current_form)
 
