@@ -1,7 +1,8 @@
-from app import myapp_obj
+from app import myapp_obj, db
 from flask import render_template, redirect, flash
 from app.forms import LoginForm, SignupForm, PostForm
 from app.models import User, Post
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @myapp_obj.route('/login', methods=['POST', 'GET'])
@@ -29,23 +30,31 @@ def create():
         elif not(validEmail(current_form.email.data)):
             errorMessage = 'Invalid email address (must have domain .com,.org,.edu)'
         else:
+            user = User()
+            user.first = generate_password_hash(current_form.first.data)
+            user.last = generate_password_hash(current_form.last.data)
+            user.email = generate_password_hash(current_form.email.data)
+            user.username = current_form.username.data
+            user.password = generate_password_hash(current_form.password.data)
+            db.session.add(user)
+            db.session.commit()
             return redirect('/login')        #redirect to home page when implemented
 
-    '''
-    name email password will be stored with hash
-    rest will be stored normally in databsae
-    '''
     return render_template('signup.html',form=current_form, error = errorMessage)
 
 @myapp_obj.route('/post', methods = ['POST','GET'])
 def post():
     current_form = PostForm()
-
-    '''
-    field for text entry
-    field for image link (optional)
-    '''
-    return render_template('post.html')
+    if current_form.validate_on_submit():
+        '''
+        create post object 
+        save inputtted text
+        save inputted link
+        use currently logged in user's id to connect post
+        commit to database
+        '''
+        return redirect('/home')        #redirects to home after posting, will show post
+    return render_template('post.html', form = current_form)
 
 @myapp_obj.route('/')
 def home():

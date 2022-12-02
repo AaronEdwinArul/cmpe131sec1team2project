@@ -15,9 +15,9 @@ class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Create Account')
 
 class PostForm(FlaskForm):
-    text = TextAreaField('Enter message here', validator = [DataRequired()] )
-    link = TextAreaField('Image Link (Optional)')
+    text = TextAreaField('Enter message here')
+    link = TextAreaField('Image URL (Optional)')
     post = SubmitField('Post!')

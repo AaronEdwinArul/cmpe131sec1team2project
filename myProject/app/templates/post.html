@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
 {% block mycontent %}
-<h1>{{a}}</h1>
-<p>Hello {{name}} </p>
+<h1>Send a message to all of your followers!</h1>
+<p></p>
 
 <form action="" method="POST" novalidate>
     {{form.hidden_tag()}}
-    <p>{{form.username.label}} <br> {{form.username()}}</p>
-    <p>{{form.password.label}} <br> {{form.password()}}</p>
-    <p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>
-    <p>{{form.submit.label}} <br> {{form.submit()}}</p>
+    <p>{{form.text.label}} <br> {{form.text()}}</p>
+    <p>{{form.link.label}} <br> {{form.link()}}</p>
+    <p>{{form.post()}}</p>
 </form>
 {% endblock %}
