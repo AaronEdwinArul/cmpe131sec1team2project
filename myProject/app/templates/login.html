@@ -1,14 +1,74 @@
-{% extends "base.html" %}
-
-{% block mycontent %}
-<h1>{{a}}</h1>
-<p>Hello {{name}} </p>
-
-<form action="" method="POST" novalidate>
-    {{form.hidden_tag()}}
-    <p>{{form.username.label}} <br> {{form.username()}}</p>
-    <p>{{form.password.label}} <br> {{form.password()}}</p>
-    <p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>
-    <p>{{form.submit.label}} <br> {{form.submit()}}</p>
-</form>
-{% endblock %}
+<html>
+  <head>
+    <title>Flask Intro - login page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <body style="background-color:aquamarine;"></body>
+    <div class="container">
+      <h1><center>Welcome!</center></h1>
+      <form action="/home" method="post">
+        <center><input type="text" placeholder="Username" id="username" value="{{
+          request.form.username }}">
+          <h1></h1>
+          <input type="password" placeholder="Password" id="password" value="{{
+          request.form.password }}">
+          <h1></h1>
+          <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember me</label>
+          <h1></h1>
+          <input class="btn btn-default" type="submit" value="Login">
+          <h1></h1>
+          <label for="createAccount">Don't have an account?</label> <input class="btn btn-default" type="submit" value="Click here">
+        </center>
+        <br>
+        <center>
+          <div class="dropdown">
+            <center><head>
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <style>
+              .dropbtn {
+                background-color: #ffffff;
+                color: rgb(0, 0, 0);
+                padding: 8px;
+                font-size: 12px;
+                border: none;
+              }
+              .dropdown {
+                position: relative;
+                display: inline-block;
+              }
+              .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 12px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+              }
+              .dropdown-content a {
+                color: black;
+                padding: 12px 12px;
+                text-decoration: none;
+                display: block;
+              }
+              .dropdown-content a:hover {background-color: #ddd;}
+              .dropdown:hover .dropdown-content {display: block;}
+              .dropdown:hover .dropbtn {background-color: #3e8e41;}
+              </style>
+              </head>
+              <body>
+              <div class="dropdown">
+                <button class="dropbtn">Language</button>
+                <div class="dropdown-content">
+                  <a href="#">Enlgish</a>
+                  <a href="#">Spanish</a>
+                </div>
+              </div>
+              </body>
+          </div>
+        </center>
+      </form>
+    </div>
+  </body>
+</html>
