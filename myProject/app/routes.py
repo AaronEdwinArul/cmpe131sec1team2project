@@ -1,7 +1,7 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash
 from app.forms import LoginForm, SignupForm, PostForm
-from app.models import User, Post
+from app.models import User, Post, Likes, Follows, load_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_login import current_user
@@ -52,9 +52,9 @@ def post():
     current_form = PostForm()
     if current_form.validate_on_submit():
         post = Post()
-        text = current_form.text.data
-        link = current_form.link.data
-        user_id = current_user.id
+        post.text = current_form.text.data
+        post.link = current_form.link.data
+        post.user_id = current_user.id
         with myapp_obj.app_context():
             db.session.add(post)
             db.session.commit()
