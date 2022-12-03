@@ -1,11 +1,13 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash
 from app.forms import LoginForm, SignupForm, PostForm
-from app.models import User, Post, Likes, Follows, load_user
+from app.models import User, Post, Likes, Follows
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_login import current_user
 from flask_login import login_required
+
+
 
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():

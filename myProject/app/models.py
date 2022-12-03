@@ -38,3 +38,8 @@ class Follows(db.Model):
     #           z | x
     follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     followee = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
+
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
