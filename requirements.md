@@ -10,10 +10,10 @@
 3. Create new account (Brandon Yu)
 4. delete account (Vincent Cruz)
 5. User home page (Aaron Arul)
-6. Send message to followers (Michael Xiao)
+6. Send message to followers (Brandon Yu)
 7. Post image with message (Brandon Yu)
 8. Like messages (Aaron Arul)
-9. Search for user (Brandon Yu)
+9. Search for user (Michael Xiao)
 10. Follow user (Michael Xiao)
 11. User profiles (Vincent Cruz)
 12. Visualize connections of all users (Vincent Cruz)
@@ -82,24 +82,23 @@
   6. User is promted with system message that they cannot send messages to that follower
 
 7. Post image with message (Brandon Yu)
-- **Pre-condition:** User is attempting to post a message and has an image they would like to attach to the message.
+- **Pre-condition:** User is attempting to post a message and has an image they would like the image to show with the post.
 
-- **Trigger:** User clicks a button that allows them to upload an image.
+- **Trigger:** User pastes a link that displays an image with the post.
 
 - **Primary Sequence**
   1. User writes a message to post.
-  2. User prompts system to attach an image through a button.
-  3. System prompts user to select an image.
-  4. User uploads an image.
-  5. System will save the image to post with the message.
-  6. User will post the message that now has an image attached.
+  2. System has an optional prompt to paste an image link.
+  3. User clicks post button.
+  4. Post will now show image along with message content.
+
 
 - **Primary Postconditions:** The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
 
 - **Alternate Sequence:**
-  The user uploads a file that is not an image
+  The user uploads a link to a file that is not an image
   1. The system will display an error message to the user
-  2. The system prompts the user to submit a file with a valid type
+  2. The system prompts the user to submit a file with a valid type (.png, .jpg)
   
 8. Like messages (Aaron Arul)
 - **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
