@@ -13,8 +13,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
-    follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic')
+    #likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
+    #follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic')
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -22,8 +22,8 @@ class Post(db.Model):
     link = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
 
-    source = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
-
+    #source = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
+'''
 class Likes(db.Model):
     #2 wide table that lists users who liked (left) a post (right)
     #posts are labelled by id
@@ -38,7 +38,7 @@ class Follows(db.Model):
     #           z | x
     follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     followee = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
-
+'''
 
 @login.user_loader
 def load_user(id):
