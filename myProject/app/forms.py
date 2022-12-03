@@ -11,8 +11,9 @@ class LoginForm(FlaskForm):
 class HomePageForm(FlaskForm):
     submitHome = SubmitField('Home')
     
-
-
 class LogoutForm(FlaskForm):
     submitLogout = SubmitField('Logout')
+
+class PostsForm(FlaskForm):
+    refreshPosts = SubmitField('Posts')
 

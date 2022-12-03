@@ -1,7 +1,18 @@
-{% extends "base.html" %}
+<!DOCTYPE HTML>
+<html>
+    <body style="background-color: #efefef;">
+     <head></head>
 
-{% block mycontent %}
+        
+<style>
+.div2{
 
+    height: 400px;
+    width: 800px;
+    background-color: lightgreen;
+    margin: auto;
+  }
+</style>
 
 <div class="div2">
     
@@ -12,7 +23,8 @@
         <p style="text-align: center; font-family:'Lucida Sans';">{{form.username.label}} <br> {{form.username()}}</p>
         <p style="text-align: center; font-family:'Lucida Sans';">{{form.password.label}} <br> {{form.password()}}</p>
         <p style="text-align: center; font-family:'Lucida Sans';">{{form.remember_me.label}} <br> {{form.remember_me()}}</p>
-        <p style="text-align: center; font-family:'Lucida Sans';">{{form.submit.label}} <br> {{form.submit()}}</p>
+        <p style="text-align: center; font-family:'Lucida Sans';"> {{form.submit()}}</p>
     </form>
 </div>
-{% endblock %}
+</body>
+</html>

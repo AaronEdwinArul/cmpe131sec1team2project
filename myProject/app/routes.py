@@ -2,6 +2,9 @@ from app import myapp_obj
 from flask import render_template, redirect, flash
 from app.forms import LoginForm
 from app.forms import HomePageForm
+from app.forms import LogoutForm
+from app.forms import PostsForm
+
 from app.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user
@@ -9,7 +12,14 @@ from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
 
+@myapp_obj.route('/profile')
+def test():
+    return render_template("profile.html")
 
+@myapp_obj.route('/statistics')
+def test1():
+    return render_template("statistics.html")
+    
 @myapp_obj.route('/private')
 @login_required
 def private():
@@ -63,6 +73,11 @@ def getMemberName(name):
 @myapp_obj.route('/default')
 def getDefault(name):
     return redirect('/home')
+
+@myapp_obj.route('/posts')
+def getPosts():
+    current_form = PostsForm()
+    return render_template('posts.html', form=current_form)
 
 
 
