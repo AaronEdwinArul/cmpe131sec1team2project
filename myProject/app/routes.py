@@ -53,15 +53,19 @@ def create():
 @myapp_obj.route('/post', methods = ['POST','GET'])
 #@login_required
 def post():
+    '''
+    to do:
+    change user_id line when login status is implemented
+    '''
     current_form = PostForm()
     if current_form.validate_on_submit():
         post = Post()
-        post.post = current_form.text.data
-        post.link = current_form.link.data
+        post.post = current_form.text.data  #save body text to db
+        post.link = current_form.link.data  #save image url to db
         post.user_id = 1    #change to current user later on
         today = date.today()
         post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
-        with myapp_obj.app_context():
+        with myapp_obj.app_context():       #add object to db
             db.session.add(post)
             db.session.commit()
         return redirect('/feed')        #redirects to home after posting, will show post
@@ -69,16 +73,22 @@ def post():
 
 @myapp_obj.route('/feed', methods = ['POST','GET'])
 def view():
+
+    '''
+    to do:
+    print username of author when login is implemented and current user can be found
+    connect viewable posts to following list when implemented
+    '''
+
     #create form for redirecting to another page
-    post = Post.query.all()
-    posts = []
-    for i in post:
-        text = {}
+    post = Post.query.all()     #query all posts
+    posts = []                  #list of dictionaries
+    for i in post:              #iterate through all queries
+        text = {}               #create a dictionary of 'body':'text'
         text['body'] = i.post
         text['link'] = i.link
-        posts.append(text)
-    for i in posts:
-        print(i)
+        posts.append(text)      #add individual dictionaries to array
+    #/feed page will display each body text and have access to the link to show the image
     return render_template('feed.html', posts = posts)
 
 @myapp_obj.route('/')
