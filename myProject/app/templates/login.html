@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block mycontent %}
+
+
+<div class="div2">
+    
+    <p style="text-align: center; font-family:'Haettenschweiler'; font-size: 80px;">Welcome to Spartsapp! </p>
+
+    <form action="" method="POST" novalidate>
+        {{form.hidden_tag()}}
+        <p style="text-align: center; font-family:'Lucida Sans';">{{form.username.label}} <br> {{form.username()}}</p>
+        <p style="text-align: center; font-family:'Lucida Sans';">{{form.password.label}} <br> {{form.password()}}</p>
+        <p style="text-align: center; font-family:'Lucida Sans';">{{form.remember_me.label}} <br> {{form.remember_me()}}</p>
+        <p style="text-align: center; font-family:'Lucida Sans';">{{form.submit.label}} <br> {{form.submit()}}</p>
+    </form>
+</div>
+{% endblock %}

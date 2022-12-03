@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+     <head>
+        <meta charset="utf-8"/>
+      <style>
+        .div2{
+
+          height: 400px;
+          width: 800px;
+          background-color: lightgreen;
+          margin: auto;
+        }
+       </style>
+         <title>My Page</title>
+     </head>
+     <body style="background-color:beige">
+        {% block mycontent %}{% endblock %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+               {% for message in messages %}
+                  <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+         {% endif %}
+       {% endwith %}
+     </body>
+</html>
