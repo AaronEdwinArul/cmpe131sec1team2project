@@ -20,7 +20,8 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     post = db.Column(db.String(500))
     link = db.Column(db.String(100))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
+    date = db.Column(db.String(10))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     #source = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
 '''

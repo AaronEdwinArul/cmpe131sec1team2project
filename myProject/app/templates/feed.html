@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block mycontent %}
+<h1>Your Feed</h1>
+<p></p>
+<form action="" method="POST" novalidate>
+    {% for post in posts %}
+        <div>
+            <p>{{post.body}} <br> {{post.link}}</p>
+        </div>
+    {% endfor %}
+</form>
+{% endblock %}

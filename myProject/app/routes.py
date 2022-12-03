@@ -2,7 +2,9 @@ from app import myapp_obj, db
 from flask import render_template, redirect, flash
 from app.forms import LoginForm, SignupForm, PostForm
 from app.models import User, Post#, Likes, Follows
+from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
+import itertools
 
 from flask_login import current_user
 from flask_login import login_required
@@ -39,7 +41,7 @@ def create():
             user = User()
             user.first = generate_password_hash(current_form.first.data)
             user.last = generate_password_hash(current_form.last.data)
-            user.email = generate_password_hash(current_form.email.data)
+            user.email = current_form.email.data
             user.username = current_form.username.data
             user.password = generate_password_hash(current_form.password.data)
             db.session.add(user)
@@ -56,18 +58,32 @@ def post():
         post = Post()
         post.post = current_form.text.data
         post.link = current_form.link.data
-        post.user_id = 1
+        post.user_id = 1    #change to current user later on
+        today = date.today()
+        post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
         with myapp_obj.app_context():
             db.session.add(post)
             db.session.commit()
-        return redirect('/home')        #redirects to home after posting, will show post
+        return redirect('/feed')        #redirects to home after posting, will show post
     return render_template('post.html', form = current_form)
+
+@myapp_obj.route('/feed', methods = ['POST','GET'])
+def view():
+    #create form for redirecting to another page
+    post = Post.query.all()
+    posts = []
+    for i in post:
+        text = {}
+        text['body'] = i.post
+        text['link'] = i.link
+        posts.append(text)
+    for i in posts:
+        print(i)
+    return render_template('feed.html', posts = posts)
 
 @myapp_obj.route('/')
 def home():
     return render_template('base.html')
-
-
 
 # helper functions
 
