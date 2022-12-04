@@ -85,6 +85,7 @@ def create():
 def post():
     current_form = PostForm()
     if current_form.validate_on_submit():
+        post = Post()
         post.post = current_form.text.data  #save body text to db
         post.link = current_form.link.data  #save image url to db
         post.user_id = current_user.id      #save current user's id to track poster
@@ -102,6 +103,7 @@ def view():
 
     '''
     to do:
+    implement likes
     connect viewable posts to following list when implemented
     '''
 

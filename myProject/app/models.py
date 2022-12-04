@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    #likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
+    likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
 
 
 
@@ -24,7 +24,7 @@ class Post(db.Model):
     date = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
-    #source = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
+    likes = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
 
     def get_author(self, num):
         author = User.query.filter_by(id = num).first()
@@ -32,13 +32,13 @@ class Post(db.Model):
             return author.username
         else:
             return 'Unknown User'
-'''
+
 class Likes(db.Model):
     #2 wide table that lists users who liked (left) a post (right)
     #posts are labelled by id
-    liked = db.Column(db.String, db.ForeignKey('user.id'),primary_key = True)
+    liker = db.Column(db.String, db.ForeignKey('user.id'),primary_key = True)
     post = db.Column(db.String, db.ForeignKey('post.id'), primary_key = True)
-''''''
+'''
 class Follows(db.Model):
     #2 wide table that lists followers (left) of followee (right)
     # e.g. if x and y both follow each other, and z follows x
