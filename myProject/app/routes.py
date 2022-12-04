@@ -12,17 +12,21 @@ def login():
     errorMessage = ''
     if current_form.validate_on_submit():
         user = User.query.filter_by(username=current_form.username.data).first()
-        if user is None or not db.user.check_password(current_form.password.data):
+        if user is not None and not check_password_hash(user.password, current_form.password.data):
             errorMessage = 'Invalid username or password'
-            return render_template('login.html', form=current_form, errorMessage=errorMessage)
+            print(current_form.password.data)
+            print(generate_password_hash(current_form.password.data))
+            print(user.password)
+            print(check_password_hash(user.password, current_form.password.data))
+        else:
+            return redirect('/home')
         login_user(user, remember=current_form.remember_me.data)
-        return redirect('/home')
     return render_template('login.html', form=current_form, errorMessage=errorMessage)
 
 @myapp_obj.route('/logout')
 def logout():
     logout_user()
-    return render_template('login.html')
+    return render_template('base.html')
 
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 def home():
@@ -51,7 +55,7 @@ def create():
             user.password = generate_password_hash(current_form.password.data)
             db.session.add(user)
             db.session.commit()
-            return redirect('/login')        #redirect to home page when implemented
+            return redirect('/login')        #redirect to login page when implemented
     return render_template('signup.html',form=current_form, error = errorMessage)
 
 @myapp_obj.route('/post', methods = ['POST','GET'])
@@ -74,6 +78,9 @@ def base():
     return render_template('base.html')
 
 # helper functions
+
+def check_password_hash(pw_hash, password):
+    return pw_hash == generate_password_hash(password)
 
 def validPassword(string):
     if len(string) < 8:

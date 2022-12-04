@@ -10,11 +10,11 @@ class User(db.Model, UserMixin):
     last = db.Column(db.String)
     email = db.Column(db.String(32), unique=True)
     username = db.Column(db.String, unique=True)
-    password = db.Column(db.String(200))
+    password = db.Column(db.String(500))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
-    follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic')
+    follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic', foreign_keys = 'Follows.follower_id')
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -37,6 +37,7 @@ class Follows(db.Model):
     # Table:    x | y
     #           y | x
     #           z | x
+    follower_id = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     followee = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
 
