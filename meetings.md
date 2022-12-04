@@ -39,10 +39,19 @@
 - Brandon Yu: Reviewed slides and started implementation of account creation form.
 - Michael Xiao: Reviewed slides and started psudeo code for login page and other assigned requirement
 
-- pair-programming (optional) (25 mins)
-  <- Pair program on one part of the project. Driver will be the person responsible for that requirement.>
+    
+ ### 2022-12-02 at 21:00
+ -Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team updates (15min or less):
+- Aaron Arul: Made home page, working on routing from home page to other pages
+- Vincent Cruz: Worked on deleting of account when user logged in
+- Brandon Yu: Worked on database and functionality of db when 
+- Michael Xiao: Worked on login and signup
 
-- Summarize group progress
-    
-    
- ### 2022-12-01 at 11:30
+### 2022-12-03 at 21:00
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team updates (15min or less):
+- Aaron Arul: Added Brandon's code to aaron_branch to add functionality of database, still working on database functionality
+- Vincent Cruz: Working on adding attributes for deleting of user account
+- Brandon Yu: Worked on logging and viewing database information
+- Michael Xiao: Worked on login and signup with database
