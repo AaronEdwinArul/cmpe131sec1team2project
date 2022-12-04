@@ -9,6 +9,16 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember me')
     submit = SubmitField('Sign In')
 
+class HomePageForm(FlaskForm):
+    submitHome = SubmitField('Home')
+    
+class LogoutForm(FlaskForm):
+    submitLogout = SubmitField('Logout')
+
+class PostsForm(FlaskForm):
+    refreshPosts = SubmitField('Posts')
+
+
 class SignupForm(FlaskForm):
     first = StringField('First Name', validators=[DataRequired()])
     last = StringField('Last Name', validators=[DataRequired()])

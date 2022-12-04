@@ -30,7 +30,6 @@ class Likes(db.Model):
     #posts are labelled by id
     liked = db.Column(db.String, db.ForeignKey('user.id'),primary_key = True)
     post = db.Column(db.String, db.ForeignKey('post.id'), primary_key = True)
-
 class Follows(db.Model):
     #2 wide table that lists followers (left) of followee (right)
     # e.g. if x and y both follow each other, and z follows x

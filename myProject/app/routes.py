@@ -1,13 +1,36 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash
-from app.forms import LoginForm, SignupForm, PostForm
 from app.models import User, Post#, Likes, Follows
+from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from flask_login import current_user
 from flask_login import login_required
+from flask_login import login_user
+from flask_login import logout_user
 
+@myapp_obj.route('/')
+def test2():
+    return render_template("base.html")
+
+@myapp_obj.route('/profile')
+def test():
+    return render_template("profile.html")
+
+@myapp_obj.route('/statistics')
+def test1():
+    return render_template("statistics.html")
+    
+@myapp_obj.route('/private')
+@login_required
+def private():
+    return 'Hi this is a private page'
+
+@myapp_obj.route('/logout')
+@login_required
+def logout():
+    load_user(current_user)
+    return redirect('/login')
 
 
 @myapp_obj.route('/login', methods=['POST', 'GET'])
@@ -15,17 +38,47 @@ def login():
     current_form = LoginForm()
     # taking input from the user and doing somithing with it
     if current_form.validate_on_submit():
+        # search to make sure we have the user in our database
+        user = User.query.filter_by(username=current_form.username.data).first()
+
+        # check user's password with what is saved on the database
+        if user is None or not user.check_password(current_form.password.data):
+            flash('Invalid password!')
+            # if passwords don't match, send user to login again
+            return redirect('/login')
+
+        # login user
+        login_user(user, remember=current_form.remember_me.data)
         flash('quick way to debug')
         flash('another quick way to debug')
         print(current_form.username.data, current_form.password.data)
-        return redirect('/')
-    if current_form.username.data == "" or current_form.password.data == "":
-        flash('ERROR: Empty input')
+        return redirect('/home')
     a = 1
-    name = 'Carlos'
+    name = 'Username'
     return render_template('login.html', name=name, a=a, form=current_form)
 
 
+@myapp_obj.route('/home', methods=['POST', 'GET'])
+def home():
+    a = 8
+    name = 'Friend'
+    current_form = HomePageForm()
+    if current_form.validate_on_submit():
+       return redirect('/home')
+    return render_template('home.html', form=current_form)
+
+@myapp_obj.route('/members/<string:name>/')
+def getMemberName(name):
+    return escape(name)
+
+@myapp_obj.route('/default')
+def getDefault(name):
+    return redirect('/home')
+
+@myapp_obj.route('/posts')
+def getPosts():
+    current_form = PostsForm()
+    return render_template('posts.html', form=current_form)
 
 @myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
@@ -90,9 +143,13 @@ def view():
     #/feed page will display each body text and have access to the link to show the image
     return render_template('feed.html', posts = posts)
 
+<<<<<<< HEAD
 @myapp_obj.route('/')
 def home():
     return render_template('base.html')
+=======
+
+>>>>>>> a523c227bdfea3f0f7bf17d0d1427c76f0a4bf74
 
 # helper functions
 
@@ -111,3 +168,8 @@ def validEmail(string):
         boolDomain = True
     return boolAddress and boolDomain
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a523c227bdfea3f0f7bf17d0d1427c76f0a4bf74
