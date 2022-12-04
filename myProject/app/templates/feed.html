@@ -6,7 +6,8 @@
 <form action="" method="POST" novalidate>
     {% for post in posts %}
         <div>
-            <p>{{post.body}} <br> {{post.link}}</p>
+            <p>author = {{post.author}}</p>
+            <p>Body Here -> {{post.body}} <br> {{post.link}}</p>
         </div>
     {% endfor %}
 </form>
