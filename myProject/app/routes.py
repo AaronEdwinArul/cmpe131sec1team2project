@@ -4,7 +4,6 @@ from app.forms import LoginForm, SignupForm, PostForm
 from app.models import User, Post#, Likes, Follows
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
-import itertools
 
 from flask_login import current_user
 from flask_login import login_required
