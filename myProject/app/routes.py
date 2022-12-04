@@ -16,6 +16,10 @@ from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
 
+@myapp_obj.route('/')
+def test2():
+    return render_template("base.html")
+
 @myapp_obj.route('/profile')
 def test():
     return render_template("profile.html")
