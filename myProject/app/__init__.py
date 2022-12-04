@@ -12,7 +12,6 @@ myapp_obj.config.update(
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db'),
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 )
-
 db = SQLAlchemy(myapp_obj)
 
 login = LoginManager(myapp_obj)

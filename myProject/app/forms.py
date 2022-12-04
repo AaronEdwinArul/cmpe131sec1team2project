@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
+from datetime import date
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -30,3 +31,15 @@ class PostForm(FlaskForm):
     text = TextAreaField('Enter message here')
     link = TextAreaField('Image URL (Optional)')
     post = SubmitField('Post!')
+
+class SearchForm(FlaskForm):
+  search = StringField('search')
+  username = StringField('username')
+  submit = SubmitField('Search')
+
+class SearchResult(FlaskForm):
+    first = StringField('First Name')
+    last = StringField('Last Name')
+    email = StringField('Email Address')
+    username = StringField('Username')
+

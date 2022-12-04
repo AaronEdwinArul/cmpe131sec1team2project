@@ -49,8 +49,6 @@
             .restContent{
                 margin-left: 165px;
                 padding: 0px 10px;
-                
-               
             }
             .postArea{
                 background-color: darkgray;
@@ -58,41 +56,9 @@
                 width: 100%;
 
             }
-            .intro{
-                background-color: floralwhite;
-                height: 800px;
-                width: 100%;
-                
-
-
-            }
-            .button{
-                display: inline-block;
-                padding: 10px 40px 10px 10px;
-                text-align: center;
-                text-decoration: none;
-                color: #ffffff;
-                background-color:darkred;
-                border-radius: 8 px;
-                outline: none;
-                top: 40px;
-                right: 100px;
-            }
             @media screen and (max-height: 450px){
                 .sidebar {padding-top: 15px;}
                 .sidebar a {font-size: 18px;}
-            }
-            img{
-                display: block;
-               margin-left: auto;
-               margin-right: auto;
-            }
-            .ribb{
-                width: 600px;
-                padding: 5px;
-                display: flex;
-                justify-content: space-between;
-                margin: 1.2em;
             }
             
         </style>
@@ -107,6 +73,9 @@
                     </ul>
                 </div>
             </nav>
+
+
+       
         </div>
 
 
@@ -118,12 +87,12 @@
 
 
         <div class="sidebar">
-            <a class="nav-tem nav-link" id="home" href="/home">Home</a>
-            <a class="nav-tem nav-link" id="POST" href="/post">Post</a>
-            <a class="nav-tem nav-link" id="search" href="/search">Search</a>
-            <a class="nav-tem nav-link" id="profile" href="/profile">Profile</a>
-            <a class="nav-tem nav-link" id="statistics" href="/statistics">Statistics</a>
-            <a class="nav-tem nav-link" id="logout" href="/logout">Logout</a>
+            <a href="home">Home</a>
+            <a href="posts">Posts</a>
+            <a href="#">Search</a>
+            <a href="#">User Profile</a>
+            <a href="login">Logout</a>
+            
 
             
         </div>
@@ -133,36 +102,11 @@
        
                     <h1 style="font-family:'Cambria'; font-size: 50px;">Spartsapp</h1>
                     
-                    <center>
-                    
-                    <div>
-                        <p>This is the home page, where you can discover other user's posts.</p>
-                    
-                    </div>
-
-                    <div class="ribb" style="background-color:gold;">
-
-                        <a class="button" id="POST" href="/post">Make a Post!</a>
-
-                        <a class="button" href="followers">View Followers</a>
-
-                        <a class="button" href="likes">Liked Posts</a>
-                        
                         
 
+                    <div class="postArea">
+                        <p>This is where posts can be seen.</p>
                     </div>
-
-                    </center> 
-
-                    <div class="intro">
-                        <img src="https://cdn.searchenginejournal.com/wp-content/uploads/2021/09/16-reasons-why-social-media-is-important-to-your-company-616d3200e6dc6-sej.png" class="logo3" width="900" height="500">
-                    
-                    
-                    </div>
-
-
-
-                   
 
                     
                     {% block mycontent %}{% endblock %}
@@ -178,3 +122,33 @@
         </div>
      </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

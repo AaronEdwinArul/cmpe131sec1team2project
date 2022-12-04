@@ -10,11 +10,11 @@ class User(db.Model, UserMixin):
     last = db.Column(db.String)
     email = db.Column(db.String(32), unique=True)
     username = db.Column(db.String, unique=True)
-    password = db.Column(db.String(500))
+    password = db.Column(db.String(200))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
-    follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic', foreign_keys = 'Follows.follower_id')
+    #likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
+    #follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic')
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -24,23 +24,21 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     #source = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
-
+'''
 class Likes(db.Model):
     #2 wide table that lists users who liked (left) a post (right)
     #posts are labelled by id
     liked = db.Column(db.String, db.ForeignKey('user.id'),primary_key = True)
     post = db.Column(db.String, db.ForeignKey('post.id'), primary_key = True)
-
 class Follows(db.Model):
     #2 wide table that lists followers (left) of followee (right)
     # e.g. if x and y both follow each other, and z follows x
     # Table:    x | y
     #           y | x
     #           z | x
-    follower_id = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     followee = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
-
+'''
 
 @login.user_loader
 def load_user(id):
