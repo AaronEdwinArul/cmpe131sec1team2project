@@ -27,7 +27,6 @@
 
 ## Use Cases
 
-<<<<<<< HEAD
 5. User home page (Aaron Arul)
 - **Pre-condition:** The user is logged in successfully. 
 
@@ -53,27 +52,23 @@
   3. User continues to use application features via home page after logging in for the first time
   
 
-6. Send message to followers (Michael Xiao)
-- **Pre-condition:** The user has followers
+6. Send message to followers (Michael Xiao) [Changed by Brandon Yu]
+- **Pre-condition:** User wants to post a message online
 
-- **Trigger:** The user clicks on follower that will bring them to a message box where they can type their message
+- **Trigger:** The user clicks a button that allows them to post a message
 
 - **Primary Sequence:** 
 
-  1. User clicks on follower
-  2. User is prompted a "message" link
-  3. User is redirected to a private messaging conversation with follower
-  4. User clicks on messager box to input their message
-  5. User presses "enter" and the message is sent to follower
+  1. User clicks on a post button
+  2. User is redirected to a site to write their post
+  3. User inputs desired text
+  4. User clicks post button to submit their text
+  5. Submitted text is then stored in the database
+  6. Submitted test will be visible on a separate page
 
-- **Primary Postconditions:** The follower recieves the message and can view the message along with who it's from
+- **Primary Postconditions:** The user and their followers are able to view the post on a separate page
 
 - **Alternate Sequence:** 
-
-  User does not have any followers
-  1. No followers appear
-  2. No "message" button
-
   User is blocked from messaging
   1. User clicks on follower
   2. User is prompted a "message" link
@@ -102,9 +97,6 @@
   2. The system prompts the user to submit a file with a valid type (.png, .jpg)
   
 8. Like messages (Aaron Arul)
-=======
-2. Like messages
->>>>>>> a523c227bdfea3f0f7bf17d0d1427c76f0a4bf74
 - **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
 - **Trigger:** The user clicks on the like button for the post they are viewing
