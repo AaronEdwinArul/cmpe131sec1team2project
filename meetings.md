@@ -55,3 +55,10 @@
 - Vincent Cruz: Working on adding attributes for deleting of user account
 - Brandon Yu: Worked on logging and viewing database information
 - Michael Xiao: Worked on login and signup with database
+
+### 2022-12-04 at 21:00
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team updates (15min or less):
+- Aaron Arul: Formulating on how to make like button and general containers for list of posts on feed page
+- Brandon Yu: Added like relationship to posts
+- Michael Xiao: Fixed routing from home page
