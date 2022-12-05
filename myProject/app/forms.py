@@ -18,7 +18,6 @@ class LogoutForm(FlaskForm):
 class PostsForm(FlaskForm):
     refreshPosts = SubmitField('Posts')
 
-
 class SignupForm(FlaskForm):
     first = StringField('First Name', validators=[DataRequired()])
     last = StringField('Last Name', validators=[DataRequired()])
