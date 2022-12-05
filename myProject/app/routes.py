@@ -1,7 +1,7 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash, url_for, request
-from app.models import User, Post#, Likes, Follows
-from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult
+from app.models import User, Post, Follows#, Likes
+from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
@@ -12,7 +12,10 @@ def base():
 
 @myapp_obj.route('/profile')
 def test():
-    return render_template("profile.html")
+    users = User.query.all()
+    for user in users:
+        name=user.username
+    return render_template("profile.html", username=name)
 
 @myapp_obj.route('/statistics')
 def test1():
@@ -22,13 +25,6 @@ def test1():
 @login_required
 def private():
     return 'Hi this is a private page'
-'''
-@myapp_obj.route('/logout')
-@login_required
-def logout():
-    load_user(current_user)
-    return redirect('/login')
-'''
 
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
@@ -45,7 +41,7 @@ def login():
                     return redirect('/home')
             else:
                 errorMessage = 'Invalid Username or Password'
-    return render_template('login.html', form=current_form, errorMessage=errorMessage)
+    return render_template('login.html', form=current_form, error=errorMessage)
 
 @myapp_obj.route('/logout')
 def logout():
@@ -71,14 +67,14 @@ def create():
             errorMessage = 'Invalid email address (must have domain .com,.org,.edu)'
         else:
             user = User()
-            user.first = generate_password_hash(current_form.first.data)
-            user.last = generate_password_hash(current_form.last.data)
+            user.first = current_form.first.data
+            user.last = current_form.last.data
             user.email = current_form.email.data
             user.username = current_form.username.data
             user.password = generate_password_hash(current_form.password.data)
             db.session.add(user)
             db.session.commit()
-            return redirect('/login')        #redirect to home page when implemented
+            return redirect('/login')        #redirect to login page when implemented
 
     return render_template('signup.html',form=current_form, error = errorMessage)
 
@@ -123,23 +119,63 @@ def view():
     #/feed page will display each body text and have access to the link to show the image
     return render_template('feed.html', posts = posts)
 
-@myapp_obj.route('/search', methods=['GET', 'POST'])
+@myapp_obj.route('/search', methods = ['POST','GET'])
 #@login_required
 def search():
-  current_form = SearchForm()
-  if current_form.validate_on_submit():
-    return redirect('/searchResult')
-    '''for user in users:
-      if user.username == current_form.username.data:
-        return redirect('/searchResult')'''
-  return render_template('search.html', form=current_form)
+    current_form = SearchForm()
+    errormessage = ''
+    if request.method == "GET":
+        return render_template('search.html', form = current_form)
+    if request.method == "POST":
+        searched = request.form["username"]
+        users = User.query.all()
+        for user in users:
+            if user.username == searched:
+                data.searchedUser=searched                
+                return redirect(url_for("user", usr=searched))
+            else: 
+                errormessage = 'User not found'
+    else: 
+        errormessage = 'User not found'  
+    return render_template('search.html', error = errormessage)
 
-@myapp_obj.route('/searchResult')
+@myapp_obj.route('/user/<usr>', methods = ['POST','GET'])
+def user(usr):
+    current_form = SearchResult()
+    return render_template('searchResult.html', form=current_form, username=usr)
+
+@myapp_obj.route('/user-profile', methods=['GET', 'POST'])
 #@login_required
-def searchResult():
-    return render_template('searchResult.html')
+def user_profile():
+    current_form = FollowForm()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    for user in users:
+        name=user.username
+        first=user.first
+        last=user.last
+        email=user.email
+        '''if current_form.validate_on_submit():
+            follow = Follows()
+            follow.follower_id = 1
+            follow.following_id = user.id
+            db.session.add(follow)
+            db.session.commit()
+            print('followed')
+        if current_form.validate_on_submit():
+            follow.follower_id = 0
+            follow.following_id = ''
+            db.session.remove(follow)
+            db.session.commit()
+            print('unfollowed')'''
+    return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
 
 # helper functions
+
+class DataStore():
+    searchedUser = None
+
+data = DataStore()
 
 def validPassword(string):
     if len(string) < 8:

@@ -33,13 +33,12 @@ class PostForm(FlaskForm):
     post = SubmitField('Post!')
 
 class SearchForm(FlaskForm):
-  search = StringField('search')
-  username = StringField('username')
-  submit = SubmitField('Search')
+    username = StringField('Username')
+    submit = SubmitField('Search')
 
 class SearchResult(FlaskForm):
-    first = StringField('First Name')
-    last = StringField('Last Name')
-    email = StringField('Email Address')
     username = StringField('Username')
+
+class FollowForm(FlaskForm):
+    follow = SubmitField('Follow')
 

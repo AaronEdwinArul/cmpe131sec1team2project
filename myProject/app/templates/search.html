@@ -2,15 +2,12 @@
 
 {% block mycontent %}
 <center>
-<div>
-<h1>Search for users</h1>
+<h1>Search for a user!</h1>
 <p></p>
 <form action="" method="POST" novalidate>
-<div>
-<p>{{form.search()}}</p>
-<p>{{form.submit()}}</p>
-</div>
+<p><input type="text" name="username"/></p>
+<p><input type="submit" value="Search"/></p>
 </form>
-</div>
+<h4>{{error}}</h4>
 </center>
 {% endblock %}
