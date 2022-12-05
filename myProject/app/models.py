@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
+    #likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
 
 
 

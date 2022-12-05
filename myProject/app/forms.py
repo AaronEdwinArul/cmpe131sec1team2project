@@ -31,3 +31,6 @@ class PostForm(FlaskForm):
     text = TextAreaField('Enter message here')
     link = TextAreaField('Image URL (Optional)')
     post = SubmitField('Post!')
+
+class LikeButtonForm(FlaskForm):
+    likeAction = SubmitField('Like')

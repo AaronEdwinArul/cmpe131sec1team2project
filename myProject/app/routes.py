@@ -8,6 +8,7 @@ from flask_login import current_user,login_required,login_user,logout_user
 
 @myapp_obj.route('/')
 def base():
+    db.create_all()
     return render_template("base.html")
 
 @myapp_obj.route('/profile')
@@ -98,7 +99,7 @@ def post():
     return render_template('post.html', form = current_form)
 
 @myapp_obj.route('/feed', methods = ['POST','GET'])
-@login_required
+#@login_required
 def view():
 
     '''
