@@ -25,9 +25,9 @@ def private():
     return 'Hi this is a private page'
 
 @myapp_obj.route('/logout')
-@login_required
 def logout():
-    load_user(current_user)
+    #load_user(current_user)
+    logout_user()
     return redirect('/login')
 
 
@@ -45,12 +45,8 @@ def login():
         else:
             errorMessage = 'Invalid Username of Password'       #else, raise error message 
     return render_template('login.html', form=current_form, errorMessage=errorMessage)
-'''
-@myapp_obj.route('/logout')
-def logout():
-    logout_user()
-    return render_template('base.html')
-'''
+
+
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
 def home():

@@ -24,7 +24,7 @@ class Post(db.Model):
     date = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
-    likes = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
+    #likes = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
 
     def get_author(self, num):
         author = User.query.filter_by(id = num).first()
