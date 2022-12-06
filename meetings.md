@@ -57,8 +57,14 @@
 - Michael Xiao: Worked on login and signup with database
 
 ### 2022-12-04 at 21:00
--Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+-Attended meeting: Aaron Arul, Michael Xiao, Brandon Yu
 - Team updates (15min or less):
 - Aaron Arul: Formulating on how to make like button and general containers for list of posts on feed page
 - Brandon Yu: Added like relationship to posts
 - Michael Xiao: Fixed routing from home page
+
+### 2022-12-06 at 11:00
+-Attended meeting: Aaron Arul, Michael Xiao
+- Team updates (15min or less): Discussed prepartions for milestone 2 submission
+- Aaron Arul: Showcased work on Ethical Implications for Milestone 2, and readme implementation for project
+- Michael Xiao: Showed work on following of users, as well as search for user
