@@ -32,5 +32,13 @@ class PostForm(FlaskForm):
     link = TextAreaField('Image URL (Optional)')
     post = SubmitField('Post!')
 
-class LikeButtonForm(FlaskForm):
-    likeAction = SubmitField('Like')
+class SearchForm(FlaskForm):
+    username = StringField('Username')
+    submit = SubmitField('Search')
+
+class SearchResult(FlaskForm):
+    username = StringField('Username')
+
+class FollowForm(FlaskForm):
+    follow = SubmitField('Follow')
+

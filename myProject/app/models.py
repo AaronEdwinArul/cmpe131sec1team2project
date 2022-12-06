@@ -14,8 +14,7 @@ class User(db.Model, UserMixin):
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     #likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
-
-
+    #follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic')
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -23,22 +22,15 @@ class Post(db.Model):
     link = db.Column(db.String(100))
     date = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    
-    #likes = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
 
-    def get_author(self, num):
-        author = User.query.filter_by(id = num).first()
-        if not author == None:
-            return author.username
-        else:
-            return 'Unknown User'
-
+    #source = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
+'''
 class Likes(db.Model):
     #2 wide table that lists users who liked (left) a post (right)
     #posts are labelled by id
-    liker = db.Column(db.String, db.ForeignKey('user.id'),primary_key = True)
-    post = db.Column(db.String, db.ForeignKey('post.id'), primary_key = True)
-'''
+    liked = db.Column(db.String, db.ForeignKey('user.id'),primary_key = True)
+    post = db.Column(db.String, db.ForeignKey('post.id'), primary_key = True)'''
+    
 class Follows(db.Model):
     #2 wide table that lists followers (left) of followee (right)
     # e.g. if x and y both follow each other, and z follows x
@@ -47,7 +39,7 @@ class Follows(db.Model):
     #           z | x
     follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     followee = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
-'''
+
 
 @login.user_loader
 def load_user(id):
