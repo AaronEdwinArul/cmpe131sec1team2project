@@ -24,7 +24,7 @@ Implementation:
 
 
 Necessary libraries to run project:
-- flask, flask_login, flask_wtf, wtforms, werkzeug.security, bootstrap (for styling)
+- flask, flask_login, flask_wtf, wtforms, werkzeug.security, bootstrap (for styling), sqlalchemy
 
 
 Requirements implemented for Milestone 2:
