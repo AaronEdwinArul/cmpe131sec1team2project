@@ -40,5 +40,12 @@ class SearchResult(FlaskForm):
     username = StringField('Username')
 
 class FollowForm(FlaskForm):
-    follow = SubmitField('Follow')
+    username = StringField('Username')
+    submit = SubmitField('Follow')
+
+class unfollowForm(FlaskForm):
+    submit = SubmitField('Unfollow')
+
+class unfollowForm2(FlaskForm):
+    submit = SubmitField('Home')
 
