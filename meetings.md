@@ -10,13 +10,9 @@
 
   
 ## Meetings
-
-
 ### 2022-11-17 at 10:30
-Brainstorm requirements
+- Brainstorm requirements
 
-Team Updates
-=======
 ### 2022-11-22 at 11:30
 - Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
 - Team updates: 
@@ -27,15 +23,48 @@ Team Updates
 
 
 ### 2022-11-25 at 21:30
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brnadon Yu
+- Team updates: Talked about plans to pseudocode for project requirements: planning to start on home page code, 1/2 respective assigned functional requirement, and multilingual support requirement
+- Aaron Arul: Downloaded sample code from canvas and used this as base for assigned requirements
+- Vincent Cruz: Downloaded sample code from canvas and used this as base for assigned requirements
+- Brandon Yu: Downloaded sample code from canvas and used this as base for assigned requirements
+- Michael Xiao: Downloaded sample code from canvas and used this as base for assigned requirements
 
 
 ### 2022-11-29 at 10:30
-- Who attended the meeting
-- Team updates (15min or less)
-  <Each team member gives an update of what they did from the last meeting and what they plan to do next. If they are stuck, bring it up here to see if others can help.>
-  - <name> worked on X. Will work on Y next. 
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team updates (15min or less):
+- Aaron Arul: Reviewed slides and started to practice implementation of trial pages on Flask
+- Vincent Cruz: Reviewd slides and reviewed examples of HTML/CSS to begin coding assigned requirement
+- Brandon Yu: Reviewed slides and started implementation of account creation form.
+- Michael Xiao: Reviewed slides and started psudeo code for login page and other assigned requirement
 
-- pair-programming (optional) (25 mins)
-  <- Pair program on one part of the project. Driver will be the person responsible for that requirement.>
+    
+ ### 2022-12-02 at 21:00
+ -Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team updates (15min or less):
+- Aaron Arul: Made home page, working on routing from home page to other pages
+- Vincent Cruz: Worked on deleting of account when user logged in
+- Brandon Yu: Worked on database and functionality of db when 
+- Michael Xiao: Worked on login and signup
 
-- Summarize group progress
+### 2022-12-03 at 21:00
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team updates (15min or less):
+- Aaron Arul: Added Brandon's code to aaron_branch to add functionality of database, still working on database functionality
+- Vincent Cruz: Working on adding attributes for deleting of user account
+- Brandon Yu: Worked on logging and viewing database information
+- Michael Xiao: Worked on login and signup with database
+
+### 2022-12-04 at 21:00
+-Attended meeting: Aaron Arul, Michael Xiao, Brandon Yu
+- Team updates (15min or less):
+- Aaron Arul: Formulating on how to make like button and general containers for list of posts on feed page
+- Brandon Yu: Added like relationship to posts
+- Michael Xiao: Fixed routing from home page
+
+### 2022-12-06 at 11:00
+-Attended meeting: Aaron Arul, Michael Xiao
+- Team updates (15min or less): Discussed prepartions for milestone 2 submission
+- Aaron Arul: Showcased work on Ethical Implications for Milestone 2, and readme implementation for project
+- Michael Xiao: Showed work on following of users, as well as search for user
