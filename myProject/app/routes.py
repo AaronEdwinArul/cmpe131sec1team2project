@@ -1,7 +1,7 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash, url_for, request
-from app.models import User, Post, Follows#, Likes
-from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm
+from app.models import User, Post, Follows
+from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
@@ -11,13 +11,13 @@ def base():
     return render_template("base.html")
 
 @myapp_obj.route('/profile')
+@login_required
 def test():
-    users = User.query.all()
-    for user in users:
-        name=user.username
+    name=data.currentLogin
     return render_template("profile.html", username=name)
 
 @myapp_obj.route('/statistics')
+@login_required
 def test1():
     return render_template("statistics.html")
     
@@ -37,6 +37,7 @@ def login():
                 if check_password_hash(user.password,current_form.password.data):
                     if current_form.remember_me.data:
                         login_user(user, remember=True)
+                    data.currentLogin = current_form.username.data 
                     login_user(user, remember=current_form.remember_me.data)
                     return redirect('/home')
             else:
@@ -44,9 +45,11 @@ def login():
     return render_template('login.html', form=current_form, error=errorMessage)
 
 @myapp_obj.route('/logout')
+@login_required
 def logout():
+    current_form = LogoutForm()
     logout_user()
-    return render_template('base.html')
+    return render_template('base.html', form=current_form)
 
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
@@ -142,6 +145,8 @@ def search():
 @myapp_obj.route('/user/<usr>', methods = ['POST','GET'])
 def user(usr):
     current_form = SearchResult()
+    if request.method == "POST":
+        return redirect('user-profile')
     return render_template('searchResult.html', form=current_form, username=usr)
 
 @myapp_obj.route('/user-profile', methods=['GET', 'POST'])
@@ -151,29 +156,83 @@ def user_profile():
     errormessage = ''
     users = User.query.filter_by(username=data.searchedUser)
     for user in users:
-        name=user.username
-        first=user.first
-        last=user.last
-        email=user.email
-        '''if current_form.validate_on_submit():
+        if request.method == "GET":
+            name=user.username
+            first=user.first
+            last=user.last
+            email=user.email
+        if request.method == "POST":
             follow = Follows()
-            follow.follower_id = 1
-            follow.following_id = user.id
+            current = data.currentLogin
+            search = data.searchedUser
+            follow.follower = current
+            follow.followee = search
             db.session.add(follow)
             db.session.commit()
-            print('followed')
-        if current_form.validate_on_submit():
-            follow.follower_id = 0
-            follow.following_id = ''
-            db.session.remove(follow)
-            db.session.commit()
-            print('unfollowed')'''
+            return redirect('/user-profile1')
     return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/user-profile1', methods=['GET', 'POST'])
+#@login_required
+def user_profile1():
+    current_form = unfollowForm()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    for user in users:
+        if request.method == "GET":
+            name=user.username
+            first=user.first
+            last=user.last
+            email=user.email
+            errormessage = 'You are now following ' + data.searchedUser
+        if request.method == "POST":
+            follow = Follows.query.filter_by(follower=data.currentLogin, followee=data.searchedUser)
+            db.session.delete(follow)
+            db.session.commit()
+            return redirect('/user-profile2')
+    return render_template('user-profile1.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/user-profile2', methods=['GET', 'POST'])
+#@login_required
+def user_profile2():
+    current_form = unfollowForm2()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    for user in users:
+        if request.method == "GET":
+            name=user.username
+            first=user.first
+            last=user.last
+            email=user.email
+            errormessage = 'You are no longer following ' + data.searchedUser
+        if request.method == "POST":
+            return redirect('/home')
+    return render_template('user-profile2.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/followers', methods=['GET', 'POST'])
+def followers():
+    errormessage = ''
+    follow = Follows.query.filter_by(followee=data.currentLogin)
+    if request.method == "GET":
+        for user in follow:
+            errormessage = "You are being followed by " + follow.followee
+        else:
+            errormessage = 'No one is following you :('
+    return render_template('followers.html', error=errormessage)
+
+@myapp_obj.route('/test')
+def test2():
+    follow = Follows.query.all()
+    users = User.query.all()
+    for user in users:
+        print(follow.follower)
+    return render_template('test.html')
 
 # helper functions
 
 class DataStore():
     searchedUser = None
+    currentLogin = None
 
 data = DataStore()
 
