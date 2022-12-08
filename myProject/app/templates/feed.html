@@ -1,21 +1,57 @@
-{% extends "home.html" %}
+{% extends "base.html" %}
 
 {% block mycontent %}
-<center>
-<div>
+<style>
+    .postDiv{
+        background-color: aliceblue;
+        width:565px;
+        height:200px;
+        padding: 7px 9px 7px 15px;
+
+    }
+    .postImage{
+        background-color:burlywood;
+        width: 100%;
+        height:100px;
+        margin-left: 565px;
+        padding: 7px 9px 7px 15px;
+
+    }
+</style>
 <h1>Your Feed</h1>
 <p></p>
 <form action="" method="POST" novalidate>
-{% for post in posts %}
-<div>
-<p>{{post.body}} <br> {{post.link}}</p>
-</div>
-{% endfor %}
+    {% for post in posts %}
+
+
+
+    <div style="width: 100%; display:table; background-color: aliceblue;">
+        <div style="display: table-row">
+            <div style="width: 550px; display: table-cell; background-color:aquamarine">
+                <p>author = {{post.author}}</p>
+                <p>Body Here -> {{post.body}} <br> {{post.link}}</p>
+            </div>
+            <div style="display: table-cell;">
+                <img src="https://cdn.searchenginejournal.com/wp-content/uploads/2021/09/16-reasons-why-social-media-is-important-to-your-company-616d3200e6dc6-sej.png" width="20" height="20">
+            </div>
+        </div>
+    </div>
+
+           <!-- 
+           <p>Likes -> {{post.likes}} <br> </p>
+          -->
+        
+
+
+    <!-- 
+    like button here looping for each post 
+    button will return id of the post so that id of post and current_user can be tracked
+    maybe validate on submit and then refresh page? 
+    -->
+    <a href={{post.link}}>Like</a>
+
+   
+    {% endfor %}
 </form>
-</div>
-</center>
+
 {% endblock %}
-
-
-
-
