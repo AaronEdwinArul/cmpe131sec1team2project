@@ -1,7 +1,7 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash, url_for, request
 from app.models import User, Post, Follows
-from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2
+from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2 #LikeForm
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
@@ -120,6 +120,9 @@ def view():
         text['link'] = i.link
         posts.append(text)      #add individual dictionaries to array
     #/feed page will display each body text and have access to the link to show the image
+    #current_form = LikeForm()
+
+
     return render_template('feed.html', posts = posts)
 
 @myapp_obj.route('/search', methods = ['POST','GET'])
