@@ -30,14 +30,14 @@ def private():
 def login():
     current_form = LoginForm()
     errorMessage = ''
-    if current_form.validate_on_submit():
-        users = User.query.all()
+    if current_form.validate_on_submit():   #checks once submit button is pressed
+        users = User.query.all()  
         for user in users:
-            if user.username == current_form.username.data:
-                if check_password_hash(user.password,current_form.password.data):
+            if user.username == current_form.username.data: #checks if username is in database
+                if check_password_hash(user.password,current_form.password.data): #checks if password is correct
                     if current_form.remember_me.data:
                         login_user(user, remember=True)
-                    login_user(user, remember=current_form.remember_me.data)
+                    login_user(user, remember=current_form.remember_me.data) #logs in user
                     return redirect('/home')
             else:
                 errorMessage = 'Invalid Username or Password'
@@ -153,22 +153,20 @@ def view():
 def search():
     current_form = SearchForm()
     errormessage = ''
-    if request.method == "GET":
+    if request.method == "GET": #before anything is entered show basic search html page
         return render_template('search.html', form = current_form)
-    if request.method == "POST":
-        searched = request.form["username"]
+    if request.method == "POST":    #after information is entered
+        searched = request.form["username"] #finds what was entered in the search bar
         users = User.query.all()
         for user in users:
-            if user.username == searched:
-                data.searchedUser=searched                
-                return redirect(url_for("user", usr=searched))
+            if user.username == searched:   #if the searched username is found in the database
+                data.searchedUser=searched   #store searched username             
+                return redirect(url_for("user", usr=searched))  #redirect to user page
             else: 
-                errormessage = 'User not found'
-    else: 
-        errormessage = 'User not found'  
+                errormessage = 'User not found'  
     return render_template('search.html', error = errormessage)
 
-@myapp_obj.route('/user/<usr>', methods = ['POST','GET'])
+@myapp_obj.route('/user/<usr>', methods = ['POST','GET'])   #usr url is the searched username
 def user(usr):
     current_form = SearchResult()
     #if request.method == "POST":
@@ -180,22 +178,22 @@ def user_profile():
     current_form = FollowForm()
     errormessage = ''
     users = User.query.filter_by(username=data.searchedUser)
-    follow = Follows.query.filter_by(follower=current_user.username,followee=data.searchedUser)
-    for follow in follow:
+    follow = Follows.query.filter_by(follower=current_user.username,followee=data.searchedUser) #filters if current user is following searched user
+    for follow in follow:   #if current user is following searched user redirect to next page to unfollow
         return redirect('/user-profile1')
     else:
         for user in users:
-            if request.method == "GET":
+            if request.method == "GET": #base html page for user profile
                 name=user.username
                 first=user.first
                 last=user.last
                 email=user.email
-            if request.method == "POST":
+            if request.method == "POST":    #if follow button is clicked
                 follow = Follows()
                 search = data.searchedUser
                 follow.follower = current_user.username
                 follow.followee = search
-                db.session.add(follow)
+                db.session.add(follow)  #store follower and followee into db
                 db.session.commit()
                 return redirect('/user-profile1')
     return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
@@ -206,16 +204,16 @@ def user_profile1():
     errormessage = ''
     users = User.query.filter_by(username=data.searchedUser)
     for user in users:
-        if request.method == "GET":
+        if request.method == "GET": #base html page for user profile1
             name=user.username
             first=user.first
             last=user.last
             email=user.email
             errormessage = 'You are following ' + data.searchedUser
         if request.method == "POST":
-            follow = Follows.query.filter_by(follower=current_user.username, followee=data.searchedUser)
-            for follow in follow:
-                db.session.delete(follow)
+            follow = Follows.query.filter_by(follower=current_user.username, followee=data.searchedUser)    #finds the follow object
+            for follow in follow:   #if current user is following searched user
+                db.session.delete(follow)   #delete current user and searched user from db
                 db.session.commit()
                 return redirect('/user-profile2')
     return render_template('user-profile1.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
@@ -226,29 +224,29 @@ def user_profile2():
     errormessage = ''
     users = User.query.filter_by(username=data.searchedUser)
     for user in users:
-        if request.method == "GET":
+        if request.method == "GET": #base html page for user profile2
             name=user.username
             first=user.first
             last=user.last
             email=user.email
-            errormessage = 'You are no longer following ' + data.searchedUser
+            errormessage = 'You are no longer following ' + data.searchedUser   #special implementation so that user cannot spam follow/unfollow button
         if request.method == "POST":
-            return redirect('/home')
+            return redirect('/home')    #can only go to home page after unfollowing to prevent spam clicking
     return render_template('user-profile2.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
 
 @myapp_obj.route('/followers', methods=['GET', 'POST'])
 @login_required
 def followers():
-    errormessage = ''
+    errormessage = ''  
     followers = ''
-    follow = Follows.query.filter_by(followee=current_user.username)
+    follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
     for follow in follow:
-        errormessage = "You are being followed by:"
+        errormessage = "You are being followed by:" #displays everyone following current user
         followers = follow.follower
         print(follow.follower)
     return render_template('followers.html', error=errormessage, followers=followers)
 
-@myapp_obj.route('/test')
+@myapp_obj.route('/test')   #test page to see if followers are being displayed (only for michael use and temporary)
 def test2():
     following = ''
     follow = Follows.query.filter_by(followee='Cranberry').all()
