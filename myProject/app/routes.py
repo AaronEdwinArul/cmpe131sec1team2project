@@ -1,15 +1,17 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash, url_for, request
-from app.models import User, Post, Follows
+from app.models import User, Post, Follows, Likes
 from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2 #LikeForm
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
 
+#routing to base page
 @myapp_obj.route('/')
 def base():
     return render_template("base.html")
 
+#routing to profile page
 @myapp_obj.route('/profile')
 @login_required
 def test():
@@ -21,11 +23,14 @@ def test():
 def test1():
     return render_template("statistics.html")
     
+
 @myapp_obj.route('/private')
 @login_required
 def private():
     return 'Hi this is a private page'
 
+#routing to login page, validate user entries in login page to decide whether they can log in
+#if input in login page is valid, user is routed to the home page
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
     current_form = LoginForm()
@@ -44,6 +49,7 @@ def login():
                 errorMessage = 'Invalid Username or Password'
     return render_template('login.html', form=current_form, error=errorMessage)
 
+#routing to logout page
 @myapp_obj.route('/logout')
 @login_required
 def logout():
@@ -51,6 +57,7 @@ def logout():
     logout_user()
     return render_template('base.html', form=current_form)
 
+#routing to home page
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
 def home():
@@ -59,6 +66,7 @@ def home():
        return redirect('/home')
     return render_template('home.html', form=current_form)
 
+#routing to signup page
 @myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
     current_form = SignupForm()
@@ -81,6 +89,8 @@ def create():
 
     return render_template('signup.html',form=current_form, error = errorMessage)
 
+#routing to post page. Users can enter text and upload images for a post, and when they click post
+#they are redirected to the feed page with their post on the feed
 @myapp_obj.route('/post', methods = ['POST','GET'])
 #@login_required
 def post():
@@ -102,7 +112,9 @@ def post():
         return redirect('/feed')        #redirects to home after posting, will show post
     return render_template('post.html', form = current_form)
 
+#routing to feed page, lists all posts of users in database using for loop
 @myapp_obj.route('/feed', methods = ['POST','GET'])
+@login_required
 def view():
 
     '''
@@ -125,8 +137,9 @@ def view():
 
     return render_template('feed.html', posts = posts)
 
+#routing to search page where user can search other users
 @myapp_obj.route('/search', methods = ['POST','GET'])
-#@login_required
+@login_required
 def search():
     current_form = SearchForm()
     errormessage = ''
@@ -145,6 +158,7 @@ def search():
         errormessage = 'User not found'  
     return render_template('search.html', error = errormessage)
 
+#routing to user profle page where user can view username of logged in account
 @myapp_obj.route('/user/<usr>', methods = ['POST','GET'])
 def user(usr):
     current_form = SearchResult()
@@ -174,6 +188,7 @@ def user_profile():
             db.session.commit()
             return redirect('/user-profile1')
     return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
 
 @myapp_obj.route('/user-profile1', methods=['GET', 'POST'])
 #@login_required
@@ -227,9 +242,47 @@ def followers():
 def test2():
     follow = Follows.query.all()
     users = User.query.all()
-    for user in users:
+    for follow in follow:
         print(follow.follower)
     return render_template('test.html')
+
+@myapp_obj.route('/profile_edit', methods = ['POST','GET'])
+@login_required
+def profile_edit(_):
+    current_form = ProfileEditForm()
+    errorMessage = ''
+    if current_form.validate_on_submit():
+        if not(validDOB(current_form.dob.data)):
+            errorMessage = 'DOB must be in yyyy-mm-dd format.'
+        else:
+            user = User.query.filter_by(current_user.id).first()
+            user.dob = current_form.dob.data
+            user.location = current_form.location.data
+            user.bio = current_form.bio.data
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
+    return render_template('profile.html', form=current_form, error = errorMessage)
+
+
+@myapp_obj.route('/delete_account', methods = ['GET', 'POST'])
+@login_required
+def delete_account():
+    user = User.query.filter_by(current_user.id).first()
+    user_posts = Post.query.filter_by(current_user.id).all()
+    user_likes = Likes.query.filter_by(current_user.id).all()
+    user_follows = Follows.query.filter_by(current_user.id).all()  
+    for u in user_posts:
+        db.session.delete(u)
+    for u in user_likes:
+        db.session.delete(u)
+    for u in user_follows:
+        db.session.delete(u)
+    db.session.delete(user) 
+    db.session.commit()
+    return redirect('/login')
+   
+
 
 # helper functions
 

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block mycontent %}
+<!--Styling for feed.html-->
 <style>
     .postDiv{
         background-color: aliceblue;
@@ -24,10 +25,9 @@
 </style>
 <h1>Your Feed</h1>
 <p></p>
+ <!-- For each post of the users, they are displayed in separate boxes, text on left, pictures on right -->
 <form action="" method="POST" novalidate>
     {% for post in posts %}
-
-
     <center>
     <div style="width: 70%; display:table; border-style: groove; background-color:darkorange">
         <div style="display: table-row">
