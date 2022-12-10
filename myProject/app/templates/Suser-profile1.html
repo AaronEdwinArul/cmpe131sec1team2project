@@ -1,12 +1,12 @@
-{% extends "home.html" %}
+{% extends "Shome.html" %}
 
 {% block mycontent %}
 <center>
 <div>
-<h1 class="title"><h3>Profile username:</h3> {{username}}</h1>
-<h1><h3>First name:</h3> {{first}}</h1>
+<h1 class="title"><h3>Nombre de usuario del perfil:</h3> {{username}}</h1>
+<h1><h3>Nombre de pila:</h3> {{first}}</h1>
 <h1><h3>Last name:</h3> {{last}}</h1> 
-<h1><h3>Email:</h3> {{email}}</h1>
+<h1><h3>Correo electrónico:</h3> {{email}}</h1>
 <form action="" method="POST" novalidate>
 <p>{{form.submit()}}</p>
 </form>

@@ -125,13 +125,16 @@
 
         <div class="restContent">
        
-                    <h1 style="font-family:'Cambria'; font-size: 50px;">Spartsapp</h1>
+                    <h1 style="font-family:'Cambria'; font-size: 50px;">Welcome to Spartsapp</h1>
 
-                    {% block mycontent %}<div class="intro">
+                    {% block mycontent %}
+                    <center><h2>CMPE 131 Section 1</h2>
+                    <h2>Created and designed by Team 2</h2>
+                    <h3>Aaron Arul, Brandon Yu, Michael Xiao, Vincent Cruz</h3></center>
+                    <div class="intro">
                         <img src="https://cdn.searchenginejournal.com/wp-content/uploads/2021/09/16-reasons-why-social-media-is-important-to-your-company-616d3200e6dc6-sej.png" class="logo3" width="900" height="500">
-                    
-                    
                     </div>{% endblock %}
+
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <ul>

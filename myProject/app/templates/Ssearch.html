@@ -1,0 +1,13 @@
+{% extends "Shome.html" %}
+
+{% block mycontent %}
+<center>
+<h1>¡Busca un usuario!</h1>
+<p></p>
+<form action="" method="POST" novalidate>
+<p><input type="text" name="username"/></p>
+<p><input type="submit" value="Search"/></p>
+</form>
+<h4>{{error}}</h4>
+</center>
+{% endblock %}
