@@ -5,18 +5,18 @@
 
 ## Functional Requirements
 
-1. Login
-2. Logout
-3. Create new account
-4. delete account
-5. User home page 
-6. Send message to followers 
-7. Post image with message 
-8. Like messages 
-9. Search for user 
-10. Follow user 
-11. User profiles 
-12. Visualize connections of all users 
+1. Login (Michael Xiao)
+2. Logout (Aaron Arul)
+3. Create new account (Brandon Yu)
+4. delete account (Vincent Cruz)
+5. User home page (Aaron Arul)
+6. Send message to followers (Brandon Yu)
+7. Post image with message (Brandon Yu)
+8. Like messages (Aaron Arul)
+9. Search for user (Michael Xiao)
+10. Follow user (Michael Xiao)
+11. User profiles (Vincent Cruz)
+12. Visualize connections of all users (Vincent Cruz)
 
 ## Non-functional Requirements
 
@@ -27,21 +27,22 @@
 
 ## Use Cases
 
-5. User home page
+5. User home page (Aaron Arul)
 - **Pre-condition:** The user is logged in successfully. 
 
-- **Trigger:** The user clicks the 'Home Page' button, and is also directed to the home page upon logging in.
+- **Trigger:** The user clicks the 'Home Page' button.
 
 - **Primary Sequence:**
   
-  1. System prompts user with message "Welcome to home page"
+  1. System directs user to the home page and prompts user with message "Welcome to home page"
   2. User clicks ok on welcome message and is shown other options on home page
   3. User can click home page button again to redirect to page that they are on (refreshing page)
-  4. User can 'view messages' icon, 'add post' icon, 'settings' icon
+  4. User can see 'view messages' button, 'add post' button, 'settings' button
   5. User selects home page 'statistics' button 
   6. System generates statistics of user's mutual friends, liked posts, and time spent on application by user 
   7. System displays statistics window on home page
-
+  8. User closes statistics window
+  
 - **Primary Postconditions:** The user is on the starting page of the application directed to them after logging in
 
 - **Alternate Sequence:** 
@@ -51,8 +52,7 @@
   3. User continues to use application features via home page after logging in for the first time
   
 
-6. Send message to followers
-
+6. Send message to followers (Michael Xiao)
 - **Pre-condition:** The user has followers
 
 - **Trigger:** The user clicks on follower that will bring them to a message box where they can type their message
@@ -69,11 +69,11 @@
 
 - **Alternate Sequence:** 
 
-User does not have any followers
+  User does not have any followers
   1. No followers appear
   2. No "message" button
 
-User is blocked from messaging
+  User is blocked from messaging
   1. User clicks on follower
   2. User is prompted a "message" link
   3. User is redirected to a private messaging conversation with follower
@@ -81,31 +81,26 @@ User is blocked from messaging
   5. User presses "enter" but system blocks message from going through
   6. User is promted with system message that they cannot send messages to that follower
 
+7. Post image with message (Brandon Yu)
+- **Pre-condition:** User is attempting to post a message and has an image they would like the image to show with the post.
 
-7. Post image with message
-
-- **Pre-condition:** User is attempting to post a message and has an image they would like to attach to the message.
-
-- **Trigger:** User clicks a button that allows them to upload an image.
+- **Trigger:** User pastes a link that displays an image with the post.
 
 - **Primary Sequence**
   1. User writes a message to post.
-  2. User prompts system to attach an image through a button.
-  3. System prompts user to select an image.
-  4. User uploads an image.
-  5. System will save the image to post with the message.
-  6. User will post the message that now has an image attached.
+  2. System has an optional prompt to paste an image link.
+  3. User clicks post button.
+  4. Post will now show image along with message content.
+
 
 - **Primary Postconditions:** The message posted by the user will show both the text and image when posted. Other users will also be able to see the text and image together.
 
 - **Alternate Sequence:**
-
-The user uploads a file that is not an image
+  The user uploads a link to a file that is not an image
   1. The system will display an error message to the user
-  2. The system prompts the user to submit a file with a valid type
-
-
-8. Like messages
+  2. The system prompts the user to submit a file with a valid type (.png, .jpg)
+  
+8. Like messages (Aaron Arul)
 - **Pre-condition:** The user is logged in, on the posts tab, and has not liked the message that they want to like
 
 - **Trigger:** The user clicks on the like button for the post they are viewing
@@ -125,7 +120,7 @@ The user uploads a file that is not an image
   3. System displays a symbol next to post indicating user that they unliked the specific post
   
 
-9. Search for user
+9. Search for user (Brandon Yu)
 - **Pre-condition:** User wants to find another user on the site.
 
 - **Trigger:** User clicks on a search bar that allows them to type in a prompt to find other users.
@@ -140,11 +135,11 @@ The user uploads a file that is not an image
 
 - **Alternate Sequence:**
 
-The name being searched for does not exist in the database
+  The name being searched for does not exist in the database
   1. The system will display an error stating that the entered user does not exist
 
 
-10. Follow user
+10. Follow user (Michael Xiao)
 - **Pre-condition:** The user has an account and can see other user's account
 
 - **Trigger:** The user click on "follow" button under a certain user's profile
@@ -160,13 +155,12 @@ The name being searched for does not exist in the database
 
 - **Alternate Sequence:**
 
-User is already blocked by a certain user
+  User is already blocked by a certain user
   1. The user clicks on a certain user
   2. User is prompted with a "blocked" sign under that user
   3. User cannot follow as that user does not permit them to follow
- 
- 
- 11. User Profiles
+
+ 11. User Profiles (Vincent Cruz)
 - **Pre-condition:** The user has an account and is currently on the home page tab
 
 - **Trigger:** User clicks on the profile button OR user clicks "save" buttom
@@ -187,7 +181,7 @@ User is already blocked by a certain user
   3. Once tutorial is finished user selects "OK" 
    
    
-12. Visualize connections of all users
+12. Visualize connections of all users (Vincent Cruz)
 - **Pre-condition:** The user is logged in already, and is on the profile tab of the application of another user
 
 - **Trigger:**  The user clicks the "following" or "follows" button on another user's profile
