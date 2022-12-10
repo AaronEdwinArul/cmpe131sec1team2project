@@ -72,8 +72,8 @@
 
 ### 2022-12-09 at 21:00
 -Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
--Team Updates (15min or less): Discussed preparations for polishing website layout, feed
--Aaron Arul: Showcased work on feed.html, and modifications to delete_account
--Michael Xiao: Updated base.html layout
--Brandon Yu: Fixed likes relationship in database
--Vincent Cruz: Finished delete_account function
+- Team Updates (15min or less): Discussed preparations for polishing website layout, feed
+- Aaron Arul: Showcased work on feed.html, and modifications to delete_account
+- Michael Xiao: Updated base.html layout
+- Brandon Yu: Fixed likes relationship in database
+- Vincent Cruz: Finished delete_account function
