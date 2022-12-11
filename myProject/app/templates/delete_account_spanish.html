@@ -1,0 +1,17 @@
+{% extends "home.html" %}
+
+{% block mycontent %}
+<center>
+    <Title>Eliminar cuenta</Title>
+<div>
+<h1 class="title">
+¿Estás seguro de que quieres eliminar tu cuenta?
+</h1>
+<h2>Por favor, ingrese su contraseña para confirmar.</h2>
+<p>{{form.password.label}} <br> {{form.password()}}</p>
+<p>{{form.submit()}}</p>
+</div>
+<h5>Se le redirigirá a la página de inicio de sesión cuando haya terminado.</h5>
+</center>
+{% endblock %}
+
