@@ -62,6 +62,10 @@
                 Padding: 20px;
         
             }
+            .buttonStyle{
+                font-family:'Cochin';
+                
+            }
         </style>
         <h1 class = "textPadd">Your Feed</h1>
         
@@ -81,8 +85,12 @@
         
                         </center>
                         <form action = "" method = "POST" novalidate>
-                            {{post.button.hidden_tag()}}
-                            {{post.button.submit()}}
+                            
+                            <div class = "buttonStyle">
+                                {{post.button.hidden_tag()}}
+                                {{post.button.submit()}}
+                            </div>
+                            
                         </form>
                         
                         <p>{{post.likes}} like(s)</p>
