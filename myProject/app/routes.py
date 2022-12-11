@@ -86,7 +86,7 @@ def profile_edit(_):
             db.session.add(user)
             db.session.commit()
             return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
-    return render_template('profile.html', form=current_form, error = errorMessage)
+    return render_template('profile_edit.html', form=current_form, error = errorMessage)
 """
 @myapp_obj.route('/followers', methods=['GET', 'POST'])
 def followers():
