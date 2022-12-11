@@ -124,7 +124,7 @@ def view():
         posts.append(text)      #add individual dictionaries to array
         
         #create a submit form for each button
-        postbutton = LikeForm()   
+        postbutton = LikeForm(prefix = i.id)   
         if bool == True:            #check likestatus confirmed previously
             postbutton.submit.label.text = 'Unlike'
         text['button'] = postbutton #add submit button to dictionary
