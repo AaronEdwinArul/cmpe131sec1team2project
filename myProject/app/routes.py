@@ -1,5 +1,5 @@
 from app import myapp_obj, db
-from flask import render_template, redirect, flash, url_for, request
+from flask import render_template, redirect, url_for, request
 from app.models import User, Post, Follows, Likes
 from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2
 from app.forms import SLoginForm, SSignupForm, SPostForm, SSearchForm, SSearchResult, SFollowForm, SunfollowForm, SunfollowForm2, SHomePageForm
@@ -239,22 +239,15 @@ def user_profile2():
 @login_required
 def followers():
     errormessage = ''  
-    followers = ''
     follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
     for follow in follow:
-        errormessage = "You are being followed by:" #displays everyone following current user
-        followers = follow.follower
-        print(follow.follower)
-    return render_template('followers.html', error=errormessage, followers=followers)
-
-@myapp_obj.route('/test')   #test page to see if followers are being displayed (only for michael use and temporary)
-def test2():
-    following = ''
-    follow = Follows.query.filter_by(followee='Cranberry').all()
-    for follow in follow:
-        following = follow.follower
-        print(follow.follower)
-    return render_template('test.html', following=following)
+        errormessage += follow.follower + '\n' #displays everyone following current user
+        #s=errormessage.replace("\n","<br/>")
+        #errormessage = s
+    #else:
+        #errormessage = 'You have no followers'
+        #print(follow.follower)
+    return render_template('followers.html', error=errormessage)
 
 # helper functions
 
@@ -494,10 +487,12 @@ def Suser_profile2():
 @login_required
 def Sfollowers():
     errormessage = ''  
-    followers = ''
     follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
     for follow in follow:
-        errormessage = "Estás siendo seguido por:" #displays everyone following current user
-        followers = follow.follower
-        print(follow.follower)
-    return render_template('Sfollowers.html', error=errormessage, followers=followers)
+        errormessage += follow.follower + '\n' #displays everyone following current user
+        #s=errormessage.replace("\n","<br/>")
+        #errormessage = s
+    #else:
+        #errormessage = 'You have no followers'
+        #print(follow.follower)
+    return render_template('Sfollowers.html', error=errormessage)
