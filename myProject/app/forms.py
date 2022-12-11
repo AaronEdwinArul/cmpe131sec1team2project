@@ -32,6 +32,9 @@ class PostForm(FlaskForm):
     link = TextAreaField('Image URL (Optional)')
     post = SubmitField('Post!')
 
+class LikeForm(FlaskForm):
+    submit = SubmitField('Like')
+
 class SearchForm(FlaskForm):
     username = StringField('Username')
     submit = SubmitField('Search')
@@ -49,6 +52,6 @@ class unfollowForm(FlaskForm):
 class unfollowForm2(FlaskForm):
     submit = SubmitField('Home')
 
-#class LikeForm(FlaskForm):
-    #submit = SubmitField('Like')
+class LikeForm(FlaskForm):
+    submit = SubmitField('Like')
 

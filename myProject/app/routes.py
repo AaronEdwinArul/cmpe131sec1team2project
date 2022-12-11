@@ -1,17 +1,15 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, flash, url_for, request
 from app.models import User, Post, Follows, Likes
-from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2 #LikeForm
+from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, LikeForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
 
-#routing to base page
 @myapp_obj.route('/')
 def base():
     return render_template("base.html")
 
-#routing to profile page
 @myapp_obj.route('/profile')
 @login_required
 def test():
@@ -23,41 +21,33 @@ def test():
 def test1():
     return render_template("statistics.html")
     
-
 @myapp_obj.route('/private')
 @login_required
 def private():
     return 'Hi this is a private page'
 
-#routing to login page, validate user entries in login page to decide whether they can log in
-#if input in login page is valid, user is routed to the home page
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
     current_form = LoginForm()
     errorMessage = ''
-    if current_form.validate_on_submit():
-        users = User.query.all()
-        for user in users:
-            if user.username == current_form.username.data:
-                if check_password_hash(user.password,current_form.password.data):
-                    if current_form.remember_me.data:
-                        login_user(user, remember=True)
-                    data.currentLogin = current_form.username.data 
-                    login_user(user, remember=current_form.remember_me.data)
-                    return redirect('/home')
-            else:
-                errorMessage = 'Invalid Username or Password'
-    return render_template('login.html', form=current_form, error=errorMessage)
-
-#routing to logout page
+    
+    if current_form.validate_on_submit():   #on submission,
+        user = User.query.filter_by(username=current_form.username.data).first()    
+        if not user == None:        #check if user exists in database
+            if check_password_hash(user.password,current_form.password.data):   #check is password is correct
+                login_user(user, current_form.remember_me.data) #if true, login
+                return redirect('/home')
+        else:
+            errorMessage = 'Invalid Username of Password'       #else, raise error message 
+    return render_template('login.html', form=current_form, errorMessage=errorMessage)
+'''
 @myapp_obj.route('/logout')
 @login_required
 def logout():
     current_form = LogoutForm()
     logout_user()
-    return render_template('base.html', form=current_form)
-
-#routing to home page
+    return render_template('base.html')
+'''
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
 def home():
@@ -66,44 +56,37 @@ def home():
        return redirect('/home')
     return render_template('home.html', form=current_form)
 
-#routing to signup page
 @myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
     current_form = SignupForm()
     errorMessage = ''
-    if current_form.validate_on_submit():   
-        if not(validPassword(current_form.password.data)):
+    if current_form.validate_on_submit():           #on form submission,
+        if not(validPassword(current_form.password.data)):  #check if password is long enough
             errorMessage = 'Password must be longer than 8 characters'
-        elif not(validEmail(current_form.email.data)):
+        elif not(validEmail(current_form.email.data)):      #simple email check
             errorMessage = 'Invalid email address (must have domain .com,.org,.edu)'
         else:
-            user = User()
+            user = User()       #create db object with user's first & last name, email, username, password
             user.first = current_form.first.data
             user.last = current_form.last.data
             user.email = current_form.email.data
             user.username = current_form.username.data
             user.password = generate_password_hash(current_form.password.data)
-            db.session.add(user)
+            db.session.add(user)        #add user to database
             db.session.commit()
             return redirect('/login')        #redirect to login page when implemented
 
     return render_template('signup.html',form=current_form, error = errorMessage)
 
-#routing to post page. Users can enter text and upload images for a post, and when they click post
-#they are redirected to the feed page with their post on the feed
 @myapp_obj.route('/post', methods = ['POST','GET'])
 #@login_required
 def post():
-    '''
-    to do:
-    change user_id line when login status is implemented
-    '''
     current_form = PostForm()
     if current_form.validate_on_submit():
         post = Post()
         post.post = current_form.text.data  #save body text to db
         post.link = current_form.link.data  #save image url to db
-        post.user_id = 1    #change to current user later on
+        post.user_id = current_user.id      #save current user's id to track poster
         today = date.today()
         post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
         with myapp_obj.app_context():       #add object to db
@@ -112,34 +95,64 @@ def post():
         return redirect('/feed')        #redirects to home after posting, will show post
     return render_template('post.html', form = current_form)
 
-#routing to feed page, lists all posts of users in database using for loop
 @myapp_obj.route('/feed', methods = ['POST','GET'])
 @login_required
 def view():
-
-    '''
-    to do:
-    print username of author when login is implemented and current user can be found
-    connect viewable posts to following list when implemented
-    '''
-
     #create form for redirecting to another page
     post = Post.query.all()     #query all posts
     posts = []                  #list of dictionaries
     for i in post:              #iterate through all queries
-        text = {}               #create a dictionary of 'body':'text'
+        text = {}               #create a dictionary of 'body':'text', etc.
         text['body'] = i.post
         text['link'] = i.link
+        text['id'] = i.id
+        text['author'] = i.get_author(i.user_id)
+        text['date'] = i.date
+        
+        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+        count = 0           
+        text['likestatus'] = "Like" 
+        bool = False        
+        for like in likecheck:          
+            count += 1              # count how many 'likers' there are
+            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                bool = True
+        if bool == True:
+            text['likestatus'] = "Unlike"
+        text['likes'] = count       # save count to display likes for each post
+
         posts.append(text)      #add individual dictionaries to array
-    #/feed page will display each body text and have access to the link to show the image
-    #current_form = LikeForm()
+        
+        #create a submit form for each button
+        postbutton = LikeForm()   
+        if bool == True:            #check likestatus confirmed previously
+            postbutton.submit.label.text = 'Unlike'
+        text['button'] = postbutton #add submit button to dictionary
+        
+    for i in posts: #when returning page read button presses
+        if i['button'].validate_on_submit():    #check validation for each button
+            if i['likestatus'] == 'Like':   #if unliked
+                #add like to sb
+                addlike = Likes()               #create like object
+                addlike.liker = current_user.id #current user is the liker
+                addlike.post = i['id']          #button and corresponding post
+                db.session.add(addlike)
+                db.session.commit()
+            else:   #else the post is liked
+                #remove like from db
+                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                for l in removelike:            #iterate through each liker
+                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                        db.session.delete(l)                    #delete that object
+                        db.session.commit()
+                        
+            return redirect('/feed')
+        
+    # /feed page will display each body text and have access to the link to show the image
+    return render_template('feed.html', posts = posts,test = test)
 
-
-    return render_template('feed.html', posts = posts)
-
-#routing to search page where user can search other users
 @myapp_obj.route('/search', methods = ['POST','GET'])
-@login_required
+#@login_required
 def search():
     current_form = SearchForm()
     errormessage = ''
@@ -158,7 +171,6 @@ def search():
         errormessage = 'User not found'  
     return render_template('search.html', error = errormessage)
 
-#routing to user profle page where user can view username of logged in account
 @myapp_obj.route('/user/<usr>', methods = ['POST','GET'])
 def user(usr):
     current_form = SearchResult()
@@ -188,7 +200,6 @@ def user_profile():
             db.session.commit()
             return redirect('/user-profile1')
     return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
-
 
 @myapp_obj.route('/user-profile1', methods=['GET', 'POST'])
 #@login_required
@@ -237,52 +248,6 @@ def followers():
         else:
             errormessage = 'No one is following you :('
     return render_template('followers.html', error=errormessage)
-
-@myapp_obj.route('/test')
-def test2():
-    follow = Follows.query.all()
-    users = User.query.all()
-    for follow in follow:
-        print(follow.follower)
-    return render_template('test.html')
-
-@myapp_obj.route('/profile_edit', methods = ['POST','GET'])
-@login_required
-def profile_edit(_):
-    current_form = ProfileEditForm()
-    errorMessage = ''
-    if current_form.validate_on_submit():
-        if not(validDOB(current_form.dob.data)):
-            errorMessage = 'DOB must be in yyyy-mm-dd format.'
-        else:
-            user = User.query.filter_by(current_user.id).first()
-            user.dob = current_form.dob.data
-            user.location = current_form.location.data
-            user.bio = current_form.bio.data
-            db.session.add(user)
-            db.session.commit()
-            return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
-    return render_template('profile.html', form=current_form, error = errorMessage)
-
-
-@myapp_obj.route('/delete_account', methods = ['GET', 'POST'])
-@login_required
-def delete_account():
-    user = User.query.filter_by(current_user.id).first()
-    user_posts = Post.query.filter_by(current_user.id).all()
-    user_likes = Likes.query.filter_by(current_user.id).all()
-    user_follows = Follows.query.filter_by(current_user.id).all()  
-    for u in user_posts:
-        db.session.delete(u)
-    for u in user_likes:
-        db.session.delete(u)
-    for u in user_follows:
-        db.session.delete(u)
-    db.session.delete(user) 
-    db.session.commit()
-    return redirect('/login')
-   
-
 
 # helper functions
 

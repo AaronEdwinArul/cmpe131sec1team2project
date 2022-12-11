@@ -1,150 +1,62 @@
 <!DOCTYPE HTML>
 <html>
-    <body style="background-color: #efefef;">
      <head>
-      <!--Styling for base.html-->
-      <style>
-        h1{text-align: center;}
-        .div2{
-            background: linear-gradient(to bottom, #00cc00 0%, #009933 100%);
-            height: 100px;
-            width: 100%;
-            
-           list-style-type: none;
-           margin: 0;
-           padding: 0;
-           overflow: hidden;
-            
-        }
-        .div3{
+        <meta charset="utf-8"/>
+        <meta name=""viewpoert" content=""width=device-width, initial-sca;e="1" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity= "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous"
+        />
 
-            
-            text-align: center;
+        <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous"
+        />
 
-        }
-       
-        .sidebar{
-            height:100%;
-            width:165px;
-            position: fixed;
-            z-index: 1;
-            top:0;
-            left: 0;
-            background-color:black;
-            overflow-x: hidden;
-            padding-top: 20px;
-
-        }
-
-        .sidebar a{
-            padding: 7px 9px 7px 15px;
-            text-decoration: none;
-            font-size: 25px;
-            color:floralwhite;
-            display: block;
-        }
-        .sidebar a:hover{
-            color:greenyellow;
-
-        }
-        .restContent{
-            margin-left: 165px;
-            padding: 0px 10px;
-            
-           
-        }
-        .postArea{
-            background-color: darkgray;
-            height: 100px;
-            width: 100%;
-
-        }
-        .intro{
-            background-color: floralwhite;
-            height: 800px;
-            width: 100%;
-            
-
-
-        }
-        .button{
-            display: inline-block;
-            padding: 10px 40px 10px 10px;
-            text-align: center;
-            text-decoration: none;
-            color: #ffffff;
-            background-color:darkred;
-            border-radius: 8 px;
-            outline: none;
-            top: 40px;
-            right: 100px;
-        }
-        @media screen and (max-height: 450px){
-            .sidebar {padding-top: 15px;}
-            .sidebar a {font-size: 18px;}
-        }
-        img{
-            display: block;
-           margin-left: auto;
-           margin-right: auto;
-        }
-        .ribb{
-            width: 600px;
-            padding: 5px;
-            display: flex;
-            justify-content: space-between;
-            margin: 1.2em;
-        }
-        
-    </style>
-         <div class="div2">
-            <nav>
-                <div class="leftNav">
-                    <img src="images/sjsu1.png" class="logo">
-                    <ul>
-                      
-                    </ul>
+         <title>{% block title %}{% endblock %}</title>
+     </head>
+     <body style="background-color:beige">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-atrget="#navbar">
+            <span class="navbar-toggler-icon"> </span>
+  
+          </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <div class="navbar-nav">
+                  <a class="nav-tem nav-link" id="login" href="/login">Login</a>
+                  <a class="nav-tem nav-link" id="signUp" href="/signup">Sign Up</a>
                 </div>
-            </nav>
+          </div>
+
+
+        </nav>
+        <div class="container1">
+          {% block content %}
+          {% endblock %}
         </div>
 
 
-        <title>Home Page</title>
-        
-        
-        </head>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity=sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+        ></script>
 
-
-
-        <div class="sidebar">
-            <a class="nav-tem nav-link" id="home" href="/login">Login</a>
-            <a class="nav-tem nav-link" id="POST" href="/signup">Sign Up</a>
-
-            
-        </div>
-
-
-        <div class="restContent">
-       
-                    <h1 style="font-family:'Cambria'; font-size: 50px;">Spartsapp</h1>
-
-                    {% block mycontent %}<div class="intro">
-                      <center>
-                        
-                        <p>Welcome to Spartsapp, an interactive social media platform for SJSU students!</p>
-                      
-                      </center>
-                    
-                    </div>{% endblock %}
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <ul>
-                        {% for message in messages %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-        </div>
+        {% block mycontent %}<center><h1>Welcome! Select an option from above!</h1></center>{% endblock %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+               {% for message in messages %}
+                  <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+         {% endif %}
+       {% endwith %}
      </body>
 </html>
