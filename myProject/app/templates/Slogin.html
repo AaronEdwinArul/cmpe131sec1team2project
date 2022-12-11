@@ -1,14 +1,14 @@
-{% extends "base.html" %}
+{% extends "Sbase.html" %}
 
 {% block mycontent %}
 <center>
-<h1>Log in here</h1>
+<h1>Entre aquí</h1>
 
 <form action="" method="POST" novalidate>
     {{form.hidden_tag()}}
     <p>{{form.username.label}} <br> {{form.username()}}</p>
     <p>{{form.password.label}} <br> {{form.password()}}</p>
-    <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember me</label>
+    <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Acuérdate de mí</label>
     <p>{{form.submit()}}</p>
     <div class="dropdown">
         <center><head>
@@ -46,16 +46,16 @@
           </head>
           <body>
           <div class="dropdown">
-            <button class="dropbtn">Language</button>
+            <button class="dropbtn">Idioma</button>
             <div class="dropdown-content">
-              <a href="/login">English</a>
-              <a href="/Slogin">Spanish</a>
+              <a href="/login">Inglés</a>
+              <a href="/Slogin">Español</a>
             </div>
           </div>
           </body>
       </div>
 </form>
 <h4>{{error}}</h4>
-<h5>You will be redirected to the home page when complete</h5>
+<h5>Será redirigido a la página de inicio cuando haya terminado</h5>
 </center>
 {% endblock %}

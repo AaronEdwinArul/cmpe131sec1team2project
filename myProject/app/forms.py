@@ -52,6 +52,51 @@ class unfollowForm(FlaskForm):
 class unfollowForm2(FlaskForm):
     submit = SubmitField('Home')
 
-class LikeForm(FlaskForm):
-    submit = SubmitField('Like')
+
+#SPANISH VERSION
+class SLoginForm(FlaskForm):
+    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    password = PasswordField('Clave', validators=[DataRequired()])
+    remember_me = BooleanField('Acuérdate de mí')
+    submit = SubmitField('Registrarse')
+
+class SSignupForm(FlaskForm):
+    first = StringField('Primer nombre', validators=[DataRequired()])
+    last = StringField('Apellido', validators=[DataRequired()])
+    email = StringField('Correo electrónico', validators=[DataRequired()])
+    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    password = PasswordField('Clave', validators=[DataRequired()])
+    submit = SubmitField('Crear una cuenta')
+
+class SHomePageForm(FlaskForm):
+    submitHome = SubmitField('Hogar')
+    
+class SLogoutForm(FlaskForm):
+    submitLogout = SubmitField('Cerrar sesión')
+
+class SPostsForm(FlaskForm):
+    refreshPosts = SubmitField('Publicaciones')
+
+class SPostForm(FlaskForm):
+    text = TextAreaField('Entra mensaje')
+    link = TextAreaField('URL de la imagen (opcional)')
+    post = SubmitField('¡Publicación!')
+
+class SSearchForm(FlaskForm):
+    username = StringField('Nombre de usuario')
+    submit = SubmitField('Búsqueda')
+
+class SSearchResult(FlaskForm):
+    username = StringField('Nombre de usuario')
+
+class SFollowForm(FlaskForm):
+    username = StringField('Nombre de usuario')
+    submit = SubmitField('Seguir')
+
+class SunfollowForm(FlaskForm):
+    submit = SubmitField('Dejar de seguir')
+
+class SunfollowForm2(FlaskForm):
+    submit = SubmitField('Hogar')
+
 

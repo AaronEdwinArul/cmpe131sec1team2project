@@ -33,7 +33,7 @@ class Post(db.Model):
 
 class Likes(db.Model):
     # 2 wide table that lists users who liked (left) a post (right)
-    # posts are labelled by id/username
+    # posts are labelled by id
     liker = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
     post = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key = True)
 

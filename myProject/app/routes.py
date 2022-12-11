@@ -1,7 +1,8 @@
 from app import myapp_obj, db
-from flask import render_template, redirect, flash, url_for, request
+from flask import render_template, redirect, url_for, request
 from app.models import User, Post, Follows, Likes
 from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, LikeForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2
+from app.forms import SLoginForm, SSignupForm, SPostForm, SSearchForm, SSearchResult, SFollowForm, SunfollowForm, SunfollowForm2, SHomePageForm
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
@@ -13,18 +14,8 @@ def base():
 @myapp_obj.route('/profile')
 @login_required
 def test():
-    name=data.currentLogin
+    name=current_user.username
     return render_template("profile.html", username=name)
-
-@myapp_obj.route('/statistics')
-@login_required
-def test1():
-    return render_template("statistics.html")
-    
-@myapp_obj.route('/private')
-@login_required
-def private():
-    return 'Hi this is a private page'
 
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
@@ -39,15 +30,35 @@ def login():
                 return redirect('/home')
         else:
             errorMessage = 'Invalid Username of Password'       #else, raise error message 
-    return render_template('login.html', form=current_form, errorMessage=errorMessage)
-'''
-@myapp_obj.route('/logout')
+    return render_template('login.html', form=current_form, error=errorMessage)
+
+@myapp_obj.route('/delete_account', methods = ['DELETE'])
 @login_required
-def logout():
-    current_form = LogoutForm()
+def delete_account():
+
+    user = User.query.filter_by(current_user.id).first()
+    
+    user_posts = Post.query.filter_by(current_user.id).all()
+    user_likes = Likes.query.filter_by(current_user.id).all()
+    user_follows = Follows.query.filter_by(current_user.id).all()   
+    
+    for u in user_posts:
+        db.session.delete(u)
+    for u in user_likes:
+        db.session.delete(u)
+    for u in user_follows:
+        db.session.delete(u)
+    
+    db.session.delete(user)
+    db.session.commit()
     logout_user()
-    return render_template('base.html')
-'''
+    user = None 
+    user_posts = None
+    user_likes = None
+    user_follows = None 
+
+    return render_template('signup.html')
+
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
 def home():
@@ -79,7 +90,7 @@ def create():
     return render_template('signup.html',form=current_form, error = errorMessage)
 
 @myapp_obj.route('/post', methods = ['POST','GET'])
-#@login_required
+@login_required
 def post():
     current_form = PostForm()
     if current_form.validate_on_submit():
@@ -152,108 +163,48 @@ def view():
     return render_template('feed.html', posts = posts,test = test)
 
 @myapp_obj.route('/search', methods = ['POST','GET'])
-#@login_required
+@login_required
 def search():
     current_form = SearchForm()
     errormessage = ''
-    if request.method == "GET":
+    if request.method == "GET": #before anything is entered show basic search html page
         return render_template('search.html', form = current_form)
-    if request.method == "POST":
-        searched = request.form["username"]
+    if request.method == "POST":    #after information is entered
+        searched = request.form["username"] #finds what was entered in the search bar
         users = User.query.all()
         for user in users:
-            if user.username == searched:
-                data.searchedUser=searched                
-                return redirect(url_for("user", usr=searched))
+            if user.username == searched:   #if the searched username is found in the database
+                data.searchedUser=searched   #store searched username             
+                return redirect(url_for("user", usr=searched))  #redirect to user page
             else: 
-                errormessage = 'User not found'
-    else: 
-        errormessage = 'User not found'  
+                errormessage = 'User not found'  
     return render_template('search.html', error = errormessage)
 
-@myapp_obj.route('/user/<usr>', methods = ['POST','GET'])
+@myapp_obj.route('/user/<usr>', methods = ['POST','GET'])   #usr url is the searched username
 def user(usr):
     current_form = SearchResult()
-    if request.method == "POST":
-        return redirect('user-profile')
+    #if request.method == "POST":
+        #return redirect('user-profile')
     return render_template('searchResult.html', form=current_form, username=usr)
 
-@myapp_obj.route('/user-profile', methods=['GET', 'POST'])
-#@login_required
-def user_profile():
-    current_form = FollowForm()
-    errormessage = ''
-    users = User.query.filter_by(username=data.searchedUser)
-    for user in users:
-        if request.method == "GET":
-            name=user.username
-            first=user.first
-            last=user.last
-            email=user.email
-        if request.method == "POST":
-            follow = Follows()
-            current = data.currentLogin
-            search = data.searchedUser
-            follow.follower = current
-            follow.followee = search
-            db.session.add(follow)
-            db.session.commit()
-            return redirect('/user-profile1')
-    return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
-
-@myapp_obj.route('/user-profile1', methods=['GET', 'POST'])
-#@login_required
-def user_profile1():
-    current_form = unfollowForm()
-    errormessage = ''
-    users = User.query.filter_by(username=data.searchedUser)
-    for user in users:
-        if request.method == "GET":
-            name=user.username
-            first=user.first
-            last=user.last
-            email=user.email
-            errormessage = 'You are now following ' + data.searchedUser
-        if request.method == "POST":
-            follow = Follows.query.filter_by(follower=data.currentLogin, followee=data.searchedUser)
-            db.session.delete(follow)
-            db.session.commit()
-            return redirect('/user-profile2')
-    return render_template('user-profile1.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
-
-@myapp_obj.route('/user-profile2', methods=['GET', 'POST'])
-#@login_required
-def user_profile2():
-    current_form = unfollowForm2()
-    errormessage = ''
-    users = User.query.filter_by(username=data.searchedUser)
-    for user in users:
-        if request.method == "GET":
-            name=user.username
-            first=user.first
-            last=user.last
-            email=user.email
-            errormessage = 'You are no longer following ' + data.searchedUser
-        if request.method == "POST":
-            return redirect('/home')
-    return render_template('user-profile2.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
-
 @myapp_obj.route('/followers', methods=['GET', 'POST'])
+@login_required
 def followers():
-    errormessage = ''
-    follow = Follows.query.filter_by(followee=data.currentLogin)
-    if request.method == "GET":
-        for user in follow:
-            errormessage = "You are being followed by " + follow.followee
-        else:
-            errormessage = 'No one is following you :('
+    errormessage = ''  
+    follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
+    for follow in follow:
+        errormessage += follow.follower + '\n' #displays everyone following current user
+        #s=errormessage.replace("\n","<br/>")
+        #errormessage = s
+    #else:
+        #errormessage = 'You have no followers'
+        #print(follow.follower)
     return render_template('followers.html', error=errormessage)
 
 # helper functions
 
 class DataStore():
     searchedUser = None
-    currentLogin = None
 
 data = DataStore()
 
@@ -271,3 +222,229 @@ def validEmail(string):
     if (string[len(string)-4:len(string)] == '.com') or (string[len(string)-4:len(string)]) == '.org' or (string[len(string)-4:len(string)] == '.edu'):
         boolDomain = True
     return boolAddress and boolDomain
+
+
+#SPANISH VERSION
+
+@myapp_obj.route('/Sprofile')
+@login_required
+def Stest():
+    name=current_user.username
+    return render_template("Sprofile.html", username=name)
+    
+'''@myapp_obj.route('/private')
+@login_required
+def private():
+    return 'Hi this is a private page'''
+
+@myapp_obj.route('/Slogin', methods=['POST', 'GET'])
+def Slogin():
+    current_form = SLoginForm()
+    errorMessage = ''
+    if current_form.validate_on_submit():   #checks once submit button is pressed
+        users = User.query.all()  
+        for user in users:
+            if user.username == current_form.username.data: #checks if username is in database
+                if check_password_hash(user.password,current_form.password.data): #checks if password is correct
+                    if current_form.remember_me.data:
+                        login_user(user, remember=True)
+                    login_user(user, remember=current_form.remember_me.data) #logs in user
+                    return redirect('/Shome')
+            else:
+                errorMessage = 'Usuario o contraseña invalido'
+    return render_template('Slogin.html', form=current_form, error=errorMessage)
+
+@myapp_obj.route('/logout')
+@login_required
+def Slogout():
+    current_form = LogoutForm()
+    logout_user()
+    return render_template('base.html', form=current_form)
+
+@myapp_obj.route('/delete_account', methods = ['DELETE'])
+@login_required
+def Sdelete_account():
+
+    user = User.query.filter_by(current_user.id).first()
+    
+    user_posts = Post.query.filter_by(current_user.id).all()
+    user_likes = Likes.query.filter_by(current_user.id).all()
+    user_follows = Follows.query.filter_by(current_user.id).all()   
+    
+    for u in user_posts:
+        db.session.delete(u)
+    for u in user_likes:
+        db.session.delete(u)
+    for u in user_follows:
+        db.session.delete(u)
+    
+    db.session.delete(user)
+    db.session.commit()
+    logout_user()
+    user = None 
+    user_posts = None
+    user_likes = None
+    user_follows = None 
+
+    return render_template('signup.html')
+
+@myapp_obj.route('/Shome', methods=['POST', 'GET'])
+@login_required
+def Shome():
+    current_form = SHomePageForm()
+    if current_form.validate_on_submit():
+       return redirect('/home')
+    return render_template('Shome.html', form=current_form)
+
+@myapp_obj.route('/Ssignup', methods = ['POST','GET'])
+def Screate():
+    current_form = SSignupForm()
+    errorMessage = ''
+    if current_form.validate_on_submit():   
+        if not(validPassword(current_form.password.data)):
+            errorMessage = 'La contraseña debe tener más de 8 caracteres'
+        elif not(validEmail(current_form.email.data)):
+            errorMessage = 'Dirección de correo electrónico no válida (debe tener dominio .com, .org, .edu)'
+        else:
+            user = User()
+            user.first = current_form.first.data
+            user.last = current_form.last.data
+            user.email = current_form.email.data
+            user.username = current_form.username.data
+            user.password = generate_password_hash(current_form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/Slogin')        #redirect to login page when implemented
+
+    return render_template('Ssignup.html',form=current_form, error = errorMessage)
+
+@myapp_obj.route('/Spost', methods = ['POST','GET'])
+@login_required
+def Spost():
+    current_form = SPostForm()
+    if current_form.validate_on_submit():
+        post = Post()
+        post.post = current_form.text.data  #save body text to db
+        post.link = current_form.link.data  #save image url to db
+        post.user_id = 1    #change to current user later on
+        today = date.today()
+        post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
+        with myapp_obj.app_context():       #add object to db
+            db.session.add(post)
+            db.session.commit()
+        return redirect('/Sfeed')        #redirects to home after posting, will show post
+    return render_template('Spost.html', form = current_form)
+
+@myapp_obj.route('/Sfeed', methods = ['POST','GET'])
+def Sview():
+
+    #create form for redirecting to another page
+    post = Post.query.all()     #query all posts
+    posts = []                  #list of dictionaries
+    for i in post:              #iterate through all queries
+        text = {}               #create a dictionary of 'body':'text'
+        text['body'] = i.post
+        text['link'] = i.link
+        posts.append(text)      #add individual dictionaries to array
+    #/feed page will display each body text and have access to the link to show the image
+    return render_template('Sfeed.html', posts = posts)
+
+@myapp_obj.route('/Ssearch', methods = ['POST','GET'])
+@login_required
+def Ssearch():
+    current_form = SSearchForm()
+    errormessage = ''
+    if request.method == "GET": #before anything is entered show basic search html page
+        return render_template('Ssearch.html', form = current_form)
+    if request.method == "POST":    #after information is entered
+        searched = request.form["username"] #finds what was entered in the search bar
+        users = User.query.all()
+        for user in users:
+            if user.username == searched:   #if the searched username is found in the database
+                data.searchedUser=searched   #store searched username             
+                return redirect(url_for("Suser", usr=searched))  #redirect to user page
+            else: 
+                errormessage = 'Usuario no encontrado'  
+    return render_template('Ssearch.html', error = errormessage)
+
+@myapp_obj.route('/Suser/<usr>', methods = ['POST','GET'])   #usr url is the searched username
+def Suser(usr):
+    current_form = SSearchResult()
+    #if request.method == "POST":
+        #return redirect('user-profile')
+    return render_template('SsearchResult.html', form=current_form, username=usr)
+
+@myapp_obj.route('/Suser-profile', methods=['GET', 'POST'])
+def Suser_profile():
+    current_form = SFollowForm()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    follow = Follows.query.filter_by(follower=current_user.username,followee=data.searchedUser) #filters if current user is following searched user
+    for follow in follow:   #if current user is following searched user redirect to next page to unfollow
+        return redirect('/Suser-profile1')
+    else:
+        for user in users:
+            if request.method == "GET": #base html page for user profile
+                name=user.username
+                first=user.first
+                last=user.last
+                email=user.email
+            if request.method == "POST":    #if follow button is clicked
+                follow = Follows()
+                search = data.searchedUser
+                follow.follower = current_user.username
+                follow.followee = search
+                db.session.add(follow)  #store follower and followee into db
+                db.session.commit()
+                return redirect('/Suser-profile1')
+    return render_template('Suser-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/Suser-profile1', methods=['GET', 'POST'])
+def Suser_profile1():
+    current_form = SunfollowForm()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    for user in users:
+        if request.method == "GET": #base html page for user profile1
+            name=user.username
+            first=user.first
+            last=user.last
+            email=user.email
+            errormessage = 'Usted esta siguiendo ' + data.searchedUser
+        if request.method == "POST":
+            follow = Follows.query.filter_by(follower=current_user.username, followee=data.searchedUser)    #finds the follow object
+            for follow in follow:   #if current user is following searched user
+                db.session.delete(follow)   #delete current user and searched user from db
+                db.session.commit()
+                return redirect('/Suser-profile2')
+    return render_template('Suser-profile1.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/Suser-profile2', methods=['GET', 'POST'])
+def Suser_profile2():
+    current_form = SunfollowForm2()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    for user in users:
+        if request.method == "GET": #base html page for user profile2
+            name=user.username
+            first=user.first
+            last=user.last
+            email=user.email
+            errormessage = 'ya no sigues ' + data.searchedUser   #special implementation so that user cannot spam follow/unfollow button
+        if request.method == "POST":
+            return redirect('/Shome')    #can only go to home page after unfollowing to prevent spam clicking
+    return render_template('Suser-profile2.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/Sfollowers', methods=['GET', 'POST'])
+@login_required
+def Sfollowers():
+    errormessage = ''  
+    follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
+    for follow in follow:
+        errormessage += follow.follower + '\n' #displays everyone following current user
+        #s=errormessage.replace("\n","<br/>")
+        #errormessage = s
+    #else:
+        #errormessage = 'You have no followers'
+        #print(follow.follower)
+    return render_template('Sfollowers.html', error=errormessage)
