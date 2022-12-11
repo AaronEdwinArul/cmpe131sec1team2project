@@ -60,7 +60,7 @@ class SLoginForm(FlaskForm):
 class SSignupForm(FlaskForm):
     first = StringField('Primer nombre', validators=[DataRequired()])
     last = StringField('Apellido', validators=[DataRequired()])
-    email = StringField('Dirección de correo electrónico', validators=[DataRequired()])
+    email = StringField('Correo electrónico', validators=[DataRequired()])
     username = StringField('Nombre de usuario', validators=[DataRequired()])
     password = PasswordField('Clave', validators=[DataRequired()])
     submit = SubmitField('Crear una cuenta')
@@ -75,9 +75,9 @@ class SPostsForm(FlaskForm):
     refreshPosts = SubmitField('Publicaciones')
 
 class SPostForm(FlaskForm):
-    text = TextAreaField('Introduzca el mensaje aquí')
+    text = TextAreaField('Entra mensaje')
     link = TextAreaField('URL de la imagen (opcional)')
-    post = SubmitField('¡Correo!')
+    post = SubmitField('¡Publicación!')
 
 class SSearchForm(FlaskForm):
     username = StringField('Nombre de usuario')

@@ -458,7 +458,7 @@ def Suser_profile1():
             first=user.first
             last=user.last
             email=user.email
-            errormessage = 'estas siguiendo ' + data.searchedUser
+            errormessage = 'Usted esta siguiendo ' + data.searchedUser
         if request.method == "POST":
             follow = Follows.query.filter_by(follower=current_user.username, followee=data.searchedUser)    #finds the follow object
             for follow in follow:   #if current user is following searched user
