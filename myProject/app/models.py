@@ -24,12 +24,12 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     #source = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
-'''
+
 class Likes(db.Model):
     #2 wide table that lists users who liked (left) a post (right)
     #posts are labelled by id
-    liked = db.Column(db.String, db.ForeignKey('user.id'),primary_key = True)
-    post = db.Column(db.String, db.ForeignKey('post.id'), primary_key = True)'''
+    liked = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key = True)
+    post = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key = True)
   
 class Follows(db.Model):
     follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True) #who is doing the following
