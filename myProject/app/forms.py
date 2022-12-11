@@ -48,3 +48,7 @@ class unfollowForm(FlaskForm):
 
 class unfollowForm2(FlaskForm):
     submit = SubmitField('Home')
+
+#class LikeForm(FlaskForm):
+    #submit = SubmitField('Like')
+
