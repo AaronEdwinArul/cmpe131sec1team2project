@@ -214,7 +214,7 @@ def profile():
 
 @myapp_obj.route('/profile_edit', methods = ['POST','GET'])
 @login_required
-def profile_edit(_):
+def profile_edit():
     current_form = ProfileEditForm()
     errorMessage = ''
     if current_form.validate_on_submit():
@@ -248,9 +248,8 @@ def user_profile():
                 email=user.email
             if request.method == "POST":    #if follow button is clicked
                 follow = Follows()
-                search = user.id
                 follow.follower = current_user.id
-                follow.followee = search
+                follow.followee = user.id
                 db.session.add(follow)  #store follower and followee into db
                 db.session.commit()
                 return redirect('/user-profile1')
@@ -345,7 +344,7 @@ def validEmail(string):
 
 def validDOB(date):
     try:
-        datetime.datetime.strptime(date, '%Y-%m-%d')
+        datetime.strptime(date, '%Y-%m-%d')
     except ValueError:
         raise ValueError("DOB should be in YYYY-MM-DD") #checks if DOB is in yyyy-mm-dd format
 
@@ -483,9 +482,8 @@ def Suser_profile():
                 email=user.email
             if request.method == "POST":    #if follow button is clicked
                 follow = Follows()
-                search = data.searchedUser
-                follow.follower = current_user.username
-                follow.followee = search
+                follow.follower = current_user.id
+                follow.followee = user.id
                 db.session.add(follow)  #store follower and followee into db
                 db.session.commit()
                 return redirect('/Suser-profile1')

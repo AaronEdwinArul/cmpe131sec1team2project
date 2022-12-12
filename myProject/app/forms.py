@@ -56,6 +56,7 @@ class ProfileEditForm(FlaskForm):
     dob = StringField('yyyy-mm-dd')
     location = StringField('Location')
     bio = StringField('Bio')
+    submit = SubmitField('Edit')
 
 class ProfileForm(FlaskForm):
     submit= SubmitField('Profile')
