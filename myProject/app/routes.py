@@ -67,73 +67,10 @@ def delete_account():
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
 def home():
-    #current_form = HomePageForm()
-    #if current_form.validate_on_submit():
-    #   return redirect('/home')
-    #return render_template('home.html', form=current_form)
-    #create form for redirecting to another page
-    #create form for redirecting to another page
-    #create form for redirecting to another page
-    
-    #followerList = Follows.query.filter_by(follower=current_user.username)
-    followerNameList = ""
-    #for followerList in followerList:
-        #followerNameList += followerList.followee
-    print(followerNameList)
-
-    post = Post.query.filter_by(id=current_user.username)    #query all posts
-    posts = []                  #list of dictionaries
-    for i in post:              #iterate through all queries
-        text = {}               #create a dictionary of 'body':'text', etc.
-        text['body'] = i.post
-        text['link'] = i.link
-        text['id'] = i.id
-        text['author'] = i.get_author(i.user_id)
-        text['date'] = i.date
-        
-        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
-        count = 0           
-        text['likestatus'] = "Like" 
-        bool = False        
-        for like in likecheck:          
-            count += 1              # count how many 'likers' there are
-            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
-                bool = True
-        if bool == True:
-            text['likestatus'] = "Unlike"
-        text['likes'] = count       # save count to display likes for each post
-
-        posts.append(text)      #add individual dictionaries to array
-        
-        #create a submit form for each button
-        postbutton = LikeForm(prefix = str(i.id))   
-        if bool == True:            #check likestatus confirmed previously
-            postbutton.submit.label.text = 'Unlike'
-        text['button'] = postbutton #add submit button to dictionary
-        
-    for i in posts: #when returning page read button presses
-        if i['button'].validate_on_submit():    #check validation for each button
-            if i['likestatus'] == 'Like':   #if unliked
-                #add like to sb
-                addlike = Likes()               #create like object
-                addlike.liker = current_user.id #current user is the liker
-                addlike.post = i['id']          #button and corresponding post
-                db.session.add(addlike)
-                db.session.commit()
-            else:   #else the post is liked
-                #remove like from db
-                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
-                for l in removelike:            #iterate through each liker
-                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
-                        db.session.delete(l)                    #delete that object
-                        db.session.commit()
-                        
-            return redirect('/home')
-        
-    # /feed page will display each body text and have access to the link to show the image
-    return render_template('home.html', posts = posts,test = test)
-    
-    
+    current_form = HomePageForm()
+    if current_form.validate_on_submit():
+       return redirect('/home')
+    return render_template('home.html', form=current_form)
 
 @myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
@@ -228,7 +165,7 @@ def view():
             return redirect('/feed')
         
     # /feed page will display each body text and have access to the link to show the image
-    return render_template('feed.html', posts = posts,test = test)
+    return render_template('feed.html', posts = posts)
 
 @myapp_obj.route('/search', methods = ['POST','GET'])
 @login_required
