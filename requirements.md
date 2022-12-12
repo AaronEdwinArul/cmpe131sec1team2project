@@ -38,14 +38,13 @@
   2. User is shown other options on home page
   3. User can click home page button on sidebar again to redirect to page that they are on (refreshing page)
   4. User can see 'Make a Post', 'View Followers' and 'Liked Posts' buttons
+  5. User can see their own posts at bottom of home page
   
 - **Primary Postconditions:** The user is on the starting page of the application directed to them after logging in
 
 - **Alternate Sequence:** 
   
-  1. After logging in for the first time, user is presented with 'Welcome new friend!' message on home page
-  2. User selects ok on welcome message
-  3. User continues to use application features via home page after logging in for the first time
+  1. After logging in for the first time, user is presented their feed that has no posts
   
 
 6. Send message to followers (Michael Xiao)
