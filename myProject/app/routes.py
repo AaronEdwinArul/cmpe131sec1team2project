@@ -74,7 +74,14 @@ def home():
     #create form for redirecting to another page
     #create form for redirecting to another page
     #create form for redirecting to another page
-    post = Post.query.filter_by(id=current_user.id)    #query all posts
+    
+    #followerList = Follows.query.filter_by(follower=current_user.username)
+    followerNameList = ""
+    #for followerList in followerList:
+        #followerNameList += followerList.followee
+    print(followerNameList)
+
+    post = Post.query.filter_by(id=current_user.username)    #query all posts
     posts = []                  #list of dictionaries
     for i in post:              #iterate through all queries
         text = {}               #create a dictionary of 'body':'text', etc.
