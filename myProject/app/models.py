@@ -13,8 +13,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    
     liked = db.relationship('Likes', backref = 'liking',lazy = 'dynamic')
+    follows = db.relationship('Follows', backref = 'following', lazy = 'dynamic')
+
+    bio = db.Column(db.String)
+    dob = db.Column(db.String)
+    location = db.Column(db.String) 
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -43,8 +47,8 @@ class Follows(db.Model):
     # Table:    x | y
     #           y | x
     #           z | x
-    follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
-    followee = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
+    follower = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
+    followee = db.Column(db.Integer)
 
 
 @login.user_loader

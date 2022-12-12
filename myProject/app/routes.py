@@ -1,11 +1,16 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, url_for, request
-from app.models import User, Post, Follows, Likes
-from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, LikeForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2
+from app.models import User, Post, Likes, Follows
+from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, LikeForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2, ProfileEditForm, Delete_Account_Form
+
+#importing spanish forms
+from app.forms import Delete_Account_Form_Spanish, ProfileEditForm_Spanish, ProfileForm_Spanish
 from app.forms import SLoginForm, SSignupForm, SPostForm, SSearchForm, SSearchResult, SFollowForm, SunfollowForm, SunfollowForm2, SHomePageForm
-from datetime import date
+
+from datetime import date, datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
+
 
 @myapp_obj.route('/')
 def base():
@@ -135,7 +140,7 @@ def view():
         posts.append(text)      #add individual dictionaries to array
         
         #create a submit form for each button
-        postbutton = LikeForm(prefix = i.id)   
+        postbutton = LikeForm(prefix = str(i.id))   
         if bool == True:            #check likestatus confirmed previously
             postbutton.submit.label.text = 'Unlike'
         text['button'] = postbutton #add submit button to dictionary
@@ -201,58 +206,91 @@ def followers():
         #print(follow.follower)
     return render_template('followers.html', error=errormessage)
 
-# helper functions
-
-class DataStore():
-    searchedUser = None
-
-data = DataStore()
-
-def validPassword(string):
-    if len(string) < 8:
-        return False
-    return True
-
-def validEmail(string):
-    boolAddress = False
-    boolDomain = False
-    for i in string:
-        if i == '@':
-            boolAddress = True
-    if (string[len(string)-4:len(string)] == '.com') or (string[len(string)-4:len(string)]) == '.org' or (string[len(string)-4:len(string)] == '.edu'):
-        boolDomain = True
-    return boolAddress and boolDomain
-
-
-#SPANISH VERSION
-
-@myapp_obj.route('/Sprofile')
+@myapp_obj.route('/profile', methods = ['POST', 'GET'])
 @login_required
-def Stest():
-    name=current_user.username
-    return render_template("Sprofile.html", username=name)
-    
-'''@myapp_obj.route('/private')
-@login_required
-def private():
-    return 'Hi this is a private page'''
+def profile():
+    return render_template('profile.html')
 
-@myapp_obj.route('/Slogin', methods=['POST', 'GET'])
-def Slogin():
-    current_form = SLoginForm()
+
+@myapp_obj.route('/profile_edit', methods = ['POST','GET'])
+@login_required
+def profile_edit(_):
+    current_form = ProfileEditForm()
     errorMessage = ''
-    if current_form.validate_on_submit():   #checks once submit button is pressed
-        users = User.query.all()  
+    if current_form.validate_on_submit():
+        if not(validDOB(current_form.dob.data)):
+            errorMessage = 'DOB must be in yyyy-mm-dd format.'
+        else:
+            user = User.query.filter_by(current_user.id).first()
+            user.dob = current_form.dob.data
+            user.location = current_form.location.data
+            user.bio = current_form.bio.data
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
+    return render_template('profile_edit.html', form=current_form, error = errorMessage)
+
+
+@myapp_obj.route('/user-profile', methods=['GET', 'POST'])
+def user_profile():
+    current_form = FollowForm()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    follow = Follows.query.filter_by(follower=current_user.username,followee=data.searchedUser) #filters if current user is following searched user
+    for follow in follow:   #if current user is following searched user redirect to next page to unfollow
+        return redirect('/user-profile1')
+    else:
         for user in users:
-            if user.username == current_form.username.data: #checks if username is in database
-                if check_password_hash(user.password,current_form.password.data): #checks if password is correct
-                    if current_form.remember_me.data:
-                        login_user(user, remember=True)
-                    login_user(user, remember=current_form.remember_me.data) #logs in user
-                    return redirect('/Shome')
-            else:
-                errorMessage = 'Usuario o contraseña invalido'
-    return render_template('Slogin.html', form=current_form, error=errorMessage)
+            if request.method == "GET": #base html page for user profile
+                name=user.username
+                first=user.first
+                last=user.last
+                email=user.email
+            if request.method == "POST":    #if follow button is clicked
+                follow = Follows()
+                search = user.id
+                follow.follower = current_user.id
+                follow.followee = search
+                db.session.add(follow)  #store follower and followee into db
+                db.session.commit()
+                return redirect('/user-profile1')
+    return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/user-profile1', methods=['GET', 'POST'])
+def user_profile1():
+    current_form = unfollowForm()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    for user in users:
+        if request.method == "GET": #base html page for user profile1
+            name=user.username
+            first=user.first
+            last=user.last
+            email=user.email
+            errormessage = 'You are following ' + data.searchedUser
+        if request.method == "POST":
+            follow = Follows.query.filter_by(follower=current_user.username, followee=data.searchedUser)    #finds the follow object
+            for follow in follow:   #if current user is following searched user
+                db.session.delete(follow)   #delete current user and searched user from db
+                db.session.commit()
+                return redirect('/user-profile2')
+    return render_template('user-profile1.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/user-profile2', methods=['GET', 'POST'])
+def user_profile2():
+    current_form = unfollowForm2()
+    errormessage = ''
+    users = User.query.filter_by(username=data.searchedUser)
+    for user in users:
+        if request.method == "GET": #base html page for user profile2
+            name=user.username
+            first=user.first
+            last=user.last
+            email=user.email
+            errormessage = 'You are no longer following ' + data.searchedUser   #special implementation so that user cannot spam follow/unfollow button
+        if request.method == "POST":
+            return redirect('/home')    #can only go to home page after unfollowing to prevent spam clicking
+    return render_template('user-profile2.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
 
 @myapp_obj.route('/logout')
 @login_required
@@ -287,6 +325,60 @@ def Sdelete_account():
     user_follows = None 
 
     return render_template('signup.html')
+
+# helper functions
+
+def validPassword(string):
+    if len(string) < 8:
+        return False
+    return True
+
+def validEmail(string):
+    boolAddress = False
+    boolDomain = False
+    for i in string:
+        if i == '@':
+            boolAddress = True
+    if (string[len(string)-4:len(string)] == '.com') or (string[len(string)-4:len(string)]) == '.org' or (string[len(string)-4:len(string)] == '.edu'):
+        boolDomain = True
+    return boolAddress and boolDomain
+
+def validDOB(date):
+    try:
+        datetime.datetime.strptime(date, '%Y-%m-%d')
+    except ValueError:
+        raise ValueError("DOB should be in YYYY-MM-DD") #checks if DOB is in yyyy-mm-dd format
+
+
+class DataStore():
+    searchedUser = None
+
+data = DataStore()
+
+#SPANISH VERSION
+
+@myapp_obj.route('/Sprofile')
+@login_required
+def Stest():
+    name=current_user.username
+    return render_template("Sprofile.html", username=name)
+
+@myapp_obj.route('/Slogin', methods=['POST', 'GET'])
+def Slogin():
+    current_form = SLoginForm()
+    errorMessage = ''
+    if current_form.validate_on_submit():   #checks once submit button is pressed
+        users = User.query.all()  
+        for user in users:
+            if user.username == current_form.username.data: #checks if username is in database
+                if check_password_hash(user.password,current_form.password.data): #checks if password is correct
+                    if current_form.remember_me.data:
+                        login_user(user, remember=True)
+                    login_user(user, remember=current_form.remember_me.data) #logs in user
+                    return redirect('/Shome')
+            else:
+                errorMessage = 'Usuario o contraseña invalido'
+    return render_template('Slogin.html', form=current_form, error=errorMessage)
 
 @myapp_obj.route('/Shome', methods=['POST', 'GET'])
 @login_required
@@ -448,3 +540,61 @@ def Sfollowers():
         #errormessage = 'You have no followers'
         #print(follow.follower)
     return render_template('Sfollowers.html', error=errormessage)
+
+#Spanish 
+
+@myapp_obj.route('/profile_spanish', methods = ['POST', 'GET'])
+@login_required
+def profile_spanish():
+    return render_template('profile_spanish.html')
+
+
+@myapp_obj.route('/profile_edit_spanish', methods = ['POST','GET'])
+@login_required
+def profile_edit_spanish(_):
+    current_form = ProfileEditForm_Spanish()
+    errorMessage = ''
+    if current_form.validate_on_submit():
+        if not(validDOB(current_form.dob.data)):
+            errorMessage = 'La fecha de nacimiento debe estar en formato aaaa-mm-dd.'
+        else:
+            user = User.query.filter_by(current_user.id).first()
+            user.dob = current_form.dob.data
+            user.location = current_form.location.data
+            user.bio = current_form.bio.data
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/profile_spanish') #redirects to profile after submitting form, will show updated bio, dob, location
+    return render_template('profile_edit_spanish.html', form=current_form, error = errorMessage)
+
+@myapp_obj.route('/delete_account_spanish', methods = ['GET', 'POST'])
+@login_required
+def delete_account_spanish():
+    current_form = Delete_Account_Form_Spanish()
+    if current_form.validate_on_submit():
+
+        if current_user.password == current_form.password.data: #checks if entered password is equal to current_users' password, if true deletes account, if false returns error
+            user = User.query.filter_by(current_user.id).first()
+                
+            user_posts = Post.query.filter_by(current_user.id).all()
+            user_likes = Likes.query.filter_by(current_user.id).all()
+            user_follows = Follows.query.filter_by(current_user.id).all()
+                
+                
+            for u in user_posts:
+                    db.session.delete(u)
+            for u in user_likes:
+                    db.session.delete(u)
+            for u in user_follows:
+                    db.session.delete(u)
+                    
+            db.session.delete(user)   
+            db.session.commit()
+            print("Tu cuenta ha sido eliminada. Redirigiendo a la página de inicio de sesión...")
+            return redirect('/login_spanish')
+
+        else:
+            print("Contraseña incorrecta!")
+
+    return render_template('delete_account_spanish.html')
+

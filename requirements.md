@@ -191,10 +191,16 @@ The user uploads a file that is not an image
 - **Primary Postconditions:** The user is on the profile tab
 
 - **Alternative Sequence:**
+<<<<<<< HEAD
 
   1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
   2. The tutorial goes over the different sections of the profile tab explaining what each section does
   3. Once tutorial is finished user selects "OK" 
+=======
+    1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
+    2. The tutorial goes over the different sections of the profile tab explaining what each section does
+    3. Once tutorial is finished user selects "OK" 
+>>>>>>> eeb821e8b9a542439f18c9cf6b7be91fdddfe209
    
    
 12. Visualize connections of all users (Vincent Cruz)
