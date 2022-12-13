@@ -120,23 +120,19 @@
             <a class="nav-tem nav-link" id="POST" href="/post">Post</a>
             <a class="nav-tem nav-link" id="search" href="/search">Search</a>
             <a class="nav-tem nav-link" id="profile" href="/profile">Profile</a>
-            <a class="nav-tem nav-link" id="statistics" href="/statistics">Statistics</a>
             <a class="nav-tem nav-link" id="logout" href="/logout">Logout</a>
 
             
         </div>
-
+        
         <!--Content right of sidebar on home page-->
         <div class="restContent">
-       
-                    <h1 style="font-family:'Cambria'; font-size: 50px;">Spartsapp</h1>
-                    
+            
+            
+            <h1 style="font-family:'Cambria'; font-size: 50px;">Spartsapp</h1>
                     <center>
                     
-                    <div>
-                        <p>This is the home page, where you can discover other user's posts.</p>
                     
-                    </div>
                     <!--Main buttons in home page-->
                     <div class="ribb" style="background-color:gold;">
 
@@ -144,7 +140,7 @@
 
                         <a class="button" href="/followers">View Followers</a>
 
-                        <a class="button" href="/feed">Liked Posts</a>
+                        <a class="button" href="/feed">Feed</a>
                         
                         
 
@@ -153,14 +149,50 @@
                     </center> 
 
                     
-                    {% block mycontent %}<div class="intro">
-                        
+            {% block mycontent %}
+                    <div class="intro">
+                    <center>
+                <h2 style="font-family:'Cambria'; font-size: 50px;">This is the Home Page</h2>
+            </center>
               <h1>Your posts</h1>          
             {% for post in posts %}
-                        
+            
         
             <center>
             <div style="width: 70%; display:table; border-style: groove; background-color:darkorange">
+                <style>
+                    .postDiv{
+                        background-color: aliceblue;
+                        width:565px;
+                        height:200px;
+                        padding: 7px 9px 7px 15px;
+                
+                    }
+                    .postImage{
+                        background-color:burlywood;
+                        width: 100%;
+                        height:100px;
+                        margin-left: 565px;
+                        padding: 7px 9px 7px 15px;
+                
+                    }
+                    .author{
+                        font-size: 30px;
+                        font-family: 'Verdana', sans-serif';
+                    }
+                    .imgPadd{
+                        Padding: 30px;
+                
+                    }
+                    .textPadd{
+                        Padding: 20px;
+                
+                    }
+                    .buttonStyle{
+                        font-family:'Cochin';
+                        
+                    }
+                </style>
                 <div style="display: table-row">
                     <div style="width: 550px; display: table-cell; background-color:aquamarine; text-align: left; padding-left: 30px; padding-bottom: 80px;">
                         <p class = "author"><b>{{post.author}}</b></p>
@@ -193,7 +225,8 @@
             {% endfor %}
                     
                     
-                    </div>{% endblock %}
+                    </div>
+                    {% endblock %}
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <ul>

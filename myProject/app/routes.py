@@ -16,12 +16,6 @@ from flask_login import current_user, login_user, logout_user, login_required
 def base():
     return render_template("base.html")
 
-@myapp_obj.route('/profile')
-@login_required
-def test():
-    name=current_user.username
-    return render_template("profile.html", username=name)
-
 @myapp_obj.route('/login', methods=['POST', 'GET'])
 def login():
     current_form = LoginForm()
@@ -79,7 +73,7 @@ def home():
         text['date'] = i.date
         
         likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
-        count = 0           
+        count = 0
         text['likestatus'] = "Like" 
         bool = False        
         for like in likecheck:          
@@ -145,19 +139,23 @@ def create():
 @myapp_obj.route('/post', methods = ['POST','GET'])
 @login_required
 def post():
+    error = ''
     current_form = PostForm()
     if current_form.validate_on_submit():
-        post = Post()
-        post.post = current_form.text.data  #save body text to db
-        post.link = current_form.link.data  #save image url to db
-        post.user_id = current_user.id      #save current user's id to track poster
-        today = date.today()
-        post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
-        with myapp_obj.app_context():       #add object to db
-            db.session.add(post)
-            db.session.commit()
-        return redirect('/feed')        #redirects to home after posting, will show post
-    return render_template('post.html', form = current_form)
+        if len(current_form.text.data) > 500:
+            error = 'Post is too long! (Max characters is 500)'
+        else:
+            post = Post()
+            post.post = current_form.text.data  #save body text to db
+            post.link = current_form.link.data  #save image url to db
+            post.user_id = current_user.id      #save current user's id to track poster
+            today = date.today()
+            post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
+            with myapp_obj.app_context():       #add object to db
+                db.session.add(post)
+                db.session.commit()
+            return redirect('/feed')        #redirects to home after posting, will show post
+    return render_template('post.html', form = current_form, error = error)
 
 @myapp_obj.route('/feed', methods = ['POST','GET'])
 @login_required
@@ -254,28 +252,30 @@ def followers():
         #print(follow.follower)
     return render_template('followers.html', error=errormessage)
 
-@myapp_obj.route('/profile', methods = ['POST', 'GET'])
+@myapp_obj.route('/profile')
 @login_required
-def profile():
-    return render_template('profile.html')
-
+def test():
+    name=current_user.username
+    bio =current_user.bio
+    location= current_user.location
+    email=current_user.email
+    password=current_user.password
+    dob=current_user.dob
+    return render_template("profile.html", username=name, bio=bio, location=location, email=email, password=password, dob=dob)
 
 @myapp_obj.route('/profile_edit', methods = ['POST','GET'])
 @login_required
 def profile_edit():
     current_form = ProfileEditForm()
     errorMessage = ''
+    user = User.query.filter_by(username=current_user.username).first() #retreiving current user
     if current_form.validate_on_submit():
-        if not(validDOB(current_form.dob.data)):
-            errorMessage = 'DOB must be in yyyy-mm-dd format.'
-        else:
-            user = User.query.filter_by(current_user.id).first()
-            user.dob = current_form.dob.data
-            user.location = current_form.location.data
-            user.bio = current_form.bio.data
-            db.session.add(user)
-            db.session.commit()
-            return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
+        user.dob = current_form.dob.data            #updating dob, location, and bio of user
+        user.location = current_form.location.data
+        user.bio = current_form.bio.data
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
     return render_template('profile_edit.html', form=current_form, error = errorMessage)
 
 
@@ -430,10 +430,59 @@ def Slogin():
 @myapp_obj.route('/Shome', methods=['POST', 'GET'])
 @login_required
 def Shome():
-    current_form = SHomePageForm()
-    if current_form.validate_on_submit():
-       return redirect('/home')
-    return render_template('Shome.html', form=current_form)
+ 
+    post = Post.query.filter_by(user_id=current_user.id)    #query all posts
+    posts = []                  #list of dictionaries
+    for i in post:              #iterate through all queries
+        text = {}               #create a dictionary of 'body':'text', etc.
+        text['body'] = i.post
+        text['link'] = i.link
+        text['id'] = i.id
+        text['author'] = i.get_author(i.user_id)
+        text['date'] = i.date
+        
+        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+        count = 0
+        text['likestatus'] = "Like" 
+        bool = False        
+        for like in likecheck:          
+            count += 1              # count how many 'likers' there are
+            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                bool = True
+        if bool == True:
+            text['likestatus'] = "Unlike"
+        text['likes'] = count       # save count to display likes for each post
+
+        posts.append(text)      #add individual dictionaries to array
+        
+        #create a submit form for each button
+        postbutton = LikeForm(prefix = str(i.id))   
+        postbutton.submit.label.text = 'Gusta'
+        if bool == True:            #check likestatus confirmed previously
+            postbutton.submit.label.text = 'Disgusta'
+        text['button'] = postbutton #add submit button to dictionary
+        
+    for i in posts: #when returning page read button presses
+        if i['button'].validate_on_submit():    #check validation for each button
+            if i['likestatus'] == 'Like':   #if unliked
+                #add like to sb
+                addlike = Likes()               #create like object
+                addlike.liker = current_user.id #current user is the liker
+                addlike.post = i['id']          #button and corresponding post
+                db.session.add(addlike)
+                db.session.commit()
+            else:   #else the post is liked
+                #remove like from db
+                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                for l in removelike:            #iterate through each liker
+                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                        db.session.delete(l)                    #delete that object
+                        db.session.commit()
+                        
+            return redirect('/Shome')
+        
+    # /feed page will display each body text and have access to the link to show the image
+    return render_template('Shome.html', posts = posts)
 
 @myapp_obj.route('/Ssignup', methods = ['POST','GET'])
 def Screate():
@@ -460,32 +509,78 @@ def Screate():
 @myapp_obj.route('/Spost', methods = ['POST','GET'])
 @login_required
 def Spost():
-    current_form = SPostForm()
+    error = ''
+    current_form = PostForm()
     if current_form.validate_on_submit():
-        post = Post()
-        post.post = current_form.text.data  #save body text to db
-        post.link = current_form.link.data  #save image url to db
-        post.user_id = 1    #change to current user later on
-        today = date.today()
-        post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
-        with myapp_obj.app_context():       #add object to db
-            db.session.add(post)
-            db.session.commit()
-        return redirect('/Sfeed')        #redirects to home after posting, will show post
-    return render_template('Spost.html', form = current_form)
+        if len(current_form.text.data) > 500:
+            error = '¡La publicación es demasiado larga! (El máximo de caracteres es 500)'
+        else:
+            post = Post()
+            post.post = current_form.text.data  #save body text to db
+            post.link = current_form.link.data  #save image url to db
+            post.user_id = current_user.id      #save current user's id to track poster
+            today = date.today()
+            post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
+            with myapp_obj.app_context():       #add object to db
+                db.session.add(post)
+                db.session.commit()
+            return redirect('/feed')        #redirects to home after posting, will show post
+    return render_template('post.html', form = current_form, error = error)
 
 @myapp_obj.route('/Sfeed', methods = ['POST','GET'])
 def Sview():
-
-    #create form for redirecting to another page
+#create form for redirecting to another page
     post = Post.query.all()     #query all posts
     posts = []                  #list of dictionaries
     for i in post:              #iterate through all queries
-        text = {}               #create a dictionary of 'body':'text'
+        text = {}               #create a dictionary of 'body':'text', etc.
         text['body'] = i.post
         text['link'] = i.link
+        text['id'] = i.id
+        text['author'] = i.get_author(i.user_id)
+        text['date'] = i.date
+        
+        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+        count = 0           
+        text['likestatus'] = "Like" 
+        bool = False        
+        for like in likecheck:          
+            count += 1              # count how many 'likers' there are
+            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                bool = True
+        if bool == True:
+            text['likestatus'] = "Like"
+        text['likes'] = count       # save count to display likes for each post
+
         posts.append(text)      #add individual dictionaries to array
-    #/feed page will display each body text and have access to the link to show the image
+        
+        #create a submit form for each button
+        postbutton = LikeForm(prefix = str(i.id))   
+        postbutton.submit.label.text = 'Me gusta'
+        if bool == True:            #check likestatus confirmed previously
+            postbutton.submit.label.text = 'Hasta saber'
+        text['button'] = postbutton #add submit button to dictionary
+        
+    for i in posts: #when returning page read button presses
+        if i['button'].validate_on_submit():    #check validation for each button
+            if i['likestatus'] == 'Like':   #if unliked
+                #add like to sb
+                addlike = Likes()               #create like object
+                addlike.liker = current_user.id #current user is the liker
+                addlike.post = i['id']          #button and corresponding post
+                db.session.add(addlike)
+                db.session.commit()
+            else:   #else the post is liked
+                #remove like from db
+                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                for l in removelike:            #iterate through each liker
+                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                        db.session.delete(l)                    #delete that object
+                        db.session.commit()
+                        
+            return redirect('/Sfeed')
+        
+    # /feed page will display each body text and have access to the link to show the image
     return render_template('Sfeed.html', posts = posts)
 
 @myapp_obj.route('/Ssearch', methods = ['POST','GET'])

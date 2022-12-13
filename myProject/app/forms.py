@@ -29,7 +29,7 @@ class SignupForm(FlaskForm):
 
 class PostForm(FlaskForm):
     text = TextAreaField('Enter message here')
-    link = TextAreaField('Image URL (Optional)')
+    link = TextAreaField('Image URL')
     post = SubmitField('Post!')
 
 class LikeForm(FlaskForm):
@@ -61,7 +61,7 @@ class ProfileEditForm(FlaskForm):
 class ProfileForm(FlaskForm):
     submit= SubmitField('Profile')
 
-class Delete_Account_Form():
+class Delete_Account_Form(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit= SubmitField('Delete Account')
     

@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     post = db.Column(db.String(500))
-    link = db.Column(db.String(100))
+    link = db.Column(db.String(200))
     date = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     liked = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
