@@ -130,7 +130,6 @@ def home():
     # /feed page will display each body text and have access to the link to show the image
     return render_template('home.html', posts = posts,test = test)
     
-    
 
 @myapp_obj.route('/signup', methods = ['POST','GET'])
 def create():
@@ -442,10 +441,60 @@ def Slogin():
 @myapp_obj.route('/Shome', methods=['POST', 'GET'])
 @login_required
 def Shome():
-    current_form = SHomePageForm()
-    if current_form.validate_on_submit():
-       return redirect('/home')
-    return render_template('Shome.html', form=current_form)
+    
+    post = Post.query.filter_by(user_id=current_user.id)    #query all posts
+    posts = []                  #list of dictionaries
+    for i in post:              #iterate through all queries
+        text = {}               #create a dictionary of 'body':'text', etc.
+        text['body'] = i.post
+        text['link'] = i.link
+        text['id'] = i.id
+        text['author'] = i.get_author(i.user_id)
+        text['date'] = i.date
+        
+        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+        count = 0           
+        text['likestatus'] = "Like" 
+        bool = False        
+        for like in likecheck:          
+            count += 1              # count how many 'likers' there are
+            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                bool = True
+        if bool == True:
+            text['likestatus'] = "Unlike"
+        text['likes'] = count       # save count to display likes for each post
+
+        posts.append(text)      #add individual dictionaries to array
+
+        #create a submit form for each button
+        postbutton = LikeForm(prefix = str(i.id))   
+        postbutton.submit.label.text = 'Me gusta'
+        if bool == True:            #check likestatus confirmed previously
+            postbutton.submit.label.text = 'Hasta saber'
+        text['button'] = postbutton #add submit button to dictionary
+        
+    for i in posts: #when returning page read button presses
+        if i['button'].validate_on_submit():    #check validation for each button
+            if i['likestatus'] == 'Like':   #if unliked
+                #add like to sb
+                addlike = Likes()               #create like object
+                addlike.liker = current_user.id #current user is the liker
+                addlike.post = i['id']          #button and corresponding post
+                db.session.add(addlike)
+                db.session.commit()
+            else:   #else the post is liked
+                #remove like from db
+                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                for l in removelike:            #iterate through each liker
+                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                        db.session.delete(l)                    #delete that object
+                        db.session.commit()
+                        
+            return redirect('/Shome')
+        
+    # /feed page will display each body text and have access to the link to show the image
+    return render_template('Shome.html', posts = posts,test = test)
+    
 
 @myapp_obj.route('/Ssignup', methods = ['POST','GET'])
 def Screate():
@@ -488,16 +537,58 @@ def Spost():
 
 @myapp_obj.route('/Sfeed', methods = ['POST','GET'])
 def Sview():
-
-    #create form for redirecting to another page
+#create form for redirecting to another page
     post = Post.query.all()     #query all posts
     posts = []                  #list of dictionaries
     for i in post:              #iterate through all queries
-        text = {}               #create a dictionary of 'body':'text'
+        text = {}               #create a dictionary of 'body':'text', etc.
         text['body'] = i.post
         text['link'] = i.link
+        text['id'] = i.id
+        text['author'] = i.get_author(i.user_id)
+        text['date'] = i.date
+        
+        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+        count = 0           
+        text['likestatus'] = "Like" 
+        bool = False        
+        for like in likecheck:          
+            count += 1              # count how many 'likers' there are
+            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                bool = True
+        if bool == True:
+            text['likestatus'] = "Like"
+        text['likes'] = count       # save count to display likes for each post
+
         posts.append(text)      #add individual dictionaries to array
-    #/feed page will display each body text and have access to the link to show the image
+        
+        #create a submit form for each button
+        postbutton = LikeForm(prefix = str(i.id))   
+        postbutton.submit.label.text = 'Me gusta'
+        if bool == True:            #check likestatus confirmed previously
+            postbutton.submit.label.text = 'Hasta saber'
+        text['button'] = postbutton #add submit button to dictionary
+        
+    for i in posts: #when returning page read button presses
+        if i['button'].validate_on_submit():    #check validation for each button
+            if i['likestatus'] == 'Like':   #if unliked
+                #add like to sb
+                addlike = Likes()               #create like object
+                addlike.liker = current_user.id #current user is the liker
+                addlike.post = i['id']          #button and corresponding post
+                db.session.add(addlike)
+                db.session.commit()
+            else:   #else the post is liked
+                #remove like from db
+                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                for l in removelike:            #iterate through each liker
+                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                        db.session.delete(l)                    #delete that object
+                        db.session.commit()
+                        
+            return redirect('/Sfeed')
+        
+    # /feed page will display each body text and have access to the link to show the image
     return render_template('Sfeed.html', posts = posts)
 
 @myapp_obj.route('/Ssearch', methods = ['POST','GET'])

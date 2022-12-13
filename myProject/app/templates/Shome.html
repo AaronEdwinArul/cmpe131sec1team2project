@@ -155,7 +155,46 @@
 
                     
                     {% block mycontent %}<div class="intro">
-                        <img src="https://cdn.searchenginejournal.com/wp-content/uploads/2021/09/16-reasons-why-social-media-is-important-to-your-company-616d3200e6dc6-sej.png" class="logo3" width="900" height="500">
+
+                        <h1>Tus publicaciones</h1>          
+                         
+                        {% for post in posts %}
+                        
+                    
+                        <center>
+                        <div style="width: 70%; display:table; border-style: groove; background-color:darkorange">
+                            <div style="display: table-row">
+                                <div style="width: 550px; display: table-cell; background-color:aquamarine; text-align: left; padding-left: 30px; padding-bottom: 80px;">
+                                    <p class = "author"><b>{{post.author}}</b></p>
+                                    <p>{{post.body}} <br> </p>
+                                </div>
+                                <div style="display: table-cell; text-align: right; padding-right: 40px;">
+                                    <center>
+                                    <img src={{post.link}} width="80%" height="80%" class="imgPadd">
+                    
+                                    </center>
+                                    <form action = "" method = "POST" novalidate>
+                                        
+                                        <div class = "buttonStyle">
+                                            {{post.button.hidden_tag()}}
+                                            {{post.button.submit()}}
+                                        </div>
+                                        
+                                    </form>
+                                    
+                                    <p>{{post.likes}} like(s)</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </center>
+                       
+                        
+                        <br>
+                        <br>
+                        {% endfor %}
+                    
+                     
                     
                     
                     </div>{% endblock %}
