@@ -561,8 +561,6 @@ def profile_edit_spanish():
 
 @myapp_obj.route('/delete_account_spanish', methods = ['GET', 'POST'])
 @login_required
-@myapp_obj.route('/delete_account', methods = ['POST', 'GET'])
-@login_required
 def delete_account_spanish():
 
     current_form = Delete_Account_Form()
