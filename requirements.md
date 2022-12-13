@@ -45,7 +45,6 @@
   1. User likes a post that have already liked
   2. System decrements like count for the post and displays updated like count to user
   3. System displays a symbol next to post indicating user that they unliked the specific post
-<<<<<<< HEAD
 
 
 5. User home page
@@ -132,9 +131,6 @@ The user uploads a file that is not an image
 
 
 9. Search for user
-=======
-  
->>>>>>> 9f6529eb28428ea8ac32e04188ce34ed18452ad8
 
 9. Search for user (Brandon Yu)
 - **Pre-condition:** User wants to find another user on the site.
