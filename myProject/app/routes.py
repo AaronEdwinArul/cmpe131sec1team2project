@@ -61,7 +61,7 @@ def delete_account():
     db.session.delete(user)
     db.session.commit()
         
-    return render_template('login.html', form = None)
+    return render_template('base.html')
 
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
