@@ -54,22 +54,19 @@
 
 - **Primary Sequence:**
   
-  1. System directs user to the home page and prompts user with message "Welcome to home page"
-  2. User clicks ok on welcome message and is shown other options on home page
-  3. User can click home page button again to redirect to page that they are on (refreshing page)
-  4. User can see 'view messages' button, 'add post' button, 'settings' button
-  5. User selects home page 'statistics' button 
-  6. System generates statistics of user's mutual friends, liked posts, and time spent on application by user 
-  7. System displays statistics window on home page
-  8. User closes statistics window
 
-- **Primary Postconditions:** The user is on the home page
+  1. System directs user to the home page.
+  2. User is shown other options on home page
+  3. User can click home page button on sidebar again to redirect to page that they are on (refreshing page)
+  4. User can see 'Make a Post', 'View Followers' and 'Liked Posts' buttons
+  5. User can see their own posts at bottom of home page
+  
+- **Primary Postconditions:** The user is on the starting page of the application directed to them after logging in
 
 - **Alternate Sequence:** 
   
-  1. After logging in for the first time, user is presented with 'Welcome new friend' message on home page
-  2. User selects ok on welcome message
-  3. User continues to use application features via home page after logging in for the first time
+  1. After logging in for the first time, user is presented their feed that has no posts
+  
 
 
 6. Send message to followers
@@ -187,16 +184,12 @@ The user uploads a file that is not an image
 - **Primary Postconditions:** The user is on the profile tab
 
 - **Alternative Sequence:**
-<<<<<<< HEAD
+
 
   1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
   2. The tutorial goes over the different sections of the profile tab explaining what each section does
   3. Once tutorial is finished user selects "OK" 
-=======
-    1. After accessing the profile tab for the first time, the user is prompted with a "tutorial" (form of a pop-up or message)
-    2. The tutorial goes over the different sections of the profile tab explaining what each section does
-    3. Once tutorial is finished user selects "OK" 
->>>>>>> eeb821e8b9a542439f18c9cf6b7be91fdddfe209
+
    
    
 12. Visualize connections of all users (Vincent Cruz)
