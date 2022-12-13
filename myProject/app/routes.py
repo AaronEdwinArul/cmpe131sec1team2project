@@ -357,6 +357,11 @@ data = DataStore()
 @login_required
 def Stest():
     name=current_user.username
+    bio =current_user.bio
+    location= current_user.location
+    email=current_user.email
+    password=current_user.password
+    dob=current_user.dob
     return render_template("Sprofile.html", username=name)
 
 @myapp_obj.route('/Slogin', methods=['POST', 'GET'])
@@ -538,58 +543,41 @@ def Sfollowers():
 
 #Spanish 
 
-@myapp_obj.route('/profile_spanish', methods = ['POST', 'GET'])
-@login_required
-def profile_spanish():
-    return render_template('profile_spanish.html')
-
 
 @myapp_obj.route('/profile_edit_spanish', methods = ['POST','GET'])
 @login_required
 def profile_edit_spanish(_):
-    current_form = ProfileEditForm_Spanish()
+    current_form = ProfileEditForm()
     errorMessage = ''
+    user = User.query.filter_by(username=current_user.username).first()
     if current_form.validate_on_submit():
-        if not(validDOB(current_form.dob.data)):
-            errorMessage = 'La fecha de nacimiento debe estar en formato aaaa-mm-dd.'
-        else:
-            user = User.query.filter_by(current_user.id).first()
-            user.dob = current_form.dob.data
-            user.location = current_form.location.data
-            user.bio = current_form.bio.data
-            db.session.add(user)
-            db.session.commit()
+        user.dob = current_form.dob.data
+        user.location = current_form.location.data
+        user.bio = current_form.bio.data
+        db.session.add(user)
+        db.session.commit()
             return redirect('/profile_spanish') #redirects to profile after submitting form, will show updated bio, dob, location
     return render_template('profile_edit_spanish.html', form=current_form, error = errorMessage)
 
 @myapp_obj.route('/delete_account_spanish', methods = ['GET', 'POST'])
 @login_required
 def delete_account_spanish():
-    current_form = Delete_Account_Form_Spanish()
-    if current_form.validate_on_submit():
-
-        if current_user.password == current_form.password.data: #checks if entered password is equal to current_users' password, if true deletes account, if false returns error
-            user = User.query.filter_by(current_user.id).first()
-                
-            user_posts = Post.query.filter_by(current_user.id).all()
-            user_likes = Likes.query.filter_by(current_user.id).all()
-            user_follows = Follows.query.filter_by(current_user.id).all()
-                
-                
-            for u in user_posts:
-                    db.session.delete(u)
-            for u in user_likes:
-                    db.session.delete(u)
-            for u in user_follows:
-                    db.session.delete(u)
-                    
-            db.session.delete(user)   
-            db.session.commit()
-            print("Tu cuenta ha sido eliminada. Redirigiendo a la página de inicio de sesión...")
-            return redirect('/login_spanish')
-
-        else:
-            print("Contraseña incorrecta!")
+    
+    user = User.query.filter_by(username=current_user.username).first()
+            
+    user_posts = Post.query.filter_by(user_id = current_user.id).all()
+    user_likes = Likes.query.filter_by(liker = current_user.id).all()
+    user_follows = Follows.query.filter_by(follower = current_user.id).all()   
+            
+    for u in user_posts:
+                db.session.delete(u)
+    for u in user_likes:
+                db.session.delete(u)
+    for u in user_follows:
+                db.session.delete(u)
+            
+    db.session.delete(user)
+    db.session.commit()
 
     return render_template('delete_account_spanish.html')
 
