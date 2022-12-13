@@ -77,3 +77,11 @@
 - Michael Xiao: Updated base.html layout
 - Brandon Yu: Fixed likes relationship in database
 - Vincent Cruz: Finished delete_account function
+
+### 2022-12-12 at 21:00
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team Updates (15min or less): Discussed preparations for submision of website
+- Aaron Arul: Added modificatios to home page and spanish versions of home page during call
+- Michael Xiao: Helped debug wbesite code
+- Brandon Yu: Helped debug website code
+- Vincent Cruz: Showcased delete function funtionality
