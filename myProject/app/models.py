@@ -47,8 +47,8 @@ class Follows(db.Model):
     # Table:    x | y
     #           y | x
     #           z | x
-    follower = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
-    followee = db.Column(db.Integer)
+    follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
+    followee = db.Column(db.String)
 
 
 @login.user_loader
