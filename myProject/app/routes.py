@@ -67,20 +67,8 @@ def delete_account():
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
 def home():
-    #current_form = HomePageForm()
-    #if current_form.validate_on_submit():
-    #   return redirect('/home')
-    #return render_template('home.html', form=current_form)
-    #create form for redirecting to another page
-    #create form for redirecting to another page
-    #create form for redirecting to another page
-    
-    #followerList = Follows.query.filter_by(follower=current_user.username)
-    followerNameList = ""
-    #for followerList in followerList:
-        #followerNameList += followerList.followee
 
-    post = Post.query.filter_by(id=current_user.username)    #query all posts
+    post = Post.query.filter_by(user_id=current_user.id)    #query all posts
     posts = []                  #list of dictionaries
     for i in post:              #iterate through all queries
         text = {}               #create a dictionary of 'body':'text', etc.
