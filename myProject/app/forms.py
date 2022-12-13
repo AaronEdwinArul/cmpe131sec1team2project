@@ -32,6 +32,9 @@ class PostForm(FlaskForm):
     link = TextAreaField('Image URL (Optional)')
     post = SubmitField('Post!')
 
+class LikeForm(FlaskForm):
+    submit = SubmitField('Like')
+
 class SearchForm(FlaskForm):
     username = StringField('Username')
     submit = SubmitField('Search')
@@ -49,7 +52,19 @@ class unfollowForm(FlaskForm):
 class unfollowForm2(FlaskForm):
     submit = SubmitField('Home')
 
+class ProfileEditForm(FlaskForm):
+    dob = StringField('yyyy-mm-dd')
+    location = StringField('Location')
+    bio = StringField('Bio')
+    submit = SubmitField('Edit')
 
+class ProfileForm(FlaskForm):
+    submit= SubmitField('Profile')
+
+class Delete_Account_Form():
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit= SubmitField('Delete Account')
+    
 #SPANISH VERSION
 class SLoginForm(FlaskForm):
     username = StringField('Nombre de usuario', validators=[DataRequired()])
@@ -97,3 +112,16 @@ class SunfollowForm2(FlaskForm):
     submit = SubmitField('Hogar')
 
 
+
+
+class ProfileEditForm_Spanish(FlaskForm):
+    dob = StringField('yyyy-mm-dd')
+    location = StringField('Ubicación:')
+    bio = StringField('Biografía')
+
+class Delete_Account_Form_Spanish():
+    password = PasswordField('Clave', validators=[DataRequired()])
+    submit= SubmitField('Eliminar Cuenta')
+
+class ProfileForm_Spanish(FlaskForm):
+    submit= SubmitField('Perfil')
