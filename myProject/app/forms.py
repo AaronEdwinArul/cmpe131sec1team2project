@@ -64,8 +64,7 @@ class ProfileForm(FlaskForm):
 class Delete_Account_Form():
     password = PasswordField('Password', validators=[DataRequired()])
     submit= SubmitField('Delete Account')
-
-
+    
 #SPANISH VERSION
 class SLoginForm(FlaskForm):
     username = StringField('Nombre de usuario', validators=[DataRequired()])
@@ -112,6 +111,9 @@ class SunfollowForm(FlaskForm):
 class SunfollowForm2(FlaskForm):
     submit = SubmitField('Hogar')
 
+
+
+
 class ProfileEditForm_Spanish(FlaskForm):
     dob = StringField('yyyy-mm-dd')
     location = StringField('Ubicación:')
@@ -123,5 +125,3 @@ class Delete_Account_Form_Spanish():
 
 class ProfileForm_Spanish(FlaskForm):
     submit= SubmitField('Perfil')
-
-

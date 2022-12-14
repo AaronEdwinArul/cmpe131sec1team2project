@@ -13,8 +13,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    #likes = db.relationship('Likes', backref = 'liker',lazy = 'dynamic')
-    #follows = db.relationship('Follows', backref = 'follow', lazy = 'dynamic')
+    liked = db.relationship('Likes', backref = 'liking',lazy = 'dynamic')
+    follows = db.relationship('Follows', backref = 'following', lazy = 'dynamic')
+
+    bio = db.Column(db.String)
+    dob = db.Column(db.String)
+    location = db.Column(db.String) 
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -36,10 +40,16 @@ class Likes(db.Model):
     # posts are labelled by id
     liker = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
     post = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key = True)
-  
+
 class Follows(db.Model):
-    follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True) #who is doing the following
-    followee = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True) #who is being followed
+    # 2 wide table that lists followers (left) of followee (right)
+    # e.g. if x and y both follow each other, and z follows x
+    # Table:    x | y
+    #           y | x
+    #           z | x
+    follower = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
+    followee = db.Column(db.Integer)
+
 
 @login.user_loader
 def load_user(id):
