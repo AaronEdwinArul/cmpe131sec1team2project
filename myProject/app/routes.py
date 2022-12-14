@@ -15,12 +15,6 @@ from flask_login import current_user, login_user, logout_user, login_required
 def base():
     return render_template("base.html")
 
-@myapp_obj.route('/profile')
-@login_required
-def test():
-    name=current_user.username
-    return render_template("profile.html", username=name)
-
 @myapp_obj.route('/statistics')
 @login_required
 def test1():
@@ -55,32 +49,31 @@ def logout():
     logout_user()
     return render_template('base.html', form=current_form)
 
-@myapp_obj.route('/delete_account', methods = ['DELETE'])
+@myapp_obj.route('/delete_account', methods = ['POST', 'GET'])
 @login_required
 def delete_account():
 
-    user = User.query.filter_by(current_user.id).first()
-    
-    user_posts = Post.query.filter_by(current_user.id).all()
-    user_likes = Likes.query.filter_by(current_user.id).all()
-    user_follows = Follows.query.filter_by(current_user.id).all()   
-    
-    for u in user_posts:
-        db.session.delete(u)
-    for u in user_likes:
-        db.session.delete(u)
-    for u in user_follows:
-        db.session.delete(u)
-    
-    db.session.delete(user)
-    db.session.commit()
-    logout_user()
-    user = None 
-    user_posts = None
-    user_likes = None
-    user_follows = None 
+    current_form = Delete_Account_Form()
+    user = User.query.filter_by(username=current_user.username).first()
 
-    return render_template('signup.html')
+    if current_form.validate_on_submit() and check_password_hash(user.password,current_form.password.data): #checking if password is correct
+                
+        user_posts = Post.query.filter_by(user_id = current_user.id).all() #collecting all posts, likes, and follows of user
+        user_likes = Likes.query.filter_by(liker = current_user.id).all()
+        user_follows = Follows.query.filter_by(follower = current_user.username).all() 
+                    
+        for u in user_posts:        #deleteing all posts, likes, and follows of user
+            db.session.delete(u)
+        for u in user_likes:
+            db.session.delete(u)
+        for u in user_follows:
+            db.session.delete(u) 
+                    
+        db.session.delete(user) #deleting user
+        db.session.commit()
+        return redirect('/signup')
+            
+    return render_template('delete_account.html', form = current_form)
 
 @myapp_obj.route('/home', methods=['POST', 'GET'])
 @login_required
@@ -92,7 +85,6 @@ def home():
         for user in users:
             test = ''
             test += str(user.id)
-            print(test)
             post = Post.query.filter_by(user_id=test)   #query all posts   
             for i in post:              #iterate through all queries
                 text = {}               #create a dictionary of 'body':'text', etc.
@@ -339,38 +331,36 @@ def followers():
         #print(follow.follower)
     return render_template('followers.html', error=errormessage)
 
-@myapp_obj.route('/test', methods=['GET', 'POST'])
-def test123():
-    errormessage = '' 
-    follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
-    for follow in follow:
-        errormessage += follow.follower + '\n' #displays everyone following current user
-        users = User.query.filter_by(username=follow.follower)
-        for user in users:
-            print(user.id)
-            posts = Post.query.filter_by(user_id=user.id)
-            '''for i in posts:              #iterate through all queries
-                text = {}               #create a dictionary of 'body':'text', etc.
-                text['body'] = i.post
-                text['link'] = i.link
-                text['id'] = i.id
-                text['author'] = i.get_author(i.user_id)
-                text['date'] = i.date
-                
-                likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
-                count = 0           
-                text['likestatus'] = "Like" 
-                bool = False        
-                for like in likecheck:          
-                    count += 1              # count how many 'likers' there are
-                    if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
-                        bool = True
-                if bool == True:
-                    text['likestatus'] = "Unlike"
-                text['likes'] = count       # save count to display likes for each post
+@myapp_obj.route('/profile')
+@login_required
+def test12():
+    name= current_user.username
+    bio = current_user.bio
+    location = current_user.location
+    email = current_user.email
+    password = current_user.password
+    dob = current_user.dob
+    return render_template("profile.html", username=name, bio=bio, location=location, email=email, password=password, dob=dob)
 
-                posts.append(text)      # append dictionary to list of posts'''
-    return render_template('test.html', error=errormessage)
+@myapp_obj.route('/profile_edit', methods = ['POST','GET'])
+@login_required
+def profile_edit():
+    current_form = ProfileEditForm()
+    errorMessage = ''
+    user = User.query.filter_by(username=current_user.username).first() #retreiving current user
+    if current_form.validate_on_submit():
+
+        if len(current_form.bio.data) > 200:
+            errorMessage = 'Bio is too long! (Max characters is 200)'
+           
+        else:
+            user.dob = current_form.dob.data            #updating dob, location, and bio of user
+            user.location = current_form.location.data
+            user.bio = current_form.bio.data
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
+    return render_template('profile_edit.html', form=current_form, error = errorMessage)
 
 # helper functions
 
@@ -462,10 +452,63 @@ def Sdelete_account():
 @myapp_obj.route('/Shome', methods=['POST', 'GET'])
 @login_required
 def Shome():
-    current_form = SHomePageForm()
-    if current_form.validate_on_submit():
-       return redirect('/home')
-    return render_template('Shome.html', form=current_form)
+    follow = Follows.query.filter_by(follower=current_user.username)    #finds all users that current user is following
+    posts = []      #list of dictionaries
+    for follow in follow:
+        users = User.query.filter_by(username=follow.followee) 
+        for user in users:
+            test = ''
+            test += str(user.id)
+            post = Post.query.filter_by(user_id=test)   #query all posts   
+            for i in post:              #iterate through all queries
+                text = {}               #create a dictionary of 'body':'text', etc.
+                text['body'] = i.post
+                text['link'] = i.link
+                text['id'] = i.id
+                text['author'] = i.get_author(i.user_id)
+                text['date'] = i.date
+                
+                likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+                count = 0           
+                text['likestatus'] = "Gusta" 
+                bool = False        
+                for like in likecheck:          
+                    count += 1              # count how many 'likers' there are
+                    if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                        bool = True
+                if bool == True:
+                    text['likestatus'] = "Disgusto"
+                text['likes'] = count       # save count to display likes for each post
+
+                posts.append(text)      #add individual dictionaries to array
+                
+                #create a submit form for each button
+                postbutton = LikeForm(prefix = str(i.id))   
+                if bool == True:            #check likestatus confirmed previously
+                    postbutton.submit.label.text = 'Disgusto'
+                text['button'] = postbutton #add submit button to dictionary
+                
+            for i in posts: #when returning page read button presses
+                if i['button'].validate_on_submit():    #check validation for each button
+                    if i['likestatus'] == 'Gusta':   #if unliked
+                        #add like to sb
+                        addlike = Likes()               #create like object
+                        addlike.liker = current_user.id #current user is the liker
+                        addlike.post = i['id']          #button and corresponding post
+                        db.session.add(addlike)
+                        db.session.commit()
+                    else:   #else the post is liked
+                        #remove like from db
+                        removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                        for l in removelike:            #iterate through each liker
+                            if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                                db.session.delete(l)                    #delete that object
+                                db.session.commit()
+                                
+                    return redirect('/Shome')    #refresh page to update like status
+        
+    # /feed page will display each body text and have access to the link to show the image
+    return render_template('Shome.html', posts = posts)
 
 @myapp_obj.route('/Ssignup', methods = ['POST','GET'])
 def Screate():

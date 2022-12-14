@@ -29,7 +29,7 @@ class SignupForm(FlaskForm):
 
 class PostForm(FlaskForm):
     text = TextAreaField('Enter message here')
-    link = TextAreaField('Image URL (Optional)')
+    link = TextAreaField('Image URL')
     post = SubmitField('Post!')
 
 class LikeForm(FlaskForm):
@@ -56,12 +56,12 @@ class ProfileEditForm(FlaskForm):
     dob = StringField('yyyy-mm-dd')
     location = StringField('Location')
     bio = StringField('Bio')
-    submit = SubmitField('Edit')
+    submit = SubmitField('Save')
 
 class ProfileForm(FlaskForm):
     submit= SubmitField('Profile')
 
-class Delete_Account_Form():
+class Delete_Account_Form(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit= SubmitField('Delete Account')
     
@@ -118,8 +118,9 @@ class ProfileEditForm_Spanish(FlaskForm):
     dob = StringField('yyyy-mm-dd')
     location = StringField('Ubicación:')
     bio = StringField('Biografía')
+    submit = SubmitField('Ahorrar')
 
-class Delete_Account_Form_Spanish():
+class Delete_Account_Form_Spanish(FlaskForm):
     password = PasswordField('Clave', validators=[DataRequired()])
     submit= SubmitField('Eliminar Cuenta')
 
