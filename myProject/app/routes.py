@@ -401,33 +401,6 @@ def Slogin():
                 errorMessage = 'Usuario o contraseña invalido'
     return render_template('Slogin.html', form=current_form, error=errorMessage)
 
-@myapp_obj.route('/delete_account', methods = ['DELETE'])
-@login_required
-def Sdelete_account():
-
-    user = User.query.filter_by(current_user.id).first()
-    
-    user_posts = Post.query.filter_by(current_user.id).all()
-    user_likes = Likes.query.filter_by(current_user.id).all()
-    user_follows = Follows.query.filter_by(current_user.id).all()   
-    
-    for u in user_posts:
-        db.session.delete(u)
-    for u in user_likes:
-        db.session.delete(u)
-    for u in user_follows:
-        db.session.delete(u)
-    
-    db.session.delete(user)
-    db.session.commit()
-    logout_user()
-    user = None 
-    user_posts = None
-    user_likes = None
-    user_follows = None 
-
-    return render_template('signup.html')
-
 @myapp_obj.route('/Shome', methods=['POST', 'GET'])
 @login_required
 def Shome():
@@ -712,3 +685,28 @@ def profile_edit_spanish():
             db.session.commit()
             return redirect('/profile_spanish') #redirects to profile after submitting form, will show updated bio, dob, location
     return render_template('profile_edit_spanish.html', form=current_form, error = errorMessage)
+
+@myapp_obj.route('/delete_account_spanish', methods = ['GET', 'POST'])
+@login_required
+def delete_account_spanish():
+    current_form = Delete_Account_Form_Spanish()
+    user = User.query.filter_by(username = current_user.username).first()
+
+    if current_form.validate_on_submit() and check_password_hash(user.password,current_form.password.data): #checking if password is correct
+
+        user_posts = Post.query.filter_by(user_id = current_user.id).all() #collecting all posts, likes, and follows of user
+        user_likes = Likes.query.filter_by(liker = current_user.id).all()
+        user_follows = Follows.query.filter_by(follower = current_user.id).all()   
+                  
+        for u in user_posts:
+                db.session.delete(u)
+        for u in user_likes:
+                db.session.delete(u)
+        for u in user_follows:
+                db.session.delete(u)
+                    
+        db.session.delete(user)   
+        db.session.commit()
+        return redirect('/signup')
+
+    return render_template('delete_account_spanish.html', form = current_form)
