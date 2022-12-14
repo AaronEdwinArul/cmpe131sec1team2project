@@ -14,7 +14,6 @@ class User(db.Model, UserMixin):
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     liked = db.relationship('Likes', backref = 'liking',lazy = 'dynamic')
-    follows = db.relationship('Follows', backref = 'following', lazy = 'dynamic')
 
     bio = db.Column(db.String)
     dob = db.Column(db.String)
@@ -23,7 +22,7 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     post = db.Column(db.String(500))
-    link = db.Column(db.String(100))
+    link = db.Column(db.String(200))
     date = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     liked = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
@@ -34,6 +33,7 @@ class Post(db.Model):
             return author.username
         else:
             return 'Unknown User'
+
 
 class Likes(db.Model):
     # 2 wide table that lists users who liked (left) a post (right)
@@ -47,8 +47,9 @@ class Follows(db.Model):
     # Table:    x | y
     #           y | x
     #           z | x
-    follower = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
-    followee = db.Column(db.Integer)
+    follower = db.Column(db.String, primary_key = True)
+    followee = db.Column(db.String, primary_key = True)
+
 
 
 @login.user_loader

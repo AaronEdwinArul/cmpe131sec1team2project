@@ -1,5 +1,4 @@
-
-{% extends "home.html" %}
+{% extends "Shome.html" %}
 
 {% block mycontent %}
 
@@ -14,7 +13,7 @@
         <p>{{form.location.label}} <br> {{form.location()}}</p>
         <p>{{form.submit()}}</p>
     </form>
+    {{error}}
 </center>
 
 {% endblock %}
-

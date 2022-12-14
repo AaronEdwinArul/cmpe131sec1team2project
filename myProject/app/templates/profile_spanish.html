@@ -1,5 +1,4 @@
-
-{% extends "home.html" %}
+{% extends "Shome.html" %}
 
 {% block mycontent %}
 <center>
@@ -11,14 +10,18 @@
 </div>
 </center>
 <center>
-    
-    <a class="button" href="/following"><b>Siguiendo</b></a><br>
-    <a class="button" href="/followers"><b>Seguidores</b></a><br>
-
+   
     <h1><h3>Bio:</h3>{{bio}}</h1>
     <h1><h3>Fecha de nacimiento:</h3>{{dob}}</h1>
     <h1><h3>Ubicación:</h3> {{location}}</h1>
-
-
     <h1><h3>Nombre de usuario:</h3>{{username}}</h1>
-    <h1><h3>Contraseña:</h3>{{password
+    <h1><h3>Correo electrónico:</h3> {{email}}</h1>
+<center>
+    <div class="ribb">
+        
+        <a class="button" href="/profile_edit_spanish">Editar perfil</a><br>
+        <a class="button" href="/delete_account_spanish">Borrar cuenta</a>
+        
+    </div>
+</center>
+{% endblock %}

@@ -1,6 +1,8 @@
-{% extends "home.html" %}
+
+{% extends "Shome.html" %}
 
 {% block mycontent %}
+
 <center>
     <Title>Eliminar cuenta</Title>
 <div>
@@ -8,10 +10,13 @@
 ¿Estás seguro de que quieres eliminar tu cuenta?
 </h1>
 <h2>Por favor, ingrese su contraseña para confirmar.</h2>
-<p>{{form.password.label}} <br> {{form.password()}}</p>
-<p>{{form.submit()}}</p>
-</div>
+<form action="" method="POST" novalidate>
+    {{form.hidden_tag()}}
+    <p>{{form.password.label}} <br> {{form.password()}}</p>
+    <p>{{form.submit()}}</p>
+</form>
 <h5>Se le redirigirá a la página de inicio de sesión cuando haya terminado.</h5>
+{{error}}
 </center>
 {% endblock %}
 

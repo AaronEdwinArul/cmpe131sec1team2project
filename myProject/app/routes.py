@@ -1,28 +1,22 @@
 from app import myapp_obj, db
 from flask import render_template, redirect, url_for, request
 from app.models import User, Post, Likes, Follows
-from app.forms import LoginForm, HomePageForm, LogoutForm, PostsForm, SignupForm, PostForm, LikeForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2, ProfileEditForm, Delete_Account_Form
+from app.forms import LoginForm, LogoutForm, SignupForm, PostForm, LikeForm, SearchForm, SearchResult, FollowForm, unfollowForm, unfollowForm2, ProfileEditForm, Delete_Account_Form
 
 #importing spanish forms
-from app.forms import Delete_Account_Form_Spanish, ProfileEditForm_Spanish, ProfileForm_Spanish
-from app.forms import SLoginForm, SSignupForm, SPostForm, SSearchForm, SSearchResult, SFollowForm, SunfollowForm, SunfollowForm2, SHomePageForm
+from app.forms import Delete_Account_Form_Spanish, ProfileEditForm_Spanish
+from app.forms import SLoginForm, SSignupForm, SPostForm, SSearchForm, SSearchResult, SFollowForm, SunfollowForm, SunfollowForm2
 
-from datetime import date, datetime
+from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
+from datetime import date
 
-
-@myapp_obj.route('/')
+@myapp_obj.route('/')   #routes to the base page
 def base():
     return render_template("base.html")
 
-@myapp_obj.route('/profile')
-@login_required
-def test():
-    name=current_user.username
-    return render_template("profile.html", username=name)
-
-@myapp_obj.route('/login', methods=['POST', 'GET'])
+@myapp_obj.route('/login', methods=['POST', 'GET']) #routes to login page
 def login():
     current_form = LoginForm()
     errorMessage = ''
@@ -37,90 +31,100 @@ def login():
             errorMessage = 'Invalid Username of Password'       #else, raise error message 
     return render_template('login.html', form=current_form, error=errorMessage)
 
-@myapp_obj.route('/delete_account', methods = ['DELETE'])
+@myapp_obj.route('/logout') #logs out and routes to base page
+@login_required
+def logout():
+    current_form = LogoutForm()
+    logout_user()
+    return render_template('base.html', form=current_form)
+
+@myapp_obj.route('/delete_account', methods = ['POST', 'GET'])  #deletes account and routes to signup page
 @login_required
 def delete_account():
 
-    user = User.query.filter_by(current_user.id).first()
-    
-    user_posts = Post.query.filter_by(current_user.id).all()
-    user_likes = Likes.query.filter_by(current_user.id).all()
-    user_follows = Follows.query.filter_by(current_user.id).all()   
-    
-    for u in user_posts:
-        db.session.delete(u)
-    for u in user_likes:
-        db.session.delete(u)
-    for u in user_follows:
-        db.session.delete(u)
-    
-    db.session.delete(user)
-    db.session.commit()
-    logout_user()
-    user = None 
-    user_posts = None
-    user_likes = None
-    user_follows = None 
+    current_form = Delete_Account_Form()
+    user = User.query.filter_by(username=current_user.username).first()
 
-    return render_template('signup.html')
+    if current_form.validate_on_submit() and check_password_hash(user.password,current_form.password.data): #checking if password is correct
+                
+        user_posts = Post.query.filter_by(user_id = current_user.id).all() #collecting all posts, likes, and follows of user
+        user_likes = Likes.query.filter_by(liker = current_user.id).all()
+        user_follows = Follows.query.filter_by(follower = current_user.username).all() 
+                    
+        for u in user_posts:        #deleteing all posts, likes, and follows of user
+            db.session.delete(u)
+        for u in user_likes:
+            db.session.delete(u)
+        for u in user_follows:
+            db.session.delete(u) 
+                    
+        db.session.delete(user) #deleting user
+        db.session.commit()
+        return redirect('/signup')
+            
+    return render_template('delete_account.html', form = current_form)
 
-@myapp_obj.route('/home', methods=['POST', 'GET'])
+@myapp_obj.route('/home', methods=['POST', 'GET'])  #routes to home page
 @login_required
 def home():
+    follows = Follows.query.filter_by(follower=current_user.username)    #finds all users that current user is following
+    followedids = []
+    posts = []      #list of dictionaries
+    for i in follows:
+        followedids.append(User.query.filter_by(username = i.followee).first().id)
+    for userid in followedids:
+        post = Post.query.filter_by(user_id = userid)   #query all posts   
+        for i in post:              #iterate through all queries
+            text = {}               #create a dictionary of 'body':'text', etc.
+            text['body'] = i.post
+            text['link'] = i.link
+            text['id'] = i.id
+            text['author'] = i.get_author(i.user_id)
+            text['date'] = i.date
+            
+            likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+            count = 0           
+            text['likestatus'] = "Like" 
+            bool = False        
+            for like in likecheck:          
+                count += 1              # count how many 'likers' there are
+                if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                    bool = True
+            if bool == True:
+                text['likestatus'] = "Unlike"
+            text['likes'] = count       # save count to display likes for each post
 
-    post = Post.query.filter_by(user_id=current_user.id)    #query all posts
-    posts = []                  #list of dictionaries
-    for i in post:              #iterate through all queries
-        text = {}               #create a dictionary of 'body':'text', etc.
-        text['body'] = i.post
-        text['link'] = i.link
-        text['id'] = i.id
-        text['author'] = i.get_author(i.user_id)
-        text['date'] = i.date
-        
-        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
-        count = 0           
-        text['likestatus'] = "Like" 
-        bool = False        
-        for like in likecheck:          
-            count += 1              # count how many 'likers' there are
-            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
-                bool = True
-        if bool == True:
-            text['likestatus'] = "Unlike"
-        text['likes'] = count       # save count to display likes for each post
-
-        posts.append(text)      #add individual dictionaries to array
-        
-        #create a submit form for each button
-        postbutton = LikeForm(prefix = str(i.id))   
-        if bool == True:            #check likestatus confirmed previously
-            postbutton.submit.label.text = 'Unlike'
-        text['button'] = postbutton #add submit button to dictionary
-        
-    for i in posts: #when returning page read button presses
-        if i['button'].validate_on_submit():    #check validation for each button
-            if i['likestatus'] == 'Like':   #if unliked
-                #add like to sb
-                addlike = Likes()               #create like object
-                addlike.liker = current_user.id #current user is the liker
-                addlike.post = i['id']          #button and corresponding post
-                db.session.add(addlike)
-                db.session.commit()
-            else:   #else the post is liked
-                #remove like from db
-                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
-                for l in removelike:            #iterate through each liker
-                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
-                        db.session.delete(l)                    #delete that object
-                        db.session.commit()
-                        
-            return redirect('/home')
+            posts.append(text)      #add individual dictionaries to array
+            
+            #create a submit form for each button
+            postbutton = LikeForm(prefix = str(i.id))   
+            if bool == True:            #check likestatus confirmed previously
+                postbutton.submit.label.text = 'Unlike'
+            text['button'] = postbutton #add submit button to dictionary
+            
+        for i in posts: #when returning page read button presses
+            if i['button'].validate_on_submit():    #check validation for each button
+                if i['likestatus'] == 'Like':   #if unliked
+                    #add like to sb
+                    addlike = Likes()               #create like object
+                    addlike.liker = current_user.id #current user is the liker
+                    addlike.post = i['id']          #button and corresponding post
+                    db.session.add(addlike)
+                    db.session.commit()
+                else:   #else the post is liked
+                    #remove like from db
+                    removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                    for l in removelike:            #iterate through each liker
+                        if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                            db.session.delete(l)                    #delete that object
+                            db.session.commit()
+                            
+                return redirect('/home')    #refresh page to update like status
         
     # /feed page will display each body text and have access to the link to show the image
     return render_template('home.html', posts = posts)
 
-@myapp_obj.route('/signup', methods = ['POST','GET'])
+@myapp_obj.route('/signup', methods = ['POST','GET'])   #routes to signup page
 def create():
     current_form = SignupForm()
     errorMessage = ''
@@ -142,7 +146,7 @@ def create():
 
     return render_template('signup.html',form=current_form, error = errorMessage)
 
-@myapp_obj.route('/post', methods = ['POST','GET'])
+@myapp_obj.route('/post', methods = ['POST','GET'])   #routes to post page
 @login_required
 def post():
     current_form = PostForm()
@@ -159,7 +163,7 @@ def post():
         return redirect('/feed')        #redirects to home after posting, will show post
     return render_template('post.html', form = current_form)
 
-@myapp_obj.route('/feed', methods = ['POST','GET'])
+@myapp_obj.route('/feed', methods = ['POST','GET'])  #routes to feed page
 @login_required
 def view():
     #create form for redirecting to another page
@@ -215,7 +219,7 @@ def view():
     # /feed page will display each body text and have access to the link to show the image
     return render_template('feed.html', posts = posts)
 
-@myapp_obj.route('/search', methods = ['POST','GET'])
+@myapp_obj.route('/search', methods = ['POST','GET'])   #routes to search page
 @login_required
 def search():
     current_form = SearchForm()
@@ -236,41 +240,35 @@ def search():
 @myapp_obj.route('/user/<usr>', methods = ['POST','GET'])   #usr url is the searched username
 def user(usr):
     current_form = SearchResult()
-    #if request.method == "POST":
-        #return redirect('user-profile')
     return render_template('searchResult.html', form=current_form, username=usr)
 
-@myapp_obj.route('/followers', methods=['GET', 'POST'])
+@myapp_obj.route('/user-profile', methods=['GET', 'POST'])  #routes to searched user profile page
 @login_required
 def followers():
     errormessage = ''  
     follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
     for follow in follow:
         errormessage += follow.follower + '\n' #displays everyone following current user
-        #s=errormessage.replace("\n","<br/>")
-        #errormessage = s
-    #else:
-        #errormessage = 'You have no followers'
-        #print(follow.follower)
     return render_template('followers.html', error=errormessage)
 
-@myapp_obj.route('/profile', methods = ['POST', 'GET'])
+@myapp_obj.route('/profile', methods = ['POST', 'GET']) #routes to current user profile page
 @login_required
 def profile():
     return render_template('profile.html')
 
-
-@myapp_obj.route('/profile_edit', methods = ['POST','GET'])
+@myapp_obj.route('/profile_edit', methods = ['POST','GET']) #routes to profile edit page
 @login_required
 def profile_edit():
     current_form = ProfileEditForm()
     errorMessage = ''
+    user = User.query.filter_by(username=current_user.username).first() #retreiving current user
     if current_form.validate_on_submit():
-        if not(validDOB(current_form.dob.data)):
-            errorMessage = 'DOB must be in yyyy-mm-dd format.'
+
+        if len(current_form.bio.data) > 200:
+            errorMessage = 'Bio is too long! (Max characters is 200)'
+           
         else:
-            user = User.query.filter_by(current_user.id).first()
-            user.dob = current_form.dob.data
+            user.dob = current_form.dob.data            #updating dob, location, and bio of user
             user.location = current_form.location.data
             user.bio = current_form.bio.data
             db.session.add(user)
@@ -279,7 +277,7 @@ def profile_edit():
     return render_template('profile_edit.html', form=current_form, error = errorMessage)
 
 
-@myapp_obj.route('/user-profile', methods=['GET', 'POST'])
+@myapp_obj.route('/user-profile', methods=['GET', 'POST'])  #routes to searched user profile page
 def user_profile():
     current_form = FollowForm()
     errormessage = ''
@@ -303,7 +301,7 @@ def user_profile():
                 return redirect('/user-profile1')
     return render_template('user-profile.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
 
-@myapp_obj.route('/user-profile1', methods=['GET', 'POST'])
+@myapp_obj.route('/user-profile1', methods=['GET', 'POST']) #routes to searched user profile1 page
 def user_profile1():
     current_form = unfollowForm()
     errormessage = ''
@@ -323,7 +321,7 @@ def user_profile1():
                 return redirect('/user-profile2')
     return render_template('user-profile1.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
 
-@myapp_obj.route('/user-profile2', methods=['GET', 'POST'])
+@myapp_obj.route('/user-profile2', methods=['GET', 'POST']) #routes to searched user profile2 page
 def user_profile2():
     current_form = unfollowForm2()
     errormessage = ''
@@ -338,6 +336,46 @@ def user_profile2():
         if request.method == "POST":
             return redirect('/home')    #can only go to home page after unfollowing to prevent spam clicking
     return render_template('user-profile2.html', form=current_form, username=name, first=first, last=last, email=email, error=errormessage)
+
+@myapp_obj.route('/followers', methods=['GET', 'POST']) #routes to followers page
+@login_required
+def followers():
+    errormessage = ''  
+    follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
+    for follow in follow:
+        errormessage += follow.follower + '\n' #displays everyone following current user
+    return render_template('followers.html', error=errormessage)
+
+@myapp_obj.route('/profile')    #routes to current user profile page
+@login_required
+def test12():
+    name= current_user.username
+    bio = current_user.bio
+    location = current_user.location
+    email = current_user.email
+    password = current_user.password
+    dob = current_user.dob
+    return render_template("profile.html", username=name, bio=bio, location=location, email=email, password=password, dob=dob)
+
+@myapp_obj.route('/profile_edit', methods = ['POST','GET']) #routes to profile edit page
+@login_required
+def profile_edit():
+    current_form = ProfileEditForm()
+    errorMessage = ''
+    user = User.query.filter_by(username=current_user.username).first() #retreiving current user
+    if current_form.validate_on_submit():
+
+        if len(current_form.bio.data) > 200:
+            errorMessage = 'Bio is too long! (Max characters is 200)'
+           
+        else:
+            user.dob = current_form.dob.data            #updating dob, location, and bio of user
+            user.location = current_form.location.data
+            user.bio = current_form.bio.data
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
+    return render_template('profile_edit.html', form=current_form, error = errorMessage)
 
 @myapp_obj.route('/logout')
 @login_required
@@ -373,14 +411,20 @@ def Sdelete_account():
 
     return render_template('signup.html')
 
+
 # helper functions
 
-def validPassword(string):
+class DataStore():  #class to store searched user
+    searchedUser = None
+
+data = DataStore()
+
+def validPassword(string):  #checks if password is valid
     if len(string) < 8:
         return False
     return True
 
-def validEmail(string):
+def validEmail(string): #checks if email is valid
     boolAddress = False
     boolDomain = False
     for i in string:
@@ -390,25 +434,19 @@ def validEmail(string):
         boolDomain = True
     return boolAddress and boolDomain
 
-def validDOB(date):
-    try:
-        datetime.strptime(date, '%Y-%m-%d')
-    except ValueError:
-        raise ValueError("DOB should be in YYYY-MM-DD") #checks if DOB is in yyyy-mm-dd format
-
-
-class DataStore():
-    searchedUser = None
-
-data = DataStore()
 
 #SPANISH VERSION
 
-@myapp_obj.route('/Sprofile')
+@myapp_obj.route('/profile_spanish')
 @login_required
 def Stest():
     name=current_user.username
-    return render_template("Sprofile.html", username=name)
+    bio =current_user.bio
+    location= current_user.location
+    email=current_user.email
+    password=current_user.password
+    dob=current_user.dob
+    return render_template("profile_spanish.html", username=name, bio=bio, location=location, email=email, password=password, dob=dob)
 
 @myapp_obj.route('/Slogin', methods=['POST', 'GET'])
 def Slogin():
@@ -427,13 +465,93 @@ def Slogin():
                 errorMessage = 'Usuario o contraseña invalido'
     return render_template('Slogin.html', form=current_form, error=errorMessage)
 
+@myapp_obj.route('/delete_account', methods = ['DELETE'])
+@login_required
+def Sdelete_account():
+
+    user = User.query.filter_by(current_user.id).first()
+    
+    user_posts = Post.query.filter_by(current_user.id).all()
+    user_likes = Likes.query.filter_by(current_user.id).all()
+    user_follows = Follows.query.filter_by(current_user.id).all()   
+    
+    for u in user_posts:
+        db.session.delete(u)
+    for u in user_likes:
+        db.session.delete(u)
+    for u in user_follows:
+        db.session.delete(u)
+    
+    db.session.delete(user)
+    db.session.commit()
+    logout_user()
+    user = None 
+    user_posts = None
+    user_likes = None
+    user_follows = None 
+
+    return render_template('signup.html')
+
 @myapp_obj.route('/Shome', methods=['POST', 'GET'])
 @login_required
 def Shome():
-    current_form = SHomePageForm()
-    if current_form.validate_on_submit():
-       return redirect('/home')
-    return render_template('Shome.html', form=current_form)
+    follows = Follows.query.filter_by(follower=current_user.username)    #finds all users that current user is following
+    followedids = []
+    posts = []      #list of dictionaries
+    for i in follows:
+        followedids.append(User.query.filter_by(username = i.followee).first().id)
+    for userid in followedids:
+        post = Post.query.filter_by(user_id = userid)   #query all posts   
+        for i in post:              #iterate through all queries
+            text = {}               #create a dictionary of 'body':'text', etc.
+            text['body'] = i.post
+            text['link'] = i.link
+            text['id'] = i.id
+            text['author'] = i.get_author(i.user_id)
+            text['date'] = i.date
+            
+            likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+            count = 0           
+            text['likestatus'] = "Like" 
+            bool = False        
+            for like in likecheck:          
+                count += 1              # count how many 'likers' there are
+                if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                    bool = True
+            if bool == True:
+                text['likestatus'] = "Unlike"
+            text['likes'] = count       # save count to display likes for each post
+
+            posts.append(text)      #add individual dictionaries to array
+            
+            #create a submit form for each button
+            postbutton = LikeForm(prefix = str(i.id)) 
+            postbutton.submit.label.text = 'Me gusta'  
+            if bool == True:            #check likestatus confirmed previously
+                postbutton.submit.label.text = 'Hasta saber'
+            text['button'] = postbutton #add submit button to dictionary
+            
+        for i in posts: #when returning page read button presses
+            if i['button'].validate_on_submit():    #check validation for each button
+                if i['likestatus'] == 'Like':   #if unliked
+                    #add like to sb
+                    addlike = Likes()               #create like object
+                    addlike.liker = current_user.id #current user is the liker
+                    addlike.post = i['id']          #button and corresponding post
+                    db.session.add(addlike)
+                    db.session.commit()
+                else:   #else the post is liked
+                    #remove like from db
+                    removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                    for l in removelike:            #iterate through each liker
+                        if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                            db.session.delete(l)                    #delete that object
+                            db.session.commit()
+                            
+                return redirect('/Shome')    #refresh page to update like status
+        
+    # /feed page will display each body text and have access to the link to show the image
+    return render_template('Shome.html', posts = posts)
 
 @myapp_obj.route('/Ssignup', methods = ['POST','GET'])
 def Screate():
@@ -460,32 +578,78 @@ def Screate():
 @myapp_obj.route('/Spost', methods = ['POST','GET'])
 @login_required
 def Spost():
+    error = ''
     current_form = SPostForm()
     if current_form.validate_on_submit():
-        post = Post()
-        post.post = current_form.text.data  #save body text to db
-        post.link = current_form.link.data  #save image url to db
-        post.user_id = 1    #change to current user later on
-        today = date.today()
-        post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
-        with myapp_obj.app_context():       #add object to db
-            db.session.add(post)
-            db.session.commit()
-        return redirect('/Sfeed')        #redirects to home after posting, will show post
-    return render_template('Spost.html', form = current_form)
+        if len(current_form.text.data) > 500:
+            error = '¡La publicación es demasiado larga! (El máximo de caracteres es 500)'
+        else:
+            post = Post()
+            post.post = current_form.text.data  #save body text to db
+            post.link = current_form.link.data  #save image url to db
+            post.user_id = current_user.id      #save current user's id to track poster
+            today = date.today()
+            post.date = str(today).replace('-','')      #date of post stored as yyyymmdd
+            with myapp_obj.app_context():       #add object to db
+                db.session.add(post)
+                db.session.commit()
+            return redirect('/Sfeed')        #redirects to home after posting, will show post
+    return render_template('Spost.html', form = current_form, error = error)
 
 @myapp_obj.route('/Sfeed', methods = ['POST','GET'])
 def Sview():
-
-    #create form for redirecting to another page
+#create form for redirecting to another page
     post = Post.query.all()     #query all posts
     posts = []                  #list of dictionaries
     for i in post:              #iterate through all queries
-        text = {}               #create a dictionary of 'body':'text'
+        text = {}               #create a dictionary of 'body':'text', etc.
         text['body'] = i.post
         text['link'] = i.link
+        text['id'] = i.id
+        text['author'] = i.get_author(i.user_id)
+        text['date'] = i.date
+        
+        likecheck = Likes.query.filter_by(post = i.id)  # for each like object for this post,
+        count = 0           
+        text['likestatus'] = "Like" 
+        bool = False        
+        for like in likecheck:          
+            count += 1              # count how many 'likers' there are
+            if current_user.id == int(like.liker):  # if the current logged user is in the table, display unlike button rather than like
+                bool = True
+        if bool == True:
+            text['likestatus'] = "Unlike"
+        text['likes'] = count       # save count to display likes for each post
+
         posts.append(text)      #add individual dictionaries to array
-    #/feed page will display each body text and have access to the link to show the image
+        
+        #create a submit form for each button
+        postbutton = LikeForm(prefix = str(i.id))   
+        postbutton.submit.label.text = 'Me gusta'
+        if bool == True:            #check likestatus confirmed previously
+            postbutton.submit.label.text = 'Hasta saber'
+        text['button'] = postbutton #add submit button to dictionary
+        
+    for i in posts: #when returning page read button presses
+        if i['button'].validate_on_submit():    #check validation for each button
+            if i['likestatus'] == 'Like':   #if unliked
+                #add like to sb
+                addlike = Likes()               #create like object
+                addlike.liker = current_user.id #current user is the liker
+                addlike.post = i['id']          #button and corresponding post
+                db.session.add(addlike)
+                db.session.commit()
+            else:   #else the post is liked
+                #remove like from db
+                removelike = Likes.query.filter_by(post = i['id'])  #filter all likers of target post
+                for l in removelike:            #iterate through each liker
+                    if int(current_user.id) == int(l.liker):    #when current user id is found as a liker,
+                        db.session.delete(l)                    #delete that object
+                        db.session.commit()
+                        
+            return redirect('/Sfeed')
+        
+    # /feed page will display each body text and have access to the link to show the image
     return render_template('Sfeed.html', posts = posts)
 
 @myapp_obj.route('/Ssearch', methods = ['POST','GET'])
@@ -509,8 +673,6 @@ def Ssearch():
 @myapp_obj.route('/Suser/<usr>', methods = ['POST','GET'])   #usr url is the searched username
 def Suser(usr):
     current_form = SSearchResult()
-    #if request.method == "POST":
-        #return redirect('user-profile')
     return render_template('SsearchResult.html', form=current_form, username=usr)
 
 @myapp_obj.route('/Suser-profile', methods=['GET', 'POST'])
@@ -580,32 +742,21 @@ def Sfollowers():
     follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
     for follow in follow:
         errormessage += follow.follower + '\n' #displays everyone following current user
-        #s=errormessage.replace("\n","<br/>")
-        #errormessage = s
-    #else:
-        #errormessage = 'You have no followers'
-        #print(follow.follower)
     return render_template('Sfollowers.html', error=errormessage)
-
-#Spanish 
-
-@myapp_obj.route('/profile_spanish', methods = ['POST', 'GET'])
-@login_required
-def profile_spanish():
-    return render_template('profile_spanish.html')
-
 
 @myapp_obj.route('/profile_edit_spanish', methods = ['POST','GET'])
 @login_required
-def profile_edit_spanish(_):
+def profile_edit_spanish():
     current_form = ProfileEditForm_Spanish()
     errorMessage = ''
+    user = User.query.filter_by(username=current_user.username).first() #retreiving current user
     if current_form.validate_on_submit():
-        if not(validDOB(current_form.dob.data)):
-            errorMessage = 'La fecha de nacimiento debe estar en formato aaaa-mm-dd.'
+
+        if len(current_form.bio.data) > 200:
+            errorMessage = '¡La biografía es demasiado larga! (El máximo de caracteres es 200)'
+           
         else:
-            user = User.query.filter_by(current_user.id).first()
-            user.dob = current_form.dob.data
+            user.dob = current_form.dob.data            #updating dob, location, and bio of user
             user.location = current_form.location.data
             user.bio = current_form.bio.data
             db.session.add(user)
@@ -617,30 +768,23 @@ def profile_edit_spanish(_):
 @login_required
 def delete_account_spanish():
     current_form = Delete_Account_Form_Spanish()
-    if current_form.validate_on_submit():
+    user = User.query.filter_by(username = current_user.username).first()
 
-        if current_user.password == current_form.password.data: #checks if entered password is equal to current_users' password, if true deletes account, if false returns error
-            user = User.query.filter_by(current_user.id).first()
-                
-            user_posts = Post.query.filter_by(current_user.id).all()
-            user_likes = Likes.query.filter_by(current_user.id).all()
-            user_follows = Follows.query.filter_by(current_user.id).all()
-                
-                
-            for u in user_posts:
-                    db.session.delete(u)
-            for u in user_likes:
-                    db.session.delete(u)
-            for u in user_follows:
-                    db.session.delete(u)
+    if current_form.validate_on_submit() and check_password_hash(user.password,current_form.password.data): #checking if password is correct
+
+        user_posts = Post.query.filter_by(user_id = current_user.id).all() #collecting all posts, likes, and follows of user
+        user_likes = Likes.query.filter_by(liker = current_user.id).all()
+        user_follows = Follows.query.filter_by(follower = current_user.id).all()   
+                  
+        for u in user_posts:
+                db.session.delete(u)
+        for u in user_likes:
+                db.session.delete(u)
+        for u in user_follows:
+                db.session.delete(u)
                     
-            db.session.delete(user)   
-            db.session.commit()
-            print("Tu cuenta ha sido eliminada. Redirigiendo a la página de inicio de sesión...")
-            return redirect('/login_spanish')
+        db.session.delete(user)   
+        db.session.commit()
+        return redirect('/signup')
 
-        else:
-            print("Contraseña incorrecta!")
-
-    return render_template('delete_account_spanish.html')
-
+    return render_template('delete_account_spanish.html', form = current_form)

@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
-from datetime import date
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -29,7 +28,7 @@ class SignupForm(FlaskForm):
 
 class PostForm(FlaskForm):
     text = TextAreaField('Enter message here')
-    link = TextAreaField('Image URL (Optional)')
+    link = TextAreaField('Image URL')
     post = SubmitField('Post!')
 
 class LikeForm(FlaskForm):
@@ -56,16 +55,21 @@ class ProfileEditForm(FlaskForm):
     dob = StringField('yyyy-mm-dd')
     location = StringField('Location')
     bio = StringField('Bio')
-    submit = SubmitField('Edit')
+    submit = SubmitField('Save')
 
 class ProfileForm(FlaskForm):
     submit= SubmitField('Profile')
+
+class Delete_Account_Form(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit= SubmitField('Delete Account')
 
 class Delete_Account_Form():
     password = PasswordField('Password', validators=[DataRequired()])
     submit= SubmitField('Delete Account')
     
 #SPANISH VERSION
+
 class SLoginForm(FlaskForm):
     username = StringField('Nombre de usuario', validators=[DataRequired()])
     password = PasswordField('Clave', validators=[DataRequired()])
@@ -79,9 +83,6 @@ class SSignupForm(FlaskForm):
     username = StringField('Nombre de usuario', validators=[DataRequired()])
     password = PasswordField('Clave', validators=[DataRequired()])
     submit = SubmitField('Crear una cuenta')
-
-class SHomePageForm(FlaskForm):
-    submitHome = SubmitField('Hogar')
     
 class SLogoutForm(FlaskForm):
     submitLogout = SubmitField('Cerrar sesión')
@@ -111,15 +112,13 @@ class SunfollowForm(FlaskForm):
 class SunfollowForm2(FlaskForm):
     submit = SubmitField('Hogar')
 
-
-
-
 class ProfileEditForm_Spanish(FlaskForm):
     dob = StringField('yyyy-mm-dd')
     location = StringField('Ubicación:')
     bio = StringField('Biografía')
+    submit = SubmitField('Ahorrar')
 
-class Delete_Account_Form_Spanish():
+class Delete_Account_Form_Spanish(FlaskForm):
     password = PasswordField('Clave', validators=[DataRequired()])
     submit= SubmitField('Eliminar Cuenta')
 
