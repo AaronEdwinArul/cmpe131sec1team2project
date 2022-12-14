@@ -36,6 +36,7 @@ class Post(db.Model):
         else:
             return 'Unknown User'
 
+
 class Likes(db.Model):
     # 2 wide table that lists users who liked (left) a post (right)
     # posts are labelled by id
