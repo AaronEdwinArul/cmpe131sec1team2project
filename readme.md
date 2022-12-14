@@ -1,11 +1,9 @@
-# Social Media Application
+# Spartsapp - The blog for all SJSU students!
 Authors:
 - Aaron Arul (@AaronEdwinArul) (Team Lead)
 - Vincent Cruz (@dominiccaoile)
 - Brandon Yu (@brndonyu)
 - Michael Xiao (@MichaelXiao9625)
-
-Spartsapp - The blog for all SJSU students!
 
 Introduction:
 - This project is an online social media platform where users can create an account, post messages with images, while interacting with other users by liking their messages while showcasing their views to a broader audience. We built this application to make society feel more connected together.
@@ -45,8 +43,8 @@ Requirements implemented for Milestone 2:
 1. Login (Michael Xiao)
 2. Logout (Aaron Arul)
 3. Create new account (Brandon Yu)
-4. delete account (Vincent Cruz)
-5. User home page (Aaron Arul)
+4. Delete account (Vincent Cruz)
+5. User home page (user can see messages of users they follow) (Aaron Arul)
 6. Send message to followers (Brandon Yu)
 7. Post image with message (Brandon Yu)
 8. Like messages (Aaron Arul)
