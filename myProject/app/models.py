@@ -14,7 +14,8 @@ class User(db.Model, UserMixin):
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     liked = db.relationship('Likes', backref = 'liking',lazy = 'dynamic')
-    #follows = db.relationship('Follows', backref = 'following', lazy = 'dynamic')
+
+    follows = db.relationship('Follows', backref = 'following', lazy = 'dynamic')
 
     bio = db.Column(db.String)
     dob = db.Column(db.String)
@@ -28,8 +29,6 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     liked = db.relationship('Likes', backref = 'original', lazy = 'dynamic')
 
-    comments = db.relationship('Comments', backref = 'parent', lazy = 'dynamic')
-    
     def get_author(self, num):
         author = User.query.filter_by(id = num).first()
         if not author == None:
@@ -49,7 +48,7 @@ class Follows(db.Model):
     # Table:    x | y
     #           y | x
     #           z | x
-    follower = db.Column(db.String,primary_key = True)#, db.ForeignKey('user.id'), primary_key = True)
+    follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
     followee = db.Column(db.String)
 
 
