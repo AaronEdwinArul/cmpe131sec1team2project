@@ -35,11 +35,11 @@
   2. User is shown other options on home page
   3. User can click home page button on sidebar again to redirect to page that they are on (refreshing page)
   4. User can see 'Make a Post', 'View Followers' and 'Feed' buttons
-  5. User can see their own posts at bottom of home page
+  5. User can see the posts of accounts that they follow
 - **Primary Postconditions:** The user is on the starting page of the application directed to them after logging in
 - **Alternate Sequence:** 
   1. After logging in for the first time, the new user is presented the home page with "Make a Post!", "View Followers", and "Feed" buttons.
-  2. The new user scrolls down and sees that their posts section that has no posts 
+  2. The new user scrolls down and sees no posts in the "See what your firends are up to" area of the home page
   
   
   
