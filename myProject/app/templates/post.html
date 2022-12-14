@@ -1,0 +1,16 @@
+{% extends "home.html" %}
+
+{% block mycontent %}
+<center>
+<h1>Make a post!</h1>
+<p></p>
+<form action="" method="POST" novalidate>
+{{form.hidden_tag()}}
+<p>{{form.text.label}} <br> {{form.text()}}</p>
+<p>{{form.link.label}} <br> {{form.link()}}</p>
+<p>{{form.post()}}</p>
+</form>
+{{error}}
+</center>
+
+{% endblock %}
