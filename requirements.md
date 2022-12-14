@@ -9,7 +9,7 @@
 2. Logout (Aaron Arul)
 3. Create new account (Brandon Yu)
 4. delete account (Vincent Cruz)
-5. User home page (Aaron Arul)
+5. User home page (user can see messages of users they follow) (Aaron Arul)
 6. Send message to followers (Brandon Yu)
 7. Post image with message (Brandon Yu)
 8. Like messages (Aaron Arul)
@@ -27,7 +27,7 @@
 
 ## Use Cases
 
-5. User home page
+5. User home page (user can see messages of users they follow)
 - **Pre-condition:** The user is logged in successfully. 
 - **Trigger:** The user clicks the 'Home Page' button.
 - **Primary Sequence:**
