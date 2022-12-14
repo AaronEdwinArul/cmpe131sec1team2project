@@ -1,9 +1,5 @@
 ## Instructions
 
-- Delete this block before adding to your repository. 
-
-- Delete any instructions you see below they will be within < >
-  
 - This schedule should reflect the meetings from the start of the project until the end of the semester.
 
 - Write at least 1 meeting per week until the end of the semester
@@ -80,8 +76,17 @@
 
 ### 2022-12-12 at 21:00
 -Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
-- Team Updates (15min or less): Discussed preparations for submision of website
+- Team Updates (15min or less): Discussed preparations for submission of website
 - Aaron Arul: Added modificatios to home page and spanish versions of home page during call
 - Michael Xiao: Helped debug wbesite code
 - Brandon Yu: Helped debug website code
-- Vincent Cruz: Showcased delete function funtionality
+- Vincent Cruz: Showcased delete function functionality
+
+### 2022-12-13 at 10:00
+-Attended meeting: Aaron Arul, Vincent Cruz, Michael Xiao, Brandon Yu
+- Team Updates (15min or less): Demoed code and ran through website functionality, checked several requirements
+- Aaron Arul: Working on home page displaying posts of those user account follows
+- Michael Xiao: Working on home page displaying posts of those user account follows
+- Brandon Yu: Helped debug website code
+- Vincent Cruz: Identified error in bio functionality, working on fix
+
