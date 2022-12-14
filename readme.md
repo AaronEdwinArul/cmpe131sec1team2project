@@ -45,12 +45,14 @@
 - Like messages (Aaron Arul)
 - Search for user (Michael Xiao)
 - Follow user (Michael Xiao)
+- User profiles (Vincent Cruz)
+- Visualize connections of all users (Vincent Cruz)
 
 ## Non-functional requirements
-- Multilingual support
+- Multilingual support (Aaron, Michael, Brandon, Vincent)
 - Only expected to work on Google Chrome
 - Return results for user after search within 10 seconds
-- User data will be stored safely through hashing
+- User data will be stored safely through hashing (Michael, Brandon)
 
 ## Setup
 Clone this repository by copying the link to this repository and pasting it into the terminal when running git clone, and navigate to myProject and run "python3 run.py" to run application
