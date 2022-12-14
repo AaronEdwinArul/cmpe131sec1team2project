@@ -3,7 +3,7 @@
 
 ## Table of Contents
 * [General Info](#general-information)
-* [Technologies Used](#technologies-used)
+* [Technologies Used](#technologies-and-libraries-used)
 * [Requirements](#requirements)
 * [Setup](#setup)
 * [Usage](#usage)
@@ -17,11 +17,14 @@
 - We hope to make SJSU more connected through this app exclusively for students.
 
 
-## Technologies Used
+## Technologies and Libraries Used
+- IDE such as Ubuntu(WSL) or VSCode
 - Python3.10
 - Flask
-- Flask WTForms
 - SQLAlchemy
+- flask-wtf
+- flask-login
+- flask-sqlalchemy
 
 
 ## Requirements
@@ -38,10 +41,10 @@
 
 
 ## Setup
-Clone this repository and navigate to myProject and run "python3 run.py" to run application
+Clone this repository by copying the link to this repository and pasting it into the terminal when running git clone, and navigate to myProject and run "python3 run.py" to run application
 
 ## Usage
-First step to using our platform is to create an account, without an account the user cannot login to access anything beyond the base page. After creating an account, the users data will be stored into the database. The user then goes to login page to enter their login information, if it’s within the database the website will reroute them to the home page. From the home page user will be able to access all sorts of information and links, searching for users, looking at their own profile and viewing their followers and posts of the accounts they follow. To make a post, the user can click the ‘Make a post!’ option on the home page and be redirected to the post page where they can write a message for the post and attach an image for the post that they are making. If the user clicks on the search button on the sidebar, they’ll be rerouted to a page where they can search for other existing users in the database. If the username the user enters does not match a user in the database, they’ll be asked to search again. This search is case sensitive. After finding another existing user, the user can decide to follow/unfollow that user. This information will be displayed under the “View Followers” tab on the home page. The user profile page can be accessed by clicking the Profile button on the sidebar to access account details. The user can click the Feed button to view poss of all accounts in the database. Finally, if the user decides to logout, the button will be on the left column of the website, which would direct them back to the base page of our website
+The first step to using our platform is to create an account, without an account the user cannot login to access anything beyond the base page. The password and e-mail must satisify certain guidelines in order for the account creation to be successful. After creating an account, the user's data will be stored into the database. The user then goes to login page to enter their login information, if it’s within the database the website will reroute them to the home page. From the home page user will be able to access all sorts of information and links, searching for users, looking at their own profile, making a new post w/image, viewing followers, and also the feed of all posts of users in the database. To make a post, the user can click the ‘Make a post!’ option on the home page and be redirected to the post page where they can write a message for the post and attach an image for the post that they are making. As soon as the user posts this message, they will be sent to the feed page with all users' posts. If the user clicks on the search button on the sidebar, they’ll be rerouted to a page where they can search for other existing users in the database. If the username the user enters does not match a user in the database, they’ll be asked to search again. This search is case sensitive. After finding another existing user, the user can decide to follow/unfollow that user. This information will be displayed under the “View Followers” tab on the home page. The user profile page can be accessed by clicking the Profile button on the sidebar to access account details. The user can click the Feed button to view poss of all accounts in the database. Finally, if the user decides to logout, the button will be on the left column of the website, which would direct them back to the base page of our website.
 
 ## Acknowledgements
 - Aaron Arul (@AaronEdwinArul) (Team Lead)
