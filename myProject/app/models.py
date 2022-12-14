@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     liked = db.relationship('Likes', backref = 'liking',lazy = 'dynamic')
 
-    follows = db.relationship('Follows', backref = 'following', lazy = 'dynamic')
+    #follows = db.relationship('Follows', backref = 'following', lazy = 'dynamic')
 
     bio = db.Column(db.String)
     dob = db.Column(db.String)
@@ -49,8 +49,8 @@ class Follows(db.Model):
     # Table:    x | y
     #           y | x
     #           z | x
-    follower = db.Column(db.String, db.ForeignKey('user.id'), primary_key = True)
-    followee = db.Column(db.String)
+    follower = db.Column(db.String, primary_key = True)
+    followee = db.Column(db.String, primary_key = True)
 
 
 
