@@ -5,6 +5,8 @@
 * [Introduction](#introduction)
 * [Technologies and Libraries Used](#technologies-and-libraries-used)
 * [Features](#features)
+* [Functional Requirements](#functional-requirements)
+* [Nonfunctional Requirements](#nonfunctional-requirements)
 * [Setup](#setup)
 * [Usage](#usage)
 * [Acknowledgements](#acknowledgements)
@@ -31,6 +33,24 @@
 - Share messages w/images with others
 - Receive feedback for your posts
 - React to others' posts
+
+## Functional requirements
+- Login (Michael Xiao)
+- Logout (Aaron Arul)
+- Create new account (Brandon Yu)
+- Delete account (Vincent Cruz)
+- User home page (user can see messages of users they follow) (Aaron Arul)
+- Send message to followers (Brandon Yu)
+- Post image with message (Brandon Yu)
+- Like messages (Aaron Arul)
+- Search for user (Michael Xiao)
+- Follow user (Michael Xiao)
+
+## Non-functional requirements
+- Multilingual support
+- Only expected to work on Google Chrome
+- Return results for user after search within 10 seconds
+- User data will be stored safely through hashing
 
 ## Setup
 Clone this repository by copying the link to this repository and pasting it into the terminal when running git clone, and navigate to myProject and run "python3 run.py" to run application
