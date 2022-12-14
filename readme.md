@@ -2,19 +2,18 @@
 > The online platform where users can create an account, post messages with images and interact with other users. 
 
 ## Table of Contents
-* [General Info](#general-information)
+* [Introduction](#introduction)
 * [Technologies and Libraries Used](#technologies-and-libraries-used)
-* [Requirements](#requirements)
+* [Features](#features)
 * [Setup](#setup)
 * [Usage](#usage)
 * [Acknowledgements](#acknowledgements)
-* [Contact](#contact)
 <!-- * [License](#license) -->
 
 
-## General Information
+## Introduction
 - This application is a social media platform where users can share their messages with each other.
-- We hope to make SJSU more connected through this app exclusively for students.
+- We wrote this application in hopes to make SJSU more connected through this app exclusively for students.
 
 
 ## Technologies and Libraries Used
@@ -26,19 +25,12 @@
 - flask-login
 - flask-sqlalchemy
 
-
-## Requirements
-- Login (Michael Xiao)
-- Logout (Aaron Arul)
-- Create new account (Brandon Yu)
-- Delete account (Vincent Cruz)
-- User home page (user can see messages of users they follow) (Aaron Arul)
-- Send message to followers (Brandon Yu)
-- Post image with message (Brandon Yu)
-- Like messages (Aaron Arul)
-- Search for user (Michael Xiao)
-- Follow user (Michael Xiao)
-
+## Features
+- Custom account creation
+- Easy to reach other pages
+- Share messages w/images with others
+- Receive feedback for your posts
+- React to others' posts
 
 ## Setup
 Clone this repository by copying the link to this repository and pasting it into the terminal when running git clone, and navigate to myProject and run "python3 run.py" to run application
