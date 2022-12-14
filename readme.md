@@ -3,7 +3,7 @@
 
 ## Table of Contents
 * [General Info](#general-information)
-* [Technologies Used](#technologies-and-libraries-used)
+* [Technologies and Libraries Used](#technologies-and-libraries-used)
 * [Requirements](#requirements)
 * [Setup](#setup)
 * [Usage](#usage)
