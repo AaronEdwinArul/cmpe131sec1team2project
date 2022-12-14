@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
-from datetime import date
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -64,8 +63,10 @@ class ProfileForm(FlaskForm):
 class Delete_Account_Form(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit= SubmitField('Delete Account')
-    
+
+
 #SPANISH VERSION
+
 class SLoginForm(FlaskForm):
     username = StringField('Nombre de usuario', validators=[DataRequired()])
     password = PasswordField('Clave', validators=[DataRequired()])
@@ -79,9 +80,6 @@ class SSignupForm(FlaskForm):
     username = StringField('Nombre de usuario', validators=[DataRequired()])
     password = PasswordField('Clave', validators=[DataRequired()])
     submit = SubmitField('Crear una cuenta')
-
-class SHomePageForm(FlaskForm):
-    submitHome = SubmitField('Hogar')
     
 class SLogoutForm(FlaskForm):
     submitLogout = SubmitField('Cerrar sesión')
@@ -110,9 +108,6 @@ class SunfollowForm(FlaskForm):
 
 class SunfollowForm2(FlaskForm):
     submit = SubmitField('Hogar')
-
-
-
 
 class ProfileEditForm_Spanish(FlaskForm):
     dob = StringField('yyyy-mm-dd')

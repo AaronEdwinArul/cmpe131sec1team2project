@@ -2,6 +2,7 @@
 <html>
     <body style="background-color: #efefef;">
      <head>
+        <!-- Styling for elements in home page -->
         <style>
             h1{text-align: center;}
             .div2{
@@ -58,14 +59,6 @@
                 width: 100%;
 
             }
-            .intro{
-                background-color: floralwhite;
-                height: 800px;
-                width: 100%;
-                
-
-
-            }
             .button{
                 display: inline-block;
                 padding: 10px 40px 10px 10px;
@@ -101,10 +94,7 @@
          <div class="div2">
             <nav>
                 <div class="leftNav">
-                    <img src="images/sjsu1.png" class="logo">
-                    <ul>
-                      
-                    </ul>
+                 
                 </div>
             </nav>
         </div>
@@ -116,36 +106,33 @@
         </head>
 
 
-
+        <!--Sidebar Implemenation-->
         <div class="sidebar">
             <a class="nav-tem nav-link" id="home" href="/Shome">Hogar</a>
-            <a class="nav-tem nav-link" id="POST" href="/Spost">Publicaciones</a>
+            <a class="nav-tem nav-link" id="POST" href="/Spost">Correo</a>
             <a class="nav-tem nav-link" id="search" href="/Ssearch">Búsqueda</a>
-            <a class="nav-tem nav-link" id="profile" href="/Sprofile">Retrato</a>
+            <a class="nav-tem nav-link" id="profile" href="/profile_spanish">Perfil</a>
             <a class="nav-tem nav-link" id="logout" href="/logout">Cerrar sesión</a>
 
             
         </div>
-
-
+        
+        <!--Content right of sidebar on home page-->
         <div class="restContent">
-       
-                    <h1 style="font-family:'Cambria'; font-size: 50px;">Spartsapp</h1>
-                    
+            
+            
+            <h1 style="font-family:'Cambria'; font-size: 50px;">Spartsapp</h1>
                     <center>
                     
-                    <div>
-                        <p>Esta es la página de inicio, donde puedes descubrir las publicaciones de otros usuarios.</p>
                     
-                    </div>
-
+                    <!--Main buttons in home page-->
                     <div class="ribb" style="background-color:gold;">
 
-                        <a class="button" id="POST" href="/Spost">¡Haz una publicación!</a>
+                        <a class="button" id="POST" href="/Spost">Hacer una publicación</a>
 
                         <a class="button" href="/Sfollowers">Ver seguidores</a>
 
-                        <a class="button" href="/Slikes">Aver publicaciones populares</a>
+                        <a class="button" href="/Sfeed">Tu feed</a>
                         
                         
 
@@ -154,11 +141,51 @@
                     </center> 
 
                     
-                    {% block mycontent %}<div class="intro">
-                        <img src="https://cdn.searchenginejournal.com/wp-content/uploads/2021/09/16-reasons-why-social-media-is-important-to-your-company-616d3200e6dc6-sej.png" class="logo3" width="900" height="500">
+            {% block mycontent %}
+                    <div class="intro">
+                    <center>
+                <h2 style="font-family:'Cambria'; font-size: 50px;">Esta es la página principal</h2>
+            </center>
+              <h1>Tus publicaciones</h1>          
+            {% for post in posts %}
+            
+        
+            <center>
+            <div style="width: 70%; display:table; border-style: groove; background-color:darkorange">
+                <div style="display: table-row">
+                    <div style="width: 550px; display: table-cell; background-color:aquamarine; text-align: left; padding-left: 30px; padding-bottom: 80px;">
+                        <p class = "author"><b>{{post.author}}</b></p>
+                        <p>{{post.body}} <br> </p>
+                    </div>
+                    <div style="display: table-cell; text-align: right; padding-right: 40px;">
+                        <center>
+                        <img src={{post.link}} width="80%" height="80%" class="imgPadd">
+        
+                        </center>
+                        <form action = "" method = "POST" novalidate>
+                            
+                            <div class = "buttonStyle">
+                                {{post.button.hidden_tag()}}
+                                {{post.button.submit()}}
+                            </div>
+                            
+                        </form>
+                        
+                        <p>{{post.likes}} gustos</p>
+                    </div>
+                </div>
+                
+            </div>
+            </center>
+           
+            
+            <br>
+            <br>
+            {% endfor %}
                     
                     
-                    </div>{% endblock %}
+                    </div>
+                    {% endblock %}
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <ul>
