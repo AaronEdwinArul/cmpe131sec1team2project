@@ -110,6 +110,8 @@ The post created by the user will show both the text and/or image when posted. O
 - **Primary Postconditions:** The user is now following another user
 - **Alternate Sequence:**
     1. User is already following the searched user
+    2. User wishes to unfollow user by clicking Unfollow button
+    3. User clicks unfollow again, button changes to display Home
 
 
 
