@@ -10,6 +10,7 @@ from app.forms import SLoginForm, SSignupForm, SPostForm, SSearchForm, SSearchRe
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user, login_required
+from datetime import date
 
 @myapp_obj.route('/')   #routes to the base page
 def base():
@@ -19,17 +20,15 @@ def base():
 def login():
     current_form = LoginForm()
     errorMessage = ''
-    if current_form.validate_on_submit():   #checks once submit button is pressed
-        users = User.query.all()  
-        for user in users:
-            if user.username == current_form.username.data: #checks if username is in database
-                if check_password_hash(user.password,current_form.password.data): #checks if password is correct
-                    if current_form.remember_me.data:
-                        login_user(user, remember=True)
-                    login_user(user, remember=current_form.remember_me.data) #logs in user
-                    return redirect('/home')
-            else:
-                errorMessage = 'Invalid Username or Password'
+    
+    if current_form.validate_on_submit():   #on submission,
+        user = User.query.filter_by(username=current_form.username.data).first()    
+        if not user == None:        #check if user exists in database
+            if check_password_hash(user.password,current_form.password.data):   #check is password is correct
+                login_user(user, current_form.remember_me.data) #if true, login
+                return redirect('/home')
+        else:
+            errorMessage = 'Invalid Username of Password'       #else, raise error message 
     return render_template('login.html', form=current_form, error=errorMessage)
 
 @myapp_obj.route('/logout') #logs out and routes to base page
@@ -129,19 +128,19 @@ def home():
 def create():
     current_form = SignupForm()
     errorMessage = ''
-    if current_form.validate_on_submit():   
-        if not(validPassword(current_form.password.data)):
+    if current_form.validate_on_submit():           #on form submission,
+        if not(validPassword(current_form.password.data)):  #check if password is long enough
             errorMessage = 'Password must be longer than 8 characters'
-        elif not(validEmail(current_form.email.data)):
+        elif not(validEmail(current_form.email.data)):      #simple email check
             errorMessage = 'Invalid email address (must have domain .com,.org,.edu)'
         else:
-            user = User()
+            user = User()       #create db object with user's first & last name, email, username, password
             user.first = current_form.first.data
             user.last = current_form.last.data
             user.email = current_form.email.data
             user.username = current_form.username.data
             user.password = generate_password_hash(current_form.password.data)
-            db.session.add(user)
+            db.session.add(user)        #add user to database
             db.session.commit()
             return redirect('/login')        #redirect to login page when implemented
 
@@ -244,6 +243,41 @@ def user(usr):
     return render_template('searchResult.html', form=current_form, username=usr)
 
 @myapp_obj.route('/user-profile', methods=['GET', 'POST'])  #routes to searched user profile page
+@login_required
+def followers():
+    errormessage = ''  
+    follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
+    for follow in follow:
+        errormessage += follow.follower + '\n' #displays everyone following current user
+    return render_template('followers.html', error=errormessage)
+
+@myapp_obj.route('/profile', methods = ['POST', 'GET']) #routes to current user profile page
+@login_required
+def profile():
+    return render_template('profile.html')
+
+@myapp_obj.route('/profile_edit', methods = ['POST','GET']) #routes to profile edit page
+@login_required
+def profile_edit():
+    current_form = ProfileEditForm()
+    errorMessage = ''
+    user = User.query.filter_by(username=current_user.username).first() #retreiving current user
+    if current_form.validate_on_submit():
+
+        if len(current_form.bio.data) > 200:
+            errorMessage = 'Bio is too long! (Max characters is 200)'
+           
+        else:
+            user.dob = current_form.dob.data            #updating dob, location, and bio of user
+            user.location = current_form.location.data
+            user.bio = current_form.bio.data
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
+    return render_template('profile_edit.html', form=current_form, error = errorMessage)
+
+
+@myapp_obj.route('/user-profile', methods=['GET', 'POST'])  #routes to searched user profile page
 def user_profile():
     current_form = FollowForm()
     errormessage = ''
@@ -260,9 +294,8 @@ def user_profile():
                 email=user.email
             if request.method == "POST":    #if follow button is clicked
                 follow = Follows()
-                search = data.searchedUser
-                follow.follower = current_user.username
-                follow.followee = search
+                follow.follower = current_user.id
+                follow.followee = user.id
                 db.session.add(follow)  #store follower and followee into db
                 db.session.commit()
                 return redirect('/user-profile1')
@@ -343,6 +376,40 @@ def profile_edit():
             db.session.commit()
             return redirect('/profile') #redirects to profile after submitting form, will show updated bio, dob, location
     return render_template('profile_edit.html', form=current_form, error = errorMessage)
+
+@myapp_obj.route('/logout')
+@login_required
+def Slogout():
+    current_form = LogoutForm()
+    logout_user()
+    return render_template('base.html', form=current_form)
+
+@myapp_obj.route('/delete_account', methods = ['DELETE'])
+@login_required
+def Sdelete_account():
+
+    user = User.query.filter_by(current_user.id).first()
+    
+    user_posts = Post.query.filter_by(current_user.id).all()
+    user_likes = Likes.query.filter_by(current_user.id).all()
+    user_follows = Follows.query.filter_by(current_user.id).all()   
+    
+    for u in user_posts:
+        db.session.delete(u)
+    for u in user_likes:
+        db.session.delete(u)
+    for u in user_follows:
+        db.session.delete(u)
+    
+    db.session.delete(user)
+    db.session.commit()
+    logout_user()
+    user = None 
+    user_posts = None
+    user_likes = None
+    user_follows = None 
+
+    return render_template('signup.html')
 
 
 # helper functions
@@ -606,8 +673,6 @@ def Ssearch():
 @myapp_obj.route('/Suser/<usr>', methods = ['POST','GET'])   #usr url is the searched username
 def Suser(usr):
     current_form = SSearchResult()
-    #if request.method == "POST":
-        #return redirect('user-profile')
     return render_template('SsearchResult.html', form=current_form, username=usr)
 
 @myapp_obj.route('/Suser-profile', methods=['GET', 'POST'])
@@ -627,9 +692,8 @@ def Suser_profile():
                 email=user.email
             if request.method == "POST":    #if follow button is clicked
                 follow = Follows()
-                search = data.searchedUser
-                follow.follower = current_user.username
-                follow.followee = search
+                follow.follower = current_user.id
+                follow.followee = user.id
                 db.session.add(follow)  #store follower and followee into db
                 db.session.commit()
                 return redirect('/Suser-profile1')
@@ -678,17 +742,7 @@ def Sfollowers():
     follow = Follows.query.filter_by(followee=current_user.username)    #finds all users that are following current user
     for follow in follow:
         errormessage += follow.follower + '\n' #displays everyone following current user
-        #s=errormessage.replace("\n","<br/>")
-        #errormessage = s
-    #else:
-        #errormessage = 'You have no followers'
-        #print(follow.follower)
     return render_template('Sfollowers.html', error=errormessage)
-
-@myapp_obj.route('/profile_spanish', methods = ['POST', 'GET'])
-@login_required
-def profile_spanish():
-    return render_template('profile_spanish.html')
 
 @myapp_obj.route('/profile_edit_spanish', methods = ['POST','GET'])
 @login_required
